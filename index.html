@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-logo-name">
+            <div class="name">
+                <p>App Name</p>
+            </div>
+        </div>
+        <div class="nav-logo-symbol">
+            <div class="symbol">
+                <i class="fa-solid fa-plane"></i>
+            </div>
+        </div>
+        <div class="nav-book">
+            <div class="book">
+                <a href = "">Book Flights</a>
+            </div>
+        </div>
+        <div class="nav-chech-in">
+            <div class="check-in">
+                <a href = "">check-in</a>
+            </div>
+        </div>
+        <div class="nav-status">
+            <div class="flight-status">
+                <a href = "">Flight Status</a>
+            </div>
+        </div>
+        <div class="nav-login">
+            <div class="login">
+                <a href = "">Login</a>
+            </div>
+        </div>
+    </div>
+    <div class="flight-booking">
+        <div class="heading">
+            <h2>Flight Booking</h2>
+        </div>
+        <div class="main-box">
+            <div class="upper-part">
+                <div class="arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+                <div class="trip">
+                    <select id = "ways">
+                        <option value = "one way">One way</option>
+                        <option value = "Round trip">Round trip</option>
+                    </select>
+                </div>
+                <div class="select-panel">
+                    <i class="fa-solid fa-person"></i>
+                    <button class="select-button" onclick="toggleForm()">1 Pax</button>
+                </div>
+                <div class="container" id="passengerForm">
+                    <div class="form-group">
+                        <label for="adults">Adult(s) (>12 years)</label>
+                        <div class="quantity">
+                            <button onclick="decrement('adults')">-</button>
+                            <input type="text" id="adults" value="1" readonly>
+                            <button onclick="increment('adults')">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="seniors">Senior Citizen(s) (>60 years)</label>
+                        <div class="quantity">
+                            <button onclick="decrement('seniors')">-</button>
+                            <input type="text" id="seniors" value="0" readonly>
+                            <button onclick="increment('seniors')">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="children">Children (2 to 12 years)</label>
+                        <div class="quantity">
+                            <button onclick="decrement('children')">-</button>
+                            <input type="text" id="children" value="0" readonly>
+                            <button onclick="increment('children')">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="infants">Infant(s) (3 days to 2 years)</label>
+                        <div class="quantity">
+                            <button onclick="decrement('infants')">-</button>
+                            <input type="text" id="infants" value="0" readonly>
+                            <button onclick="increment('infants')">+</button>
+                        </div>
+                    </div>
+                    <button class="done-button" onclick="toggleForm()">Done</button>
+                </div>
+            </div>
+            <div class="lower-part">
+                <input type="text" class="input-field" placeholder="From">
+                <span class="input-field">⇄</span>
+                <!-- <i class="fa-solid fa-arrow-right-arrow-left"></i> -->
+                <input type="text" class="input-field" placeholder="To">
+                <div class="date-box">
+                    <span class="date-label">Travel Dates : </span>
+                    <input type="date" class="date-field" value="2024-05-21">
+                    <span class="date-field">-</span>
+                    <input type="date" class="date-field" placeholder="Add return trip">
+                </div>
+                <button class="search-button">Search Flight</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
