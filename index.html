@@ -9,105 +9,59 @@
 </head>
 <body>
     <div class="navbar">
-        <div class="nav-logo-name">
-            <div class="name">
+        <div class="nav-left">
+            <div class="nav-name">
                 <p>App Name</p>
             </div>
+            <i class="fa-solid fa-plane"></i>
         </div>
-        <div class="nav-logo-symbol">
-            <div class="symbol">
-                <i class="fa-solid fa-plane"></i>
-            </div>
-        </div>
-        <div class="nav-book">
-            <div class="book">
-                <a href = "">Book Flights</a>
-            </div>
-        </div>
-        <div class="nav-chech-in">
-            <div class="check-in">
-                <a href = "">check-in</a>
-            </div>
-        </div>
-        <div class="nav-status">
-            <div class="flight-status">
-                <a href = "">Flight Status</a>
-            </div>
-        </div>
-        <div class="nav-login">
-            <div class="login">
-                <a href = "">Login</a>
-            </div>
+        <div class="nav-right">
+            <a href = "">Book Flights</a>
+            <a href = "">check-in</a>                
+            <a href = "">Flight Status</a>
+            <a href = "">Login</a>
         </div>
     </div>
     <div class="flight-booking">
         <div class="heading">
-            <h2>Flight Booking</h2>
+            <h1>Flight Booking</h1>
         </div>
         <div class="main-box">
             <div class="upper-part">
-                <div class="arrow">
+                <div class="trips">
                     <i class="fa-solid fa-arrow-right"></i>
-                </div>
-                <div class="trip">
                     <select id = "ways">
                         <option value = "one way">One way</option>
                         <option value = "Round trip">Round trip</option>
                     </select>
                 </div>
-                <div class="select-panel">
-                    <i class="fa-solid fa-person"></i>
-                    <button class="select-button" onclick="toggleForm()">1 Pax</button>
-                </div>
-                <div class="container" id="passengerForm">
-                    <div class="form-group">
-                        <label for="adults">Adult(s) (>12 years)</label>
-                        <div class="quantity">
-                            <button onclick="decrement('adults')">-</button>
-                            <input type="text" id="adults" value="1" readonly>
-                            <button onclick="increment('adults')">+</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="seniors">Senior Citizen(s) (>60 years)</label>
-                        <div class="quantity">
-                            <button onclick="decrement('seniors')">-</button>
-                            <input type="text" id="seniors" value="0" readonly>
-                            <button onclick="increment('seniors')">+</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="children">Children (2 to 12 years)</label>
-                        <div class="quantity">
-                            <button onclick="decrement('children')">-</button>
-                            <input type="text" id="children" value="0" readonly>
-                            <button onclick="increment('children')">+</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="infants">Infant(s) (3 days to 2 years)</label>
-                        <div class="quantity">
-                            <button onclick="decrement('infants')">-</button>
-                            <input type="text" id="infants" value="0" readonly>
-                            <button onclick="increment('infants')">+</button>
-                        </div>
-                    </div>
-                    <button class="done-button" onclick="toggleForm()">Done</button>
-                </div>
             </div>
-            <div class="lower-part">
-                <input type="text" class="input-field" placeholder="From">
-                <span class="input-field">⇄</span>
-                <!-- <i class="fa-solid fa-arrow-right-arrow-left"></i> -->
-                <input type="text" class="input-field" placeholder="To">
-                <div class="date-box">
-                    <span class="date-label">Travel Dates : </span>
-                    <input type="date" class="date-field" value="2024-05-21">
-                    <span class="date-field">-</span>
-                    <input type="date" class="date-field" placeholder="Add return trip">
-                </div>
-                <button class="search-button">Search Flight</button>
+            <div class="lower-part-1">
+                <select id="select-state" placeholder="From">
+                    <option value="">From</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                </select>
+                <span class="input-field-symbol">⇄</span>
+                <select id="select-state" placeholder="To">
+                    <option value="">To</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                </select>
             </div>
+            <div class="date-box">
+                <span class="date-label">Travel Dates : </span>
+                <input type="date" class="date-field" value="2024-05-21">
+                <span class="date-field" id = "minus">-</span>
+                <input type="date" class="date-field" placeholder="Add return trip">
+            </div>
+            <button class="search-button">Search Flight</button>
         </div>
     </div>
     <script src="script.js"></script>
