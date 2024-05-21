@@ -1,0 +1,95 @@
+.nav-bar{
+    display: flex;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.flight_details{
+    margin: 20px 40px 0px 40px;
+    padding: 0px 30px 0px 30px;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
+.flight_details_left{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 500px;
+}
+.from_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+}
+.flight_duration_symbol{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(192, 192, 192);
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+}
+.line {
+    flex-grow: 1;
+    border-bottom: 2px dotted rgb(192, 192, 192);
+    position: relative;
+    margin-left: 10px; /* Space for the dot */
+    margin-right: 20px; /* Space for the plane */
+}
+
+.plane {
+    font-size: 24px;
+    position: absolute;
+    right: 0;
+    color: rgb(192, 192, 192);
+}
+.flight_duration{
+    position: absolute;
+    align-items: center;
+    font-family: "Open Sans", sans-serif;
+    left: 130px;
+    z-index: 10;
+}
+.to_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "Open Sans", sans-serif;
+}
+.time{
+    padding-top: 10px;
+}
+.airport-name{
+    padding-bottom: 10px;
+}
+.flight_details_middle{
+    align-content: center;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}
+.flight_details_right{
+    align-content: center;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+}
