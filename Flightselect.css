@@ -1,9 +1,24 @@
+body{
+    background-color: #7AB2B2;
+}
 .nav-bar{
     display: flex;
     height: 40px;
     flex-direction: row;
     justify-content: space-between;
+    padding: 20px 10px 10px 10px;
 }
+.account_holder{
+    border-radius: 50%;
+    background-color: white;
+    padding: .6rem 1rem .6rem 1rem;
+    font-size: 1rem;
+}
+.nav-bar_left{
+    display: flex;
+    flex-direction: row;
+}
+
 .flight_details{
     margin: 20px 40px 0px 40px;
     padding: 0px 30px 0px 30px;
@@ -12,8 +27,10 @@
     height: 60px;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid lightgray;
+    border: none;
     border-radius: 4px;
+    background-color: #CDE8E5;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.15);
 }
 .flight_details_left{
     display: flex;
@@ -58,6 +75,7 @@
     font-size: 24px;
     position: absolute;
     right: 0;
+    margin-bottom: 1px;
     color: rgb(192, 192, 192);
 }
 .flight_duration{
@@ -65,7 +83,7 @@
     align-items: center;
     font-family: "Open Sans", sans-serif;
     left: 130px;
-    z-index: 10;
+    z-index: 100;
 }
 .to_details{
     display: flex;
