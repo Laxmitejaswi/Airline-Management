@@ -1,0 +1,60 @@
+.nav-bar{
+    display: flex;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: lightpink;
+}
+.flight_details{
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding-right: 30px;
+    padding-left: 30px;
+    display: flex;
+    height: 60px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+}
+.flight_details_left{
+    display: flex;
+    flex-direction: row;
+    background-color: lightblue;
+    justify-content: space-between;
+    width: 500px;
+    align-content: center;
+}
+.from_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+}
+.flight_time{
+    align-content: center;
+}
+.to_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+}
+.airport-name{
+    padding-top: 10px;
+}
+.time{
+    padding-bottom: 10px;
+}
+.flight_details_middle{
+    background-color: lightpink;
+    align-content: center;
+}
+.flight_details_right{
+    background-color: lightblue;
+    align-content: center;
+}
