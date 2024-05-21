@@ -3,7 +3,6 @@
     height: 40px;
     flex-direction: row;
     justify-content: space-between;
-    background-color: lightpink;
 }
 .flight_details{
     margin-top: 20px;
@@ -24,7 +23,6 @@
 .flight_details_left{
     display: flex;
     flex-direction: row;
-    background-color: lightblue;
     justify-content: space-between;
     width: 500px;
     align-content: center;
@@ -51,10 +49,8 @@
     padding-bottom: 10px;
 }
 .flight_details_middle{
-    background-color: lightpink;
     align-content: center;
 }
 .flight_details_right{
-    background-color: lightblue;
     align-content: center;
 }
