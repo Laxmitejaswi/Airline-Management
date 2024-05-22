@@ -60,7 +60,7 @@
 
 .trips{
     margin-right : 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 body{
@@ -73,25 +73,84 @@ body{
     align-items: center;
 }
 
-#select-state{
-    margin-right: 1rem;
-    background-color: #fff;
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    padding : 0.5rem;
-    width: 30rem;
-    border : 2px solid grey;
+body {
+    font-family: Arial, sans-serif;
 }
+
+.custom-select-container{
+    position: relative;
+    width: 30rem;
+}
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.select-selected {
+    background-color: #EEF7FF;
+    padding: 0.7rem;
+    margin-top : 1.3rem;
+    border: 1px solid #ddd;;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.select-items {
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    z-index: 99;
+    width: 100%;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.select-hide {
+    display: none;
+}
+
+.select-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.select-item:hover {
+    background-color: #ddd;
+}
+
+.select-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+
+#from-to{
+    font-size : 1.5rem;
+}
+
 .input-field-symbol{
     font-size: 2rem;
     margin-right: 1rem;
 }
 
+.lower-part-1 i{
+    border : 2px solid black;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    padding : 0.5rem;
+    margin-left : 1rem;
+    margin-right: 1rem;
+    margin-top: 2.8rem;
+}
+
 .date-box {
     display: flex;
     align-items: center;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1.3rem;
+    margin-bottom: 1rem;
 }
 .date-label{
     font-size: 1.5rem;
@@ -99,16 +158,16 @@ body{
 .date-field {
     margin-left: 1rem;
     font-size: 1.5rem;
-    border: 2px solid grey;
+    border: 1px solid #ddd;
 } 
 #minus{
     border : none;
     font-size: 3rem;
 }
 .search-button {
-    color: black;
-    background-color: #EEF7FF;
-    border: 2px solid grey;
+    color: white;
+    background-color: #4D869C;
+    border: 1px solid #ddd;
     font-size: 1.5rem;
     padding: 0.5rem 0.5rem;
     cursor:pointer;
