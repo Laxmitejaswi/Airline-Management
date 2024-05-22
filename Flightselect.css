@@ -1,24 +1,3 @@
-body{
-    background-color: #7AB2B2;
-}
-.nav-bar{
-    display: flex;
-    height: 40px;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 10px 10px 10px;
-}
-.account_holder{
-    border-radius: 50%;
-    background-color: white;
-    padding: .6rem 1rem .6rem 1rem;
-    font-size: 1rem;
-}
-.nav-bar_left{
-    display: flex;
-    flex-direction: row;
-}
-
 .flight_details{
     margin: 20px 40px 0px 40px;
     padding: 0px 30px 0px 30px;
@@ -29,8 +8,13 @@ body{
     align-items: center;
     border: none;
     border-radius: 4px;
-    background-color: #CDE8E5;
+    background-color: whitesmoke;
     box-shadow: 5px 5px 10px rgba(0,0,0,0.15);
+}
+.flight_details:hover,
+.flight_details:active{
+    border: 1px solid #7AB2B2;
+    background-color: #ddf4f4e2;
 }
 .flight_details_left{
     display: flex;
