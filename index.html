@@ -37,23 +37,33 @@
                 </div>
             </div>
             <div class="lower-part-1">
-                <select id="select-state" placeholder="From">
-                    <option value="">From</option>
-                    <option value="AL">Alabama</option>
-                    <option value="AK">Alaska</option>
-                    <option value="AZ">Arizona</option>
-                    <option value="AR">Arkansas</option>
-                    <option value="CA">California</option>
-                </select>
-                <span class="input-field-symbol">⇄</span>
-                <select id="select-state" placeholder="To">
-                    <option value="">To</option>
-                    <option value="AL">Alabama</option>
-                    <option value="AK">Alaska</option>
-                    <option value="AZ">Arizona</option>
-                    <option value="AR">Arkansas</option>
-                    <option value="CA">California</option>
-                </select>
+                <div class="custom-select-container from">
+                    <div class="custom-select">
+                        <p id = "from-to">From</p>
+                        <div class="select-selected">Select a City</div>
+                        <div class="select-items select-hide">
+                            <input type="text" class="select-search" placeholder="Search...">
+                            <div class="select-item">Option 1</div>
+                            <div class="select-item">Option 2</div>
+                            <div class="select-item">Option 3</div>
+                            <div class="select-item">Option 4</div>
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <div class="custom-select-container to">
+                    <div class="custom-select">
+                        <p id = "from-to">To</p>
+                        <div class="select-selected">Select a City</div>
+                        <div class="select-items select-hide">
+                            <input type="text" class="select-search" placeholder="Search...">
+                            <div class="select-item">Option 1</div>
+                            <div class="select-item">Option 2</div>
+                            <div class="select-item">Option 3</div>
+                            <div class="select-item">Option 4</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="date-box">
                 <span class="date-label">Travel Dates : </span>
