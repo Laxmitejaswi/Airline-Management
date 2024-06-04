@@ -117,6 +117,6 @@
     padding-top: 20px;
     position: relative;
 }
-p,h3{
+.review-text{
     padding-bottom: 1rem;
 }
