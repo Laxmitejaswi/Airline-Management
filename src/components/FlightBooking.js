@@ -25,7 +25,6 @@ const FlightBooking = () => {
         fetch(`http://localhost:3000/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`).then(
             (response) => response.json()
         ).then((data) => {
-            console.log(data);
             localStorage.setItem('flightSearchResults',JSON.stringify(data));
             localStorage.setItem('from',JSON.stringify(from));
             localStorage.setItem('to',JSON.stringify(to));
@@ -44,7 +43,7 @@ const FlightBooking = () => {
                         <FontAwesomeIcon icon={faArrowRight} />
                         <select id="ways" value={ways} onChange={(e) => setWays(e.target.value)}>
                             <option value="one way">One way</option>
-                            <option value="Round trip">Round trip</option>
+                            {/* <option value="Round trip">Round trip</option> */}
                         </select>
                     </div>
                 </div>
@@ -80,14 +79,14 @@ const FlightBooking = () => {
                             value={departDate}
                             onChange={(e) => setDepartDate(e.target.value)}
                         />
-                        <span className="date-field" id="minus">-</span>
+                        {/* <span className="date-field" id="minus">-</span>
                         <input
                             type="date"
                             className="date-field"
                             placeholder="Add return trip"
                             value={returnDate}
                             onChange={(e) => setReturnDate(e.target.value)}
-                        />
+                        /> */}
                     </div>
                     <button type="submit" className="search-button">Search Flight</button>
                 </form>

@@ -14,7 +14,6 @@ const Navbar = () => {
             <div className="nav-right">
                 <a href="">Book Flights</a>
                 <a href="">Check-in</a>
-                <a href="">Flight Status</a>
                 <a href="">Login</a>
             </div>
         </div>
