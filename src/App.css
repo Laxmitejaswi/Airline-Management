@@ -174,3 +174,11 @@ body {
   padding: 0.5rem 0.5rem;
   cursor: pointer;
 }
+
+.search-button:hover{
+  opacity: 0.9;
+}
+
+.error-message{
+  margin-top: 0.5rem;
+}

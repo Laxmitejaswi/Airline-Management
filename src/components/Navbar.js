@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlane } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
@@ -12,9 +13,9 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faPlane} />
             </div>
             <div className="nav-right">
-                <a href="">Book Flights</a>
+                <Link to="/">Book Flights</Link>
                 <a href="">Check-in</a>
-                <a href="">Login</a>
+                <Link to="/login">Login</Link>
             </div>
         </div>
     );

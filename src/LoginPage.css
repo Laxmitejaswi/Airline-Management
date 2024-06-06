@@ -1,0 +1,175 @@
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f7f7f7;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    position : relative;
+    margin-top: 22.5vh;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+}
+
+#signupForm {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#button1 {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#button1:hover {
+    opacity: 0.9;
+}
+
+#button1 {
+    background-color: #4D869C;
+}
+
+.message {
+    margin-top: 1rem;
+    color: black;
+}
+
+.role-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.role-selection label {
+    margin: 0 1rem;
+    cursor: pointer;
+}
+
+.role-selection input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+#signupContainer, #loginContainer, #adminLoginContainer {
+    display: none;
+}
+
+#signupContainer.active, #loginContainer.active, #adminLoginContainer.active {
+    display: block;
+}
+
+#loginPage a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    cursor:pointer;
+}
+
+#adminLoginContainer {
+    display: none;
+}
+
+#adminLoginContainer.active {
+    display: block;
+}
+
+#adminLoginContainer h2 {
+    margin-bottom: 1.5rem;
+}
+
+#adminLoginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#adminLoginForm input[type="email"],
+#adminLoginForm input[type="password"] {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#adminLoginForm .role-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+#adminLoginForm .role-selection label {
+    margin: 0 1rem;
+    cursor: pointer;
+}
+
+#adminLoginForm .role-selection input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+#adminLoginForm button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #4D869C;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#adminLoginForm button:hover {
+    opacity:0.9;
+}
+
+#loginContainer {
+    display: none;
+}
+
+#loginContainer.active {
+    display: block;
+}
+
+#loginContainer h2 {
+    margin-bottom: 1.5rem;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#loginForm input[type="email"],
+#loginForm input[type="password"] {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#loginForm button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #4D869C; 
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#loginForm button:hover {
+    opacity: 0.9;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./Flightselect.css";
+import Navbar from "./components/Navbar";
 
 export default function Flightselect() {
   const [info, setInfo] = useState([]);
@@ -32,7 +33,7 @@ export default function Flightselect() {
         if (i === index) {
           return { ...flight, showReviews: true };
         }else{
-          return { ...flight, showReviews: false }; // Ensure to return the unchanged flight for other indices
+          return { ...flight, showReviews: false };
         }
       });
       console.log('Updated flight info:', updatedInfo);
@@ -42,19 +43,7 @@ export default function Flightselect() {
 
   return (
     <div>
-      <div className="navbar">
-        <div className="nav-left">
-          <div className="nav-name">
-            <p>App Name</p>
-          </div>
-          <i className="fa-solid fa-plane" />
-        </div>
-        <div className="nav-right">
-        <a href="">Book Flights</a>
-          <a href="">Check-in</a>
-          <a href="">Login</a>
-        </div>
-      </div>
+      <Navbar/>
       {info.length > 0 ? (
         info.map((flight, index) => (
           <div
@@ -122,7 +111,7 @@ export default function Flightselect() {
           </div>
         ))
       ) : (
-        <p>No flight details available.</p>
+        <p className="no-flights">No flights available !!</p>
       )}
     </div>
   );

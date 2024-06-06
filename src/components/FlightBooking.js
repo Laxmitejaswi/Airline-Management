@@ -14,6 +14,7 @@ const FlightBooking = () => {
     const [toSearch, setToSearch] = useState('');
     const [departDate, setDepartDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const cities = ["Delhi", "Mumbai", "Hyderabad", "Vizag"];
 
@@ -22,14 +23,27 @@ const FlightBooking = () => {
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:3000/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`).then(
-            (response) => response.json()
-        ).then((data) => {
-            localStorage.setItem('flightSearchResults',JSON.stringify(data));
-            localStorage.setItem('from',JSON.stringify(from));
-            localStorage.setItem('to',JSON.stringify(to));
-            navigate('/Flightselect');
-        });
+        if (!from || !to || !departDate || !ways) {
+            setErrorMessage("Please fill in all the required fields !!");
+            return;
+        }
+        try {
+            fetch(`http://localhost:3000/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    localStorage.setItem('flightSearchResults', JSON.stringify(data));
+                    localStorage.setItem('from', JSON.stringify(from));
+                    localStorage.setItem('to', JSON.stringify(to));
+                    navigate('/Flightselect');
+                })
+                .catch((error) => {
+                    console.error('Error fetching flight data:', error);
+                    setErrorMessage('There was an error fetching the flight data. Please try again later.');
+                });
+        } catch (error) {
+            console.error('Unexpected error:', error);
+            setErrorMessage('An unexpected error occurred. Please try again later.');
+        }
     };
 
     return (
@@ -90,6 +104,7 @@ const FlightBooking = () => {
                     </div>
                     <button type="submit" className="search-button">Search Flight</button>
                 </form>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
             </div>
         </div>
     );

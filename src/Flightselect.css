@@ -114,11 +114,16 @@
     bottom: 1rem;
 }
 .reviews {
-    margin-top: 20px;
+    margin-top: 10px;
     border-top: 1px solid #eee;
-    padding-top: 20px;
+    padding-top: 10px;
     position: relative;
 }
 .review-text{
     padding-bottom: 1rem;
+}
+
+.no-flights{
+    font-size: 2rem;
+    margin : 1rem;
 }
