@@ -1,0 +1,175 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Arial', 'sans-serif';
+}
+
+.navbar {
+  background-color: #7AB2B2;
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 0 1.5rem 0 1rem;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-name {
+  padding: 0.5rem;
+  cursor: auto;
+}
+
+.nav-right {
+  display: flex;
+  gap: 2rem;
+  position: fixed;
+  right: 1rem;
+}
+
+.nav-right a {
+  color: black;
+  text-decoration: none;
+}
+
+.flight-booking {
+  margin: 8rem 3rem 0rem 3rem;
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.heading {
+  margin-bottom: 1rem;
+}
+
+.upper-part {
+  display: flex;
+}
+
+#ways {
+  background-color: white;
+  color: black;
+  border: none;
+  font-size: 1rem;
+  margin-left: 0.3rem;
+}
+
+.trips {
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #CDE8E5;
+}
+
+.lower-part-1 {
+  display: flex;
+  align-items: center;
+}
+
+.custom-select-container {
+  position: relative;
+  width: 30rem;
+}
+
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select-selected {
+  background-color: #EEF7FF;
+  padding: 0.7rem;
+  margin-top: 1.3rem;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.select-items {
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  z-index: 99;
+  width: 100%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.select-hide {
+  display: none;
+}
+
+.select-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.select-item:hover {
+  background-color: #ddd;
+}
+
+.select-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+#from-to {
+  font-size: 1.5rem;
+}
+
+.input-field-symbol {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.lower-part-1 i,
+.double-arrow {
+  border: 2px solid black;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 2.8rem;
+}
+
+.date-box {
+  display: flex;
+  align-items: center;
+  margin-top: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.date-label {
+  font-size: 1.5rem;
+}
+
+.date-field {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  border: 1px solid #ddd;
+}
+
+#minus {
+  border: none;
+  font-size: 3rem;
+}
+
+.search-button {
+  color: white;
+  background-color: #4D869C;
+  border: 1px solid #ddd;
+  font-size: 1.5rem;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+}
