@@ -79,19 +79,13 @@ const PassengerSchema = new mongoose.Schema(
     {
         username: { type: String, required: true, unique: true },
         hashedPassword: { type: String, required: true },
-        fullName: { type: String, required: false },
-        dob: { type: Date, required: false },
-        passportNumber: { type: String, required: false },
-        contact: {
-            phone: { type: String, required: false },
-            email: { type: String, required: false }
-        },
+        email: { type: String, required: true },
         bookings: [
             {
                 bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', required: true },
             }
-        ]
-    }
+        ]
+    }
 );
 
 const Flight = mongoose.model("Flight", FlightsSchema);

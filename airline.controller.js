@@ -146,24 +146,23 @@ const adminAuthentication = async (req, res) => {
 };
 
 const createPassenger = async (req, res) => {
-    const { username, password } = req.query;
+    const { username, password,email } = req.query;
     try {
         // Check if the username already exists
         const existingPassenger = await Passenger.findOne({ username });
         if (existingPassenger) {
-            return res.status(400).json({ error: 'Username already exists' });
+            return res.status(400).json({ error: 'Username Already Exists' });
         }
-
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 12);
-        // Create a new admin instance
-        const passenger = new Passenger({ username, hashedPassword });
-        // Save the new admin to the database
+        // Create a new passenger instance
+        const passenger = new Passenger({username,hashedPassword,email});
+        // Save the new passenger to the database
         await passenger.save();
         res.status(201).json({ message: 'Passenger created successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Error creating passenger' });
-    }
+        res.status(500).json({ error: 'Error creating passenger' });
+    }
 };
 
 const passengerAuthentication = async (req, res) => {
@@ -172,11 +171,13 @@ const passengerAuthentication = async (req, res) => {
         // Find the passenger by username
         const passenger = await Passenger.findOne({ username });
         if (!passenger) {
-            return res.status(404).json({ error: 'Passenger not found' });
+            return res.status(404).json({ error: 'Username or Password is Incorrect' });
         }
-
         // Compare the hashed password
         const isAuthenticated = await bcrypt.compare(password, passenger.hashedPassword);
+        if (!isAuthenticated) {
+            return res.status(404).json({ error: 'Username or Password is Incorrect' });
+        }
         res.status(200).json({ isAuthenticated });
     } catch (error) {
         res.status(500).json({ error: 'Error authenticating passenger' });

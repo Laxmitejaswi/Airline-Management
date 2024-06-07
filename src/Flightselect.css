@@ -1,3 +1,7 @@
+.flightselect{
+    padding-top:4rem;
+}
+
 .flightdeatils_review{
     margin: 20px 40px 0px 40px;
     padding: 0px 30px 0px 30px;
@@ -55,8 +59,8 @@
     flex-grow: 1;
     border-bottom: 2px dotted rgb(192, 192, 192);
     position: relative;
-    margin-left: 10px; /* Space for the dot */
-    margin-right: 20px; /* Space for the plane */
+    margin-left: 10px; 
+    margin-right: 20px; 
 }
 .plane {
     font-size: 24px;
@@ -126,4 +130,38 @@
 .no-flights{
     font-size: 2rem;
     margin : 1rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .flight_details {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .flight_details_left {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flight_details_middle, .flight_details_right, .book_now {
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .book_now {
+        position: static;
+    }
+
+    .flight_duration_symbol {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 10px;
+    }
+
+    .flight_duration {
+        position: static;
+        margin-top: 10px;
+    }
 }

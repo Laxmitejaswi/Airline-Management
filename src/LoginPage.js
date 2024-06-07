@@ -1,67 +1,107 @@
 import React, { useState } from 'react';
-import './LoginPage.css'; // Create and import the CSS file for styling
+import { useNavigate } from 'react-router-dom';
+import './LoginPage.css'; 
 
-const LoginPage = () => {
+const LoginPage = ({ setIsLoggedIn }) => {
     const [isSignup, setIsSignup] = useState(true);
     const [role, setRole] = useState('passenger');
     const [message, setMessage] = useState('');
-    const [logIn , islogIn] = useState(false);
+    const [logIn, setLogIn] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSignupSubmit = (event) => {
+    const handleSignupSubmit = async (event) => {
         event.preventDefault();
         const username = event.target.signupUsername.value;
         const email = event.target.signupEmail.value;
         const password = event.target.signupPassword.value;
 
-        // Simulate server-side check for username and email availability
-        // Replace with actual server-side logic
-        if (username === 'takenUsername') {
-            setMessage('Username is already taken. Please choose another.');
-        } else if (email === 'takenEmail@example.com') {
-            setMessage('This email address is already signed up. If you want to log in, please click here.');
-        } else {
-            // Proceed with the signup process
-            console.log('Signup:', username, email, password, role);
-            // Here you would send the signup data to the server
+        try {
+            const response = await fetch(`http://localhost:3000/api/passenger/register?username=${username}&password=${password}&email=${email}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password, email }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Signup failed');
+            }
+            localStorage.setItem('token', true);
+            setIsLoggedIn(true);
+            navigate(-1);
+        } catch (error) {
+            setMessage(error.message || 'Signup failed. Please try again.');
         }
     };
 
-    const handleLoginSubmit = (event) => {
+    const handleLoginSubmit = async (event) => {
         event.preventDefault();
-        const email = event.target.loginEmail.value;
+        const username = event.target.loginUsername.value;
         const password = event.target.loginPassword.value;
 
-        // Add logic to handle login
-        console.log('Login:', email, password);
-        // Here you would send the login data to the server
+        try {
+            const response = await fetch(`http://localhost:3000/api/passenger/authenticate?username=${username}&password=${password}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Login failed');
+            }
+            localStorage.setItem('token', true);
+            setIsLoggedIn(true);
+            navigate(-1);
+        } catch (error) {
+            setMessage(error.message || 'Login failed. Please try again.');
+        }
     };
 
-    const handleAdminLoginSubmit = (event) => {
+    const handleAdminLoginSubmit = async (event) => {
         event.preventDefault();
-        const email = event.target.adminLoginEmail.value;
+        const username = event.target.adminUsername.value;
         const password = event.target.adminLoginPassword.value;
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/admin/authenticate?username=${username}&password=${password}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Admin login failed');
+            }
+            setIsLoggedIn(true);
+            navigate(-1);
+        } catch (error) {
+            setMessage(error.message || 'Admin Login failed. Please try again.');
+        }
     };
 
-    const handleRoleChangeAdmin = (event) => {
-        setRole(event.target.value);
+    const handleRoleChangeAdmin = () => {
+        setRole('admin');
         setIsSignup(false);
     };
 
-    const handleRoleChangePass = (event) => {
-        setRole(event.target.value);
+    const handleRoleChangePass = () => {
+        setRole('passenger');
         setIsSignup(true);
     };
 
     return (
         <div id="outerContainer">
             <div className="container" id="loginPage">
-                {isSignup && (!logIn) ? (
+                {isSignup && !logIn ? (
                     <div id="signupContainer" className="active">
                         <h2>Signup</h2>
                         <form id="signupForm" onSubmit={handleSignupSubmit}>
                             <input type="text" name="signupUsername" placeholder="Username" required />
                             <input type="password" name="signupPassword" placeholder="Password" required />
-                            <input type="email" name="adminLoginEmail" placeholder="Email Address" required />
+                            <input type="email" name="signupEmail" placeholder="Email Address" required />
                             <div className="role-selection">
                                 <label>
                                     <input
@@ -85,13 +125,13 @@ const LoginPage = () => {
                             <button type="submit" id="button1">Sign Up</button>
                         </form>
                         <div className="message" id="signupMessage">{message}</div>
-                        <p className="message">Already a user? <a onClick={() => {setIsSignup(false); islogIn(true)}}>Log in</a></p>
+                        <p className="message">Already a user? <a onClick={() => { setIsSignup(false); setLogIn(true); }}>Log in</a></p>
                     </div>
-                ) : (role === 'admin' ?(
+                ) : (role === 'admin' ? (
                     <div id="adminLoginContainer" className="active">
                         <h2>Admin Login</h2>
                         <form id="adminLoginForm" onSubmit={handleAdminLoginSubmit}>
-                            <input type="text" name="signupUsername" placeholder="Username" required />
+                            <input type="text" name="adminUsername" placeholder="Username" required />
                             <input type="password" name="adminLoginPassword" placeholder="Password" required />
                             <div className="role-selection">
                                 <label>
@@ -115,12 +155,13 @@ const LoginPage = () => {
                             </div>
                             <button type="submit">Login</button>
                         </form>
+                        <div className="message" id="adminLoginMessage">{message}</div>
                     </div>
-                ): (
+                ) : (
                     <div id="loginContainer" className="active">
                         <h2>Login</h2>
                         <form id="loginForm" onSubmit={handleLoginSubmit}>
-                            <input type="email" name="loginEmail" placeholder="Email Address" required />
+                            <input type="text" name="loginUsername" placeholder="Username" required />
                             <input type="password" name="loginPassword" placeholder="Password" required />
                             <div className="role-selection">
                                 <label>
@@ -144,7 +185,8 @@ const LoginPage = () => {
                             </div>
                             <button type="submit" className='button1'>Login</button>
                         </form>
-                        <p className="message">Already not a user? <a onClick={() => {setIsSignup(true); islogIn(false)}}>Sign up</a></p>
+                        <div className="message" id="loginMessage">{message}</div>
+                        <p className="message">Not a user yet? <a onClick={() => { setIsSignup(true); setLogIn(false); }}>Sign up</a></p>
                     </div>
                 ))}
             </div>

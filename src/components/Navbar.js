@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        localStorage.removeItem('token');
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token'); 
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, []); 
+
     return (
-        <div className="navbar">
-            <div className="nav-left">
-                <div className="nav-name">
-                    <p>App Name</p>
+        <div className="navbar-container">
+            <div className="navbar">
+                <div className="nav-left">
+                    <div className="nav-name">
+                        <p>App Name</p>
+                    </div>
+                    <FontAwesomeIcon icon={faPlane} />
                 </div>
-                <FontAwesomeIcon icon={faPlane} />
-            </div>
-            <div className="nav-right">
-                <Link to="/">Book Flights</Link>
-                <a href="">Check-in</a>
-                <Link to="/login">Login</Link>
+                <div className="nav-right">
+                    <Link to="/">Book Flights</Link>
+                    <a href="#">Check-in</a>
+                    {isLoggedIn ? (
+                        <>
+                            <Link to="#">My Profile</Link>
+                            <a onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</a>
+                        </>
+                    ) : (
+                        <Link to="/login">Login</Link>
+                    )}
+                </div>
             </div>
         </div>
     );

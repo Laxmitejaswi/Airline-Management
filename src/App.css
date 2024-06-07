@@ -4,6 +4,18 @@
   font-family: 'Arial', 'sans-serif';
 }
 
+.navbar-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: white;
+  z-index: 1000; 
+}
+
+.nav-right a:hover {
+  color: #333; 
+}
+
 .navbar {
   background-color: #7AB2B2;
   display: flex;
@@ -37,7 +49,7 @@
 }
 
 .flight-booking {
-  margin: 8rem 3rem 0rem 3rem;
+  margin: 12rem 3rem 0rem 3rem;
   background-color: #fff;
   padding: 1rem;
 }

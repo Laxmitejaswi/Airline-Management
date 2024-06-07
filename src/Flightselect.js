@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./Flightselect.css";
-import Navbar from "./components/Navbar";
 
 export default function Flightselect() {
   const [info, setInfo] = useState([]);
@@ -19,7 +18,6 @@ export default function Flightselect() {
         ...flight,
         showReviews: false
       }));
-      console.log('Loaded flight info:', parsedInfo);
       setInfo(parsedInfo);
       setFrom(fromInfo);
       setTo(toInfo);
@@ -27,7 +25,6 @@ export default function Flightselect() {
   }, []);
 
   const handleFlightClick = (index) => {
-    console.log(`Toggling reviews for flight at index: ${index}`);
     setInfo((prevInfo) => {
       const updatedInfo = prevInfo.map((flight, i) => {
         if (i === index) {
@@ -36,14 +33,12 @@ export default function Flightselect() {
           return { ...flight, showReviews: false };
         }
       });
-      console.log('Updated flight info:', updatedInfo);
       return updatedInfo;
     });
   };  
 
   return (
-    <div>
-      <Navbar/>
+    <div className="flightselect">
       {info.length > 0 ? (
         info.map((flight, index) => (
           <div
