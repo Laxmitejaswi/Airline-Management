@@ -9,12 +9,12 @@ const FlightsSchema = new mongoose.Schema(
     {
         flightNumber: { type: String, required: [true,"Please enter flight number"] ,unique: true},
         departure: {
-            airportId: { type: mongoose.Schema.Types.ObjectId, ref: 'Airport', required: true },
+            airportCity: { type:String, required: true },
             scheduledTime: { type: Date, required: true },
             actualTime: { type: Date }
         },
         arrival: {
-            airportId: { type: mongoose.Schema.Types.ObjectId, ref: 'Airport', required: true },
+            airportCity: { type: String, required: true },
             scheduledTime: { type: Date, required: true },
             actualTime: { type: Date }
         },
@@ -30,7 +30,7 @@ const FlightsSchema = new mongoose.Schema(
         status: { type: String, required: true },
         duration: { type: Number, required: true },
         reviews: [{
-            userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Passenger', required: true },
+            passengerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Passenger', required: true },
             comment: { type: String, required: true },
             rating: { type: Number, required: true, min: 0, max: 5 },
             createdAt: { type: Date, default: Date.now }
@@ -38,7 +38,18 @@ const FlightsSchema = new mongoose.Schema(
         ratings: {
             average: { type: Number, default: 0 },
             count: { type: Number, default: 0 }
-        }
+        },
+        bookings: [
+            {
+                bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', required: false },
+                email: { type: String, required: false },
+            }
+        ],
+        notificationsSent: {
+            '24h': { type: Boolean, default: false },
+            '12h': { type: Boolean, default: false },
+            '2h': { type: Boolean, default: false }
+          }
     }
 );
 
@@ -84,8 +95,8 @@ const PassengerSchema = new mongoose.Schema(
             {
                 bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', required: true },
             }
-        ]
-    }
+        ]
+    }
 );
 
 const Flight = mongoose.model("Flight", FlightsSchema);
