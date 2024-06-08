@@ -13,7 +13,7 @@ const allAirports = async (req, res) => {
 const AirportbyId = async (req, res) => {
     try {
         const { id } = req.params;
-        const airport = await Airport.findOne({code:id});
+        const airport = await Airport.findOne({city:id});
         res.status(200).json(airport);
     } catch (error) {
         res.status(500).send(error.message);
@@ -31,7 +31,7 @@ const newAirport = async (req, res) => {
 
 const UpdateAirport = async (req, res) => {
     try {
-        const airport = await Airport.findOneAndUpdate({code:req.params.id}, req.body, { new: true, runValidators: true });
+        const airport = await Airport.findOneAndUpdate({city:req.params.id}, req.body, { new: true, runValidators: true });
         if (!airport) {
             return res.status(404).send('Airport not found');
         }
@@ -43,7 +43,7 @@ const UpdateAirport = async (req, res) => {
 
 const deleteAirport = async (req, res) => {
     try {
-        const airport = await Airport.findOneAndDelete({code:req.params.id});
+        const airport = await Airport.findOneAndDelete({city:req.params.id});
         if (!airport) {
             return res.status(404).send('Airport not found');
         }
@@ -151,18 +151,19 @@ const createPassenger = async (req, res) => {
         // Check if the username already exists
         const existingPassenger = await Passenger.findOne({ username });
         if (existingPassenger) {
-            return res.status(400).json({ error: 'Username Already Exists' });
+            return res.status(400).json({ error: 'Username already exists' });
         }
+
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 12);
         // Create a new passenger instance
-        const passenger = new Passenger({username,hashedPassword,email});
+        const passenger = new Passenger({ username, hashedPassword,email });
         // Save the new passenger to the database
         await passenger.save();
         res.status(201).json({ message: 'Passenger created successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Error creating passenger' });
-    }
+        res.status(500).json({ error: 'Error creating passenger' });
+    }
 };
 
 const passengerAuthentication = async (req, res) => {
@@ -171,62 +172,16 @@ const passengerAuthentication = async (req, res) => {
         // Find the passenger by username
         const passenger = await Passenger.findOne({ username });
         if (!passenger) {
-            return res.status(404).json({ error: 'Username or Password is Incorrect' });
+            return res.status(404).json({ error: 'Passenger not found' });
         }
+
         // Compare the hashed password
         const isAuthenticated = await bcrypt.compare(password, passenger.hashedPassword);
-        if (!isAuthenticated) {
-            return res.status(404).json({ error: 'Username or Password is Incorrect' });
-        }
         res.status(200).json({ isAuthenticated });
     } catch (error) {
         res.status(500).json({ error: 'Error authenticating passenger' });
     }
 };
-
-// 
-
-// const availableFlights = async (req, res) => {
-//     try {
-//         const { from, to, startDate, endDate, tripType } = req.query; // Include tripType in the query parameters
-
-//         // Find the airports based on the provided codes
-//         const departureAirport = await Airport.findOne({ code: from });
-//         const arrivalAirport = await Airport.findOne({ code: to });
-
-//         if (!departureAirport || !arrivalAirport) {
-//             return res.status(404).json({ error: 'Airport not found' });
-//         }
-
-//         // Parse the start and end dates
-//         const start = new Date(startDate);
-//         let end;
-//         if (tripType === 'roundtrip') {
-//             end = new Date(endDate);
-//         }
-
-//         // Query for one-way flights
-//         let flights = await Flight.find({
-//             'departure.airportId': departureAirport._id,
-//             'arrival.airportId': arrivalAirport._id,
-//             'departure.scheduledTime': { $gte: start }
-//         });
-
-//         // If roundtrip, find return flights
-//         if (tripType === 'roundtrip' && end) {
-//             const returnFlights = await Flight.find({
-//                 'departure.airportId': arrivalAirport._id,
-//                 'arrival.airportId': departureAirport._id,
-//                 'departure.scheduledTime': { $lte: end }
-//             });
-//             flights = { outbound: flights, return: returnFlights };
-//         }
-
-//         res.status(200).json(flights);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Error finding flights' });
-//     }
-// };
 
 const availableFlights = async (req, res) => {
     try {
@@ -253,8 +208,8 @@ const availableFlights = async (req, res) => {
 
         // Query for one-way flights
         let flights = await Flight.find({
-            'departure.airportId': departureAirport._id,
-            'arrival.airportId': arrivalAirport._id,
+            'departure.airportCity': departureAirport.city,
+            'arrival.airportCity': arrivalAirport.city,
             'departure.scheduledTime': {
                 $gte: start,
                 $lt: new Date(new Date(start).setDate(start.getDate() + 1)) // Ensure only flights on the same date are returned
@@ -264,8 +219,8 @@ const availableFlights = async (req, res) => {
         // If roundtrip, find return flights
         if (tripType === 'roundtrip' && end) {
             const returnFlights = await Flight.find({
-                'departure.airportId': arrivalAirport._id,
-                'arrival.airportId': departureAirport._id,
+                'departure.airportCity': arrivalAirport.city,
+                'arrival.airportCity': departureAirport.city,
                 'departure.scheduledTime': {
                     $gte: end,
                     $lt: new Date(new Date(end).setDate(end.getDate() + 1)) // Ensure only flights on the same date are returned
@@ -280,6 +235,7 @@ const availableFlights = async (req, res) => {
         res.status(500).json({ error: 'Error finding flights' });
     }
 };
+
 
 const availableSeats = async (req, res) => {
     try {
@@ -329,27 +285,29 @@ const newBooking = async (req, res) => {
             return res.status(400).send('Seat not available');
         }
 
-        // Remove the seat from availability
-        flight.seatAvailability[seatClass.toLowerCase()] = flight.seatAvailability[seatClass.toLowerCase()].filter(s => s !== seat);
-        await flight.save();
-
         // Create the booking
-        const booking = new Booking({ flightId, passengerId, seat, seatClass,bookingStatus: 'confirmed', // Set the initial status
-        bookingDate: new Date(), // Set the booking date to current date
-        price
-        });
+        const booking = new Booking({ flightId:flight._id, passengerId, seat, seatClass,bookingStatus: 'confirmed', 
+        bookingDate: new Date(),price});
         await booking.save();
 
         // Update the passenger's bookings
         const passenger1 = await Passenger.findById(passengerId);
         if (passenger1) {
-            // Create a booking object without the passengerId
-            const passengerBooking = {
+            // Update bookings of flight
+            flight.bookings.push({
                 bookingId: booking._id,
-            };
-            passenger1.bookings.push(passengerBooking);
+                email:passenger1.email
+            });
+            await flight.save();
+            // Create a booking object without the passengerId
+            passenger1.bookings.push({ bookingId: booking._id });
             await passenger1.save();
         }
+
+        // Remove the seat from availability
+        flight.seatAvailability[seatClass.toLowerCase()] = flight.seatAvailability[seatClass.toLowerCase()].filter(s => s !== seat);
+        await flight.save();
+
         res.status(201).json(booking);
     } catch (error) {
         res.status(500).send(error.message);
@@ -406,13 +364,6 @@ const deleteBooking = async (req, res) => {
         // Release the seat
         flight.seatAvailability[booking.seatClass.toLowerCase()].push(booking.seat);
         await flight.save();
-        // // Remove the booking from the passenger's bookings
-        // const passenger = await Passenger.findOne({ bookings: { $elemMatch: { bookingId: booking._id } } });
-        // if (passenger) {
-        //     passenger.bookings = passenger.bookings.filter(b => b.bookingId.toString() !== booking._id.toString());
-        //     await passenger.save();
-        // }
-        // await Booking.findByIdAndDelete(req.params.id);
         booking.bookingStatus = 'cancelled';
         await booking.save();
         res.status(204).send('Booking cancelled successfully');
@@ -498,6 +449,37 @@ const updateCheckinStatus = async(req,res) =>{
     }
 };
 
+const addReview = async (req, res) => {
+    const { passengerId, flightId, rating, comment } = req.query;
+        try {
+       const flight = await Flight.findById(flightId);
+      if (!flight) {
+        return res.status(404).send('Flight not found');
+      }
+  
+       const now = new Date();
+      const newReview = {
+        passengerId : passengerId,
+        rating : rating,
+        comment:comment,
+        createdAt: now,
+      };
+  
+       flight.reviews.push(newReview);
+  
+      const totalRating = flight.reviews.reduce((acc, review) => acc + review.rating, 0);
+      flight.ratings.count = flight.reviews.length;
+      flight.ratings.average = totalRating / flight.ratings.count;
+  
+      await flight.save();
+  
+      res.status(201).send('Review submitted and flight updated successfully');
+    } catch (error) {
+      console.error(error); // Log the actual error for debugging
+      res.status(500).send('Error submitting review and updating flight');
+    }
+  };
+
 module.exports = {
     allAirports,
     AirportbyId,
@@ -524,6 +506,7 @@ module.exports = {
     pasengerbyId,
     updatePassenger,
     deletePassenger,
-    updateCheckinStatus 
+    updateCheckinStatus,
+    addReview
 
 };
