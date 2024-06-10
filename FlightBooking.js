@@ -76,5 +76,6 @@ function displayConfirmation() {
         <p>Email: ${email}</p>
         <p>Phone: ${phone}</p>
         <p>Seat: ${selectedSeat}</p>
+        <p>Booking ID: </p>
     `;
 }
