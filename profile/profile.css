@@ -195,3 +195,47 @@ body{
 .trips-header h1{
     margin-left: 10px;
 }
+
+.trip-details{
+    display: flex;
+    flex-direction: row;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: lightgray;
+    padding: 1rem;
+}
+
+.date{
+    background-color: rgb(239, 239, 239);
+    padding-right: 2rem;
+    padding-left: 2rem;
+    margin-right: 1rem;
+    border: none;
+    border-radius: 50%;
+    align-content: center;
+    font-size: 20px;
+}
+
+.flight-details{
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.itenary{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.itenary img {
+    width: 1rem;
+    height: 1rem;
+}
+
+.airport-details{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
