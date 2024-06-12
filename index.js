@@ -49,8 +49,8 @@ const sendNotification = async (flight,interval) => {
     const mailOptions = {
       from: 'airlinemanagment1234@gmail.com',
       to: booking.email, // Use the email from the booking object
-      subject: Flight Reminder - ${interval} Notice,
-      text: Reminder: Your flight ${flight.flightNumber} is scheduled to depart from ${flight.departure.airportCity} in ${interval}. Please check-in if you haven't already done so.
+      subject: `Flight Reminder - ${interval} Notice`,
+      text: `Reminder: Your flight ${flight.flightNumber} is scheduled to depart from ${flight.departure.airportCity} in ${interval}. Please check-in if you haven't already done so.`
     };
 
     try {
@@ -102,3 +102,13 @@ cron.schedule('* * * * *', async () => { // This cron pattern runs every minute,
     }
   });
  });
+
+
+
+
+
+
+
+
+
+
