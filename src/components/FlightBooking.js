@@ -16,7 +16,7 @@ const FlightBooking = () => {
     const [returnDate, setReturnDate] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const cities = ["Delhi", "Mumbai", "Hyderabad", "Vizag"];
+    const cities = ["Delhi", "Mumbai", "Hyderabad", "Vishakapatnam"];
 
     const filteredFromCities = cities.filter(city => city.toLowerCase().includes(fromSearch.toLowerCase()));
     const filteredToCities = cities.filter(city => city.toLowerCase().includes(toSearch.toLowerCase()));
@@ -31,9 +31,8 @@ const FlightBooking = () => {
             fetch(`http://localhost:3000/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`)
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data);
                     localStorage.setItem('flightSearchResults', JSON.stringify(data));
-                    localStorage.setItem('from', JSON.stringify(from));
-                    localStorage.setItem('to', JSON.stringify(to));
                     navigate('/Flightselect');
                 })
                 .catch((error) => {

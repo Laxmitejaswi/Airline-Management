@@ -1,0 +1,372 @@
+body{
+    background-color: #CDE8E5;
+}
+header{
+    background-color:  #7AB2B2;
+    padding-top:1.5rem;
+    padding-bottom: 0.9rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1500;
+}
+.hidden{
+    display: none;
+}
+header h1{
+    color:black;
+    text-align: center;
+}
+.flightdetailsWithid{
+    display: flex;
+    flex-direction: column;
+    margin:6rem 3rem 1rem 3rem;
+    padding: 1.5rem 1.5rem 1rem 2rem;
+    border-radius: 0.5rem;
+    background-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(229, 231, 235) ;
+}
+.Date , .flightNumber{
+    font-size: 1.2em;
+    margin-top: 0.5rem;
+}
+.flight_details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 5.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border : 2px solid lightgrey;
+    border-radius : 1rem;
+    margin-top : 1rem;
+}
+.flight_details_left{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 550px;
+    padding-top: 1rem;
+}
+
+.gap-1{
+    margin-bottom: 0.1rem;
+}
+
+.gap-2{
+    margin-bottom: 0.1rem;
+}
+
+.flight_details_left span{
+    font-size:1.2rem;
+}
+.from_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+.flight_duration_symbol {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 10px 0 10px;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(207, 202, 202);
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+}
+
+.line {
+    flex-grow: 1;
+    border-bottom: 2px dotted rgb(192, 192, 192);
+    position: relative;
+    margin-left: 10px; 
+    margin-right: 20px;
+}
+.flight_duration{
+    position: absolute;
+    align-items: center;
+    left: 5rem;
+    z-index: 100;
+    font-size: 1.2rem;
+}
+.plane {
+    font-size: 24px;
+    color: rgb(207, 202, 202);
+    position: absolute;
+    margin-bottom: 1px;
+    right: 0;
+}
+.to_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    margin:0;
+}
+.time{
+    font-size: 20px;
+}
+.airport-name{
+    font-size: 20px;
+}
+.flight_details_right{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 700px;
+    font-size: 1.2rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+.baggage{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+} 
+#passengerForm{
+    background-color: #fff;
+    margin: 0rem 3rem 1rem 3rem;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+.salutation{
+    margin-top: 10px;
+    width: 300px;
+    position: relative;    
+}
+.select-option{
+    position: relative;
+}
+.select-option input{
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 17px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border:solid;
+    border-color: lightgray;
+    border-width: 1px;
+    outline: 0;
+}
+.select-option::after{
+    content: "";
+    border-top: 10px solid #000;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    position: absolute;
+    right: 7px;
+    top: 55%;
+    margin-top: -16px;
+}
+.content{
+    background-color: #fff;
+    color: #000;
+    position: absolute;
+    border-radius: 7px;
+    width: 100%;
+    z-index: 999;
+}
+.options{
+    max-height: 250px;
+    overflow-y: auto;
+}
+.options li{
+    padding: 10px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.options li:hover{
+    background-color: #f2f2f2;
+}
+.salutation.active .content{
+    display: block;
+}
+.salutation.active .select-option::after{
+    transform: rotate(-180deg);
+}
+.first-name input{
+    width:300px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 17px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border:solid;
+    border-color: lightgray;
+    border-width: 1px;
+    outline: 0;
+}
+.last-name input{
+    width:300px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 17px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border:solid;
+    border-color: lightgray;
+    border-width: 1px;
+    outline: 0;
+    margin-left: 3rem;
+}
+.name{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 0.5rem;
+}
+.phone-num input{
+    width:300px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 17px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border:solid;
+    border-color: lightgray;
+    border-width: 1px;
+    outline: 0;
+}
+.email input{
+    width:300px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 17px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border:solid;
+    border-color: lightgray;
+    border-width: 1px;
+    outline: 0;
+    margin-left: 3rem;
+}
+.contact-details{
+    display: flex;
+    flex-direction: row;
+} 
+.seats{
+    background-color: #fff;
+    margin: 6rem 3rem 3rem 3rem ;
+    padding: 3rem;
+}    
+.bookingConfirm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+}  
+.seats .heading{
+    display:flex;
+    justify-content: center;
+}
+.seat-map {
+    display: grid;
+    grid-template-columns: 1fr 1fr 6fr 1fr 1fr 1fr;
+    gap: 5px;
+    margin-left: 20rem;
+    margin-right: 20rem;
+    padding: 2rem 1rem 2rem 3rem;
+    border: solid;
+    border-color: #000;
+}
+.seat {
+    background-color: #ccc;
+    padding: 1rem;
+    width: 3rem;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+.seat.selected {
+    background-color: #7AB2B2;
+    color: #fff;
+}
+
+.seat:hover {
+    background-color: #a7e1db;
+    color: #fff;
+}
+
+.button2{
+    padding: 1rem;
+    width: 200px;
+    border: none;
+    background-color: #7AB2B2;
+    border-radius: 3px;
+    font-size: 1.3rem;
+}
+
+.confirm{
+    background-color:#fff;
+    margin: 10rem 3rem 3rem 3rem;
+    padding: 2rem;
+}
+.confirm h2{
+    margin-bottom: 1rem;
+}
+
+.message{
+    padding-bottom: 1rem;
+}
+
+.outerMessage{
+    display: flex;
+    justify-content: center;
+}
+
+.travellerDetails{
+    margin-top: 1rem;
+}
+
+.passengerDetails{
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+}
+
+#confirmBooking{
+    margin-left : 1rem;
+}
+#details{
+    margin-top: 1rem;
+    font-size: 1.5rem;
+}
+.confirmButtonWrapper{
+    display: flex;
+}
+
+.confirmationMessage{
+    margin-top : 1rem;
+    font-size: 1.2rem;
+}
+
+.top{
+    font-size: 1.2rem;
+}
