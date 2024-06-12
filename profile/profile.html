@@ -43,6 +43,10 @@
                         <input type="text" id="profile-username" value="user_name">
                     </div>
                     <div class="detail-item">
+                        <label for="profile-mobile">Mobile Number:</label>
+                        <input type="text" id="profile-mobile" value="1234567890">
+                    </div>
+                    <div class="detail-item">
                         <label for="profile-email">Email:</label>
                         <input type="email" id="profile-email" value="user@example.com">
                     </div>
@@ -85,6 +89,56 @@
                 </div>
                 <div id="cancelled-bookings" class="tab-content">
                     <p>No cancelled bookings available.</p>
+                </div>
+            </section>
+            <section class="itenary-section" id="itenary-section" style="display: none;">
+                <header class="trips-header">
+                    <button id="back-to-main-btn-itenary" class="back">
+                        <img src="Left arrow.png">
+                    </button>
+                    <h1>Your Itenary</h1>
+                </header>
+                <div class="details">
+                    <div class="flight_details">
+                        <div class="from_details">
+                            <div class="time">
+                                Dep_time
+                            </div>
+                            <div class="airport-name">
+                                Dep_airport
+                            </div>
+                        </div>
+                        <div class="flight_duration_symbol">
+                            <div class="dot"></div>
+                            <div class="line"></div>
+                            <div class="plane">&#9992;</div>
+                            <div class="flight_duration">
+                                duration
+                            </div>
+                        </div>
+                        
+                        <div class="to_details">
+                            <div class="time">
+                                arr_time
+                            </div>
+                            <div class="airport-name">
+                                arr_airport
+                            </div>
+                        </div>
+                    </div>
+                    <div class="baggage_details">
+                        <h3>Baggage Per Traveller</h3>
+                        <p>Cabin Baggage: 7kgs (1pc)</p>
+                        <p>Check-in Baggage: 15kgs (1pc)</p>
+                    </div>
+                    <div class="traveller_details">
+                        <h3>Traveller Details</h3>
+                        <p>Name: </p>
+                        <p>Email: </p>
+                        <p>Phone: </p>
+                        <p>Seat: </p>
+                    </div>
+                    <button class="cancel_btn">Cancel Booking</button>
                 </div>
             </section>
         </main>

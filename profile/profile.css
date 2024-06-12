@@ -239,3 +239,93 @@ body{
     flex-direction: row;
     gap: 1rem;
 }
+
+.flight_details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+.from_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.flight_duration_symbol {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 10px 0 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(207, 202, 202);
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+}
+
+.line {
+    flex-grow: 1;
+    border-bottom: 2px solid rgb(207, 202, 202);
+    position: relative;
+    margin-left: 10px; /* Space for the dot */
+    margin-right: 20px; /* Space for the plane */
+}
+
+.flight_duration{
+    position: absolute;
+    left: 40%;
+    top:1px;
+
+}
+
+.plane {
+    font-size: 24px;
+    color: rgb(207, 202, 202);
+    position: absolute;
+    right: 0;
+}
+
+.to_details{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.time{
+    font-size: 20px;
+}
+
+.airport-name{
+    font-size: 15px;
+}
+
+.baggage_details{
+    margin-bottom: 2rem;
+    font-size: 17px;
+}
+
+.traveller_details{
+    margin-bottom: 2rem;
+    font-size: 17px;
+}
+
+.cancel_btn{
+    padding: 1rem;
+    background-color: #7AB2B2;
+    border: none;
+    font-size: 17px;
+}

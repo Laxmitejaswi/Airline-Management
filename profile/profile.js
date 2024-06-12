@@ -3,6 +3,7 @@ document.getElementById('view-profile-btn').addEventListener('click', function()
     document.getElementById('profile-section-id').style.display = 'none';
     document.getElementById('heading').style.display = 'none';
     document.getElementById('trips-section').style.display = 'none';
+    document.getElementById('itenary-section').style.display = 'none';
 });
 
 document.getElementById('my-trips-btn').addEventListener('click', function() {
@@ -10,6 +11,7 @@ document.getElementById('my-trips-btn').addEventListener('click', function() {
     document.getElementById('profile-details').style.display = 'none';
     document.getElementById('profile-section-id').style.display = 'none';
     document.getElementById('heading').style.display = 'none';
+    document.getElementById('itenary-section').style.display = 'none';
 });
 
 document.getElementById('save-profile-btn').addEventListener('click', function() {
@@ -20,19 +22,19 @@ document.getElementById('save-profile-btn').addEventListener('click', function()
 });
 
 document.getElementById('back-to-main-btn-p').addEventListener('click', function() {
-    console.log("button clicked");
     document.getElementById('profile-details').style.display = 'none';
     document.getElementById('profile-section-id').style.display = 'block';
     document.getElementById('heading').style.display = 'block';
     document.getElementById('trips-section').style.display = 'none';
+    document.getElementById('itenary-section').style.display = 'none';
 });
 
 document.getElementById('back-to-main-btn-t').addEventListener('click', function() {
-    console.log("button clicked");
     document.getElementById('profile-details').style.display = 'none';
     document.getElementById('profile-section-id').style.display = 'block';
     document.getElementById('heading').style.display = 'block';
     document.getElementById('trips-section').style.display = 'none';
+    document.getElementById('itenary-section').style.display = 'none';
 });
 
 document.querySelectorAll('.tab-btn').forEach(button => {
@@ -44,4 +46,20 @@ document.querySelectorAll('.tab-btn').forEach(button => {
         document.getElementById(tab).classList.add('active');
         this.classList.add('active');
     });
+});
+
+document.querySelector('.trip-details').addEventListener('click',function(){
+    document.getElementById('profile-details').style.display = 'none';
+    document.getElementById('profile-section-id').style.display = 'none';
+    document.getElementById('heading').style.display = 'none';
+    document.getElementById('trips-section').style.display = 'none';
+    document.getElementById('itenary-section').style.display = 'block';
+});
+
+document.getElementById('back-to-main-btn-itenary').addEventListener('click', function() {
+    document.getElementById('profile-details').style.display = 'none';
+    document.getElementById('profile-section-id').style.display = 'block';
+    document.getElementById('heading').style.display = 'block';
+    document.getElementById('trips-section').style.display = 'none';
+    document.getElementById('itenary-section').style.display = 'none';
 });
