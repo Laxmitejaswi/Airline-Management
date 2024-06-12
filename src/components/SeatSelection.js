@@ -6,7 +6,7 @@ const SeatSelection = () => {
     const [availableSeats, setAvailableSeats] = useState([]);
     const [info, setInfo] = useState({});
     const [message, setMessage] = useState("");
-    const [seatSelected , setSeat] = useState("");
+    const [seatSelected , setSeat] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const SeatSelection = () => {
         if (seatSelected === null) {
             setMessage("Please Select Seat to Confirm Your booking !");
         } else {
-            console.log(seatSelected);
+            localStorage.setItem('seatSelected',seatSelected);
             navigate('/Confirmation');
         }
     };
@@ -82,7 +82,6 @@ const SeatSelection = () => {
                             key={seatNumber}
                             className={`seat ${seatSelected === seatNumber ? 'selected' : ''} ${availableSeats.includes(seatNumber) ? 'available' : 'unavailable'}`}
                             onClick={() => {availableSeats.includes(seatNumber) && setSeat(seatNumber);
-                                localStorage.setItem('seatSelected',seatSelected);
                             }}
                         >
                             {seatNumber}
