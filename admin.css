@@ -1,0 +1,170 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #CDE8E5;
+}
+
+header {
+    background-color: #7AB2B2;
+    color: black;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 16px;
+}
+
+main {
+    padding: 20px;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+nav button {
+    padding: 1rem;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #7AB2B2;
+    color: black;
+    font-weight: 600;
+}
+
+nav button:hover {
+    background-color: rgba(138, 199, 199, 0.814);
+}
+
+.hidden {
+    display: none;
+}
+
+section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+form label {
+    grid-column: span 2;
+}
+
+form input, form button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    grid-column: span 2;
+    width: 45%;
+    background-color: #7AB2B2;
+    font-weight: 600;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: rgba(138, 199, 199, 0.814);
+}
+
+#add-flight-btn,
+#delete-flight-btn,
+#add-airport-btn,
+#delete-airport-btn{
+    background-color: #7AB2B2;
+    font-weight: 600;
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    margin-right: 0.5rem;
+    border-radius: 5px;
+}
+
+#add-flight-btn:hover,
+#delete-flight-btn:hover,
+#add-airport-btn:hover,
+#delete-airport-btn:hover{
+    background-color: rgba(138, 199, 199, 0.814);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+button.delete-btn, button.edit-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button.delete-btn {
+    background-color: red;
+    color: white;
+}
+
+button.delete-btn:hover {
+    background-color: darkred;
+}
+
+button.edit-btn {
+    background-color: green;
+    color: white;
+}
+
+button.edit-btn:hover {
+    background-color: darkgreen;
+}
+
+#view-flights-section label,
+#view-airports-section label{
+    font-size: 16px;
+}
+
+#view-date,
+#view-country{
+    padding: 0.4rem;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#view-flights-submit-btn,
+#view-airports-submit-btn{
+    background-color: #7AB2B2;
+    font-weight: 600;
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 0.8rem;
+    margin-left: 0.5rem;
+    border-radius: 5px;
+}
+
+#view-flights-submit-btn:hover,
+#view-airports-submit-btn:hover{
+    background-color: rgba(138, 199, 199, 0.814);
+}
