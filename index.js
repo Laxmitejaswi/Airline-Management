@@ -15,7 +15,6 @@ app.use(express.json());
 //routes
 app.use("/api",AirlineRoute);
 
-// connect to database
 mongoose.connect("mongodb+srv://devikareddi0512:Devika2005@cluster0.h1r6yyq.mongodb.net/Airline?retryWrites=true&w=majority&appName=Cluster0")
 .then(()=>{
     console.log("Connected to database!");
@@ -26,6 +25,7 @@ mongoose.connect("mongodb+srv://devikareddi0512:Devika2005@cluster0.h1r6yyq.mong
 .catch(()=>{
     console.log("Connection failed!");
 });
+
 
 // Set up your NodeMailer transporter
 const transporter = nodemailer.createTransport({
@@ -62,6 +62,7 @@ const sendNotification = async (flight,interval) => {
   }
 };
 
+
 // Scheduled job to check for upcoming flights and send notifications
 cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
   const now = new Date(new Date().getTime() + (5 * 60 + 30) * 60000);
@@ -71,7 +72,8 @@ cron.schedule('* * * * *', async () => { // This cron pattern runs every minute,
      'departure.scheduledTime': {
       $gte: now, // Greater than or equal to the current time
        $lt: nextDay // Less than 24 hours from now
-    }
+    },
+    // 'status': 'Scheduled' // Assuming you want to find flights that are scheduled
   });
   console.log(flights);
   flights.forEach(flight => {
@@ -100,7 +102,6 @@ cron.schedule('* * * * *', async () => { // This cron pattern runs every minute,
     }
   });
  });
-
 
 
 

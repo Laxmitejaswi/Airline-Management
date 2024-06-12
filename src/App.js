@@ -11,8 +11,6 @@ import Confirmation from './components/Confirmation';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [seatSelected , setSeat] = useState(null);
-    const [passengerDetails , setPassengerDetails] = useState({});
     return (
         <Router>
             <div>
@@ -20,10 +18,10 @@ const App = () => {
                 <Routes>
                     <Route exact path="/" element={<FlightBooking />} />
                     <Route exact path="/FlightSelect" element={<Flightselect isLoggedIn={isLoggedIn}/>} />
-                    <Route exact path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-                    <Route exact path="/FlightDetails" element={<FlightDetails setPassengerDetails = {setPassengerDetails} />} />
-                    <Route exact path="/SeatSelection" element={<SeatSelection setSeat = {setSeat} seatSelected = {seatSelected}/>} />
-                    <Route exact path="/Confirmation" element={<Confirmation seatSelected={seatSelected} passengerDetails={passengerDetails} />} />
+                    <Route exact path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>} />
+                    <Route exact path="/FlightDetails" element={<FlightDetails/>} />
+                    <Route exact path="/SeatSelection" element={<SeatSelection />} />
+                    <Route exact path="/Confirmation" element={<Confirmation />} />
                 </Routes>
             </div>
         </Router>

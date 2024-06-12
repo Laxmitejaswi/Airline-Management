@@ -275,7 +275,8 @@ header h1{
 .seats{
     background-color: #fff;
     margin: 6rem 3rem 3rem 3rem ;
-    padding: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }    
 .bookingConfirm{
     display: flex;
@@ -283,10 +284,12 @@ header h1{
     align-items: center;
     padding-top: 2rem;
 }  
-.seats .heading{
+.seats .heading_1{
     display:flex;
     justify-content: center;
+    align-items: center;
 }
+
 .seat-map {
     display: grid;
     grid-template-columns: 1fr 1fr 6fr 1fr 1fr 1fr;
@@ -304,6 +307,15 @@ header h1{
     text-align: center;
     line-height: 30px;
     cursor: pointer;
+}
+.seat.available {
+    background-color: green;
+    color: #fff;
+}
+.seat.unavailable {
+    background-color: red;
+    color: #fff;
+    cursor: not-allowed;
 }
 .seat.selected {
     background-color: #7AB2B2;
@@ -353,9 +365,10 @@ header h1{
 
 #confirmBooking{
     margin-left : 1rem;
+    margin-top: 1rem;
 }
 #details{
-    margin-top: 1rem;
+    margin-top: 2rem;
     font-size: 1.5rem;
 }
 .confirmButtonWrapper{
@@ -368,5 +381,39 @@ header h1{
 }
 
 .top{
+    font-size: 1.2rem;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.legend-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.legend-box.available {
+    background-color: green;
+}
+
+.legend-box.unavailable {
+    background-color: red;
+}
+
+.errorMessage{
+    margin-top : 2rem;
+    margin-left : 1rem;
     font-size: 1.2rem;
 }

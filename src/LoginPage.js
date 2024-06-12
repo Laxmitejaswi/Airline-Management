@@ -14,20 +14,23 @@ const LoginPage = ({ setIsLoggedIn }) => {
         const username = event.target.signupUsername.value;
         const email = event.target.signupEmail.value;
         const password = event.target.signupPassword.value;
+        const name = event.target.signupName.value;
+        const contact = event.target.signupContact.value;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/passenger/register?username=${username}&password=${password}&email=${email}`, {
+            const response = await fetch(`http://localhost:3000/api/passenger/register?username=${username}&password=${password}&email=${email}&name=${name}&contact=${contact}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password, email }),
+                body: JSON.stringify({ username, password, email , name , contact }),
             });
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error || 'Signup failed');
             }
             localStorage.setItem('token', true);
+            localStorage.setItem('username', username);
             setIsLoggedIn(true);
             navigate(-1);
         } catch (error) {
@@ -52,6 +55,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 throw new Error(data.error || 'Login failed');
             }
             localStorage.setItem('token', true);
+            localStorage.setItem('username', username);
             setIsLoggedIn(true);
             navigate(-1);
         } catch (error) {
@@ -102,6 +106,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
                             <input type="text" name="signupUsername" placeholder="Username" required />
                             <input type="password" name="signupPassword" placeholder="Password" required />
                             <input type="email" name="signupEmail" placeholder="Email Address" required />
+                            <input type="text" name="signupName" placeholder="Name" required />
+                            <input type="text" name="signupContact" placeholder="Phone Number" required />
                             <div className="role-selection">
                                 <label>
                                     <input

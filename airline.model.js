@@ -65,8 +65,8 @@ const AirportSchema = new mongoose.Schema(
 const BookingSchema = new mongoose.Schema(
     {
         flightId: { type: mongoose.Schema.Types.ObjectId, ref: 'Flight', required: true },
-        passengerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Passenger', required: true },
-        bookingStatus: {
+        username: { type: String, required: true },
+         bookingStatus: {
             type: String,
             enum: ['confirmed', 'pending','cancelled'],
             default: 'pending'
@@ -90,7 +90,9 @@ const PassengerSchema = new mongoose.Schema(
     {
         username: { type: String, required: true, unique: true },
         hashedPassword: { type: String, required: true },
+        name: { type: String, required: true },
         email: { type: String, required: true },
+        contact: { type: String, required: true },
         bookings: [
             {
                 bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', required: true },

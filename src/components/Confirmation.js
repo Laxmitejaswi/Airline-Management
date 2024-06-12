@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../BookingFlight.css";
+import { useNavigate } from 'react-router-dom';
 
-const Confirmation = ({ seatSelected, passengerDetails }) => {
+const Confirmation = () => {
   const [info, setInfo] = useState({});
   const [booked, setBooked] = useState(false);
-
+  const [message , setMessage] = useState("");
+  const [seatBooked , setSeatBooked] = useState(false);
+  const navigate = useNavigate();
+  const username = localStorage.getItem('username');
+  const seatSelected = localStorage.getItem('seatSelected');
   useEffect(() => {
     const ClickedFlightDetails = localStorage.getItem("ClickedFlightDetails");
     if (ClickedFlightDetails) {
@@ -13,9 +18,39 @@ const Confirmation = ({ seatSelected, passengerDetails }) => {
     }
   }, []);
 
-  const handleClick = (event) => {
+  const handleBack = (event) => {
     event.preventDefault();
-    setBooked(true);
+    navigate("/");
+  }
+
+  const handleClick = async (event) => {
+    event.preventDefault();
+    if(info.flightNumber){
+      try {
+        const response = await fetch(`http://localhost:3000/api/bookings?flightId=${info.flightNumber}&username=${username}&seat=${seatSelected}&seatClass=economy&price=${info.price.economy}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            flightId: info.flightNumber,
+            username: username,
+            seat: seatSelected,
+            seatClass: "economy",
+            price: info.price.economy,
+          }),
+        });
+  
+        if (response.ok) {
+          setBooked(true);
+        } else {
+          setSeatBooked(true);
+          console.error("Booking failed:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error booking seat:", error);
+      }
+    }
   };
 
   const dateString = info.departure ? info.departure.scheduledTime : "";
@@ -43,6 +78,7 @@ const Confirmation = ({ seatSelected, passengerDetails }) => {
             <p className="confirmationMessage">
             Thank you for choosing our service.
             </p>
+            <button className="button2" id="details" onClick={handleBack}>Search Flights</button>
         </div>
       ) : (
         <div>
@@ -50,6 +86,7 @@ const Confirmation = ({ seatSelected, passengerDetails }) => {
           <h3>Flight Details</h3>
           <p className="flightNumber">Flight Number : {info.flightNumber}</p>
           <p className="Date">Date : {formattedDate}</p>
+          <p className="passengerDetails">Seat Selected : {seatSelected}</p>
           <div className="flight_details">
             <div className="flight_details_left">
               <div className="from_details">
@@ -115,36 +152,21 @@ const Confirmation = ({ seatSelected, passengerDetails }) => {
               </div>
             </div>
           </div>
-          <h3 className="travellerDetails">Traveller Details</h3>
-          {passengerDetails && passengerDetails.title ? (
-            <div id="confirmationDetails">
-              <p className="passengerDetails">
-                Name :{" "}
-                {`${passengerDetails.title} ${passengerDetails.firstName} ${passengerDetails.lastName}`}
+          <div id="confirmationDetails">
+            <div className="confirmButtonWrapper">
+              <p className="passengerDetails" id="details">
+                Click here to Confirm Your Booking :{" "}
               </p>
-              <p className="passengerDetails">
-                Email : {passengerDetails.emailId}
-              </p>
-              <p className="passengerDetails">
-                Contact : {passengerDetails.phoneNum}
-              </p>
-              <p className="passengerDetails">Seat : {seatSelected}</p>
-              <div className="confirmButtonWrapper">
-                <p className="passengerDetails" id="details">
-                  Click here to Confirm Your Booking :{" "}
-                </p>
-                <button
-                  onClick={handleClick}
-                  className="button2"
-                  id="confirmBooking"
-                >
-                  Confirm Booking
-                </button>
-              </div>
+              <button
+                onClick={handleClick}
+                className="button2"
+                id="confirmBooking"
+              >
+                Confirm Booking
+              </button>
+              {seatBooked ? ( <p className="errorMessage">Seat already booked.</p> ) : (<p></p>)}
             </div>
-          ) : (
-            <p className="passengerDetails">No passenger details available.</p>
-          )}
+          </div>
         </div>
       )}
       </div>

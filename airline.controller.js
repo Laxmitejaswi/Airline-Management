@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const {Admin,Flight,Airport,Booking,Passenger} = require('./airline.model.js');
 
+
 const allAirports = async (req, res) => {
     try {
         const airports = await Airport.find({});
@@ -146,7 +147,7 @@ const adminAuthentication = async (req, res) => {
 };
 
 const createPassenger = async (req, res) => {
-    const { username, password,email } = req.query;
+    const { username, password,email,name,contact } = req.query;
     try {
         // Check if the username already exists
         const existingPassenger = await Passenger.findOne({ username });
@@ -157,10 +158,10 @@ const createPassenger = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 12);
         // Create a new passenger instance
-        const passenger = new Passenger({ username, hashedPassword,email });
+        const passenger = new Passenger({ username, hashedPassword,email,name,contact });
         // Save the new passenger to the database
         await passenger.save();
-        res.status(201).json({ message: 'Passenger created successfully' });
+        res.status(201).json({ passenger });
     } catch (error) {
         res.status(500).json({ error: 'Error creating passenger' });
     }
@@ -182,6 +183,7 @@ const passengerAuthentication = async (req, res) => {
         res.status(500).json({ error: 'Error authenticating passenger' });
     }
 };
+
 
 const availableFlights = async (req, res) => {
     try {
@@ -273,7 +275,7 @@ const BookingbyId = async (req, res) => {
 
 const newBooking = async (req, res) => {
     try {
-        const { flightId, passengerId, seat, seatClass, price } = req.query;
+        const { flightId, username, seat, seatClass, price } = req.query;
 
         const flight = await Flight.findOne({flightNumber:flightId});
         if (!flight) {
@@ -282,16 +284,16 @@ const newBooking = async (req, res) => {
 
         // Check if the seat is available
         if (!flight.seatAvailability[seatClass.toLowerCase()].includes(seat)) {
-            return res.status(400).send('Seat not available');
+            return res.status(400).json('Seat not available');
         }
 
         // Create the booking
-        const booking = new Booking({ flightId:flight._id, passengerId, seat, seatClass,bookingStatus: 'confirmed', 
+        const booking = new Booking({ flightId:flight._id, username, seat, seatClass,bookingStatus: 'confirmed', 
         bookingDate: new Date(),price});
         await booking.save();
 
         // Update the passenger's bookings
-        const passenger1 = await Passenger.findById(passengerId);
+        const passenger1 = await Passenger.findOne({username:username});
         if (passenger1) {
             // Update bookings of flight
             flight.bookings.push({
@@ -364,6 +366,13 @@ const deleteBooking = async (req, res) => {
         // Release the seat
         flight.seatAvailability[booking.seatClass.toLowerCase()].push(booking.seat);
         await flight.save();
+        // // Remove the booking from the passenger's bookings
+        // const passenger = await Passenger.findOne({ bookings: { $elemMatch: { bookingId: booking._id } } });
+        // if (passenger) {
+        //     passenger.bookings = passenger.bookings.filter(b => b.bookingId.toString() !== booking._id.toString());
+        //     await passenger.save();
+        // }
+        // await Booking.findByIdAndDelete(req.params.id);
         booking.bookingStatus = 'cancelled';
         await booking.save();
         res.status(204).send('Booking cancelled successfully');
@@ -383,7 +392,7 @@ const allPassengers = async (req, res) => {
 
 const pasengerbyId = async (req, res) => {
     try {
-      const passenger = await Passenger.findById(req.params.id);
+      const passenger = await Passenger.findOne({username:req.params.id});
       if (!passenger) {
         return res.status(404).send();
       }
@@ -417,7 +426,7 @@ const updatePassenger = async (req, res) => {
 
 const deletePassenger = async (req, res) => {
     try {
-      const passenger = await Passenger.findByIdAndDelete(req.params.id);
+      const passenger = await Passenger.findOneAndDelete({username:req.params.id});
       if (!passenger) {
         return res.status(404).send();
       }

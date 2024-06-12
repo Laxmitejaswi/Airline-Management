@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from './Header';
 import '../BookingFlight.css';
-import PassengerForm from "./PassengerForm";
+import { useNavigate } from 'react-router-dom';
 
-const FlightDetails = ({setPassengerDetails}) => {
+const FlightDetails = () => {
   const [info, setInfo] = useState({});
 
   useEffect(() => {
@@ -13,6 +13,12 @@ const FlightDetails = ({setPassengerDetails}) => {
       setInfo(parsedInfo);
     }
   }, []);
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      navigate('/SeatSelection');
+  };
 
   const dateString = info.departure ? info.departure.scheduledTime : ''; 
   const dateObject = new Date(dateString);
@@ -70,8 +76,8 @@ const FlightDetails = ({setPassengerDetails}) => {
             </div>
           </div>
         </div>
+        <button type="submit" className='button2' id="details" onClick={handleSubmit}>Select Seat</button>
       </div>
-      <PassengerForm setPassengerDetails = {setPassengerDetails} />
     </section>
   );
 };

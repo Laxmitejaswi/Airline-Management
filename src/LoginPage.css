@@ -7,7 +7,7 @@
     border-radius: 8px;
     text-align: center;
     position : relative;
-    margin-top: 22.5vh;
+    margin-top: 18vh;
 }
 
 h2 {
@@ -21,7 +21,7 @@ h2 {
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"]{
     margin-bottom: 1rem;
     padding: 0.75rem;
     border: 1px solid #ccc;
@@ -47,7 +47,6 @@ input[type="password"] {
 }
 
 .message {
-    margin-top: 1rem;
     color: black;
 }
 
