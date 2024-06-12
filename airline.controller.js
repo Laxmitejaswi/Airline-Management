@@ -459,16 +459,16 @@ const updateCheckinStatus = async(req,res) =>{
 };
 
 const addReview = async (req, res) => {
-    const { passengerId, flightId, rating, comment } = req.query;
+    const { username, flightId, rating, comment } = req.body;
         try {
-       const flight = await Flight.findById(flightId);
+       const flight = await Flight.findOne({flightNumber:flightId});
       if (!flight) {
-        return res.status(404).send('Flight not found');
+        return res.status(404).json('Flight not found');
       }
   
        const now = new Date();
       const newReview = {
-        passengerId : passengerId,
+        username : username,
         rating : rating,
         comment:comment,
         createdAt: now,
@@ -482,10 +482,10 @@ const addReview = async (req, res) => {
   
       await flight.save();
   
-      res.status(201).send('Review submitted and flight updated successfully');
+      res.status(201).json(newReview);
     } catch (error) {
       console.error(error); // Log the actual error for debugging
-      res.status(500).send('Error submitting review and updating flight');
+      res.status(500).json('Error submitting review and updating flight');
     }
   };
 
