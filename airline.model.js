@@ -30,7 +30,7 @@ const FlightsSchema = new mongoose.Schema(
         status: { type: String, required: true },
         duration: { type: Number, required: true },
         reviews: [{
-            passengerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Passenger', required: true },
+            username: { type: String, required: true },
             comment: { type: String, required: true },
             rating: { type: Number, required: true, min: 0, max: 5 },
             createdAt: { type: Date, default: Date.now }
