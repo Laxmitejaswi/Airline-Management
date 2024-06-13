@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Web Check-In</title>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+
+            body{
+                background-color: #CDE8E5;
+            }
+
+            header{
+                background-color: #7AB2B2;
+                color: black;
+                padding: 3rem 0;
+                text-align: center;
+            }
+            .check-in{
+                background-color: #fff;
+                width: 80%;
+                margin-left: 10%;
+                margin-right: 10%;
+                margin-top: 2rem;
+                padding: 1rem;
+            }
+
+            .check-in label{
+                font-size: 20px;
+            }
+
+            .check-in input{
+                padding: 0.5rem;
+                margin-left: 1rem;
+                border: solid;
+                border-radius: 4px;
+                border-width: 1px;
+                border-color: rgb(170, 163, 163);
+            }
+
+            .check-in button{
+                padding: 0.7rem 2rem 0.7rem 2rem;
+                margin-top: 1rem;
+                border: none;
+                background-color: #7AB2B2;
+                font-size: 16px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Web Check-In</h1>
+        </header>
+        <div class="check-in">
+            <label for="bookingId">Booking ID:</label>
+            <input type="text" id="bookingId" name="bookingId" required><br>
+            <button>Check-In</button>
+        </div>
+        <script>
+            const bookingId = document.getElementById('bookingId').value;
+            //check bookingId entered is valid or not
+            //if not valid then alert('Enter a correct Booking ID')
+            //if valid then alert('Web Check-In Successful')
+            
+        </script>
+    </body>
+</html>
