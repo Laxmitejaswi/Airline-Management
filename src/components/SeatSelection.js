@@ -88,10 +88,10 @@ const SeatSelection = () => {
                         </div>
                     ))}
                 </div>
+                <div className='outerMessage'><div className='message'>{message}</div></div>
                 <div className='bookingConfirm'>
                     <button onClick={onConfirm} className='button2'>Confirm Seat</button>
                 </div>
-                <div className='outerMessage'><div className='message'>{message}</div></div>
             </div>
         </section>
     );

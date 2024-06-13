@@ -564,7 +564,7 @@ const deletePassenger = async (req, res) => {
   };
 
   // Function to update check-in status
-const updateCheckinStatus = async(req,res) =>{
+  const updateCheckinStatus = async (req, res) => {
     try {
         // Find the booking by ID
         const booking = await Booking.findById(req.params.id);
@@ -574,15 +574,27 @@ const updateCheckinStatus = async(req,res) =>{
             return; // Handle the case where the booking doesn't exist
         }
 
-        // Update the check-in status
-        booking.checkinStatus = 'checked-in';
+        // Get the scheduled arrival time
+        const scheduledTime = new Date(booking.departure.scheduledTime);
 
-        // Save the updated booking
-        await booking.save();
-        console.log('Check-in status updated successfully');
+        // Get the current date
+        const currentDate = new Date();
+
+        // Get tomorrow's date
+        const tomorrowDate = new Date();
+        tomorrowDate.setDate(currentDate.getDate() + 1);
+
+        // Check if scheduledTime is greater than today and less than tomorrow
+        if (scheduledTime > currentDate && scheduledTime < tomorrowDate) {
+            booking.checkinStatus = 'checked-in';
+            await booking.save();
+            return res.status(201).json('Check-in status updated successfully');
+        } else {
+            return res.status(400).json('Scheduled time is not within the valid range.');
+        }
     } catch (error) {
-        console.error('Error updating check-in status:', error.message);
-    }
+        res.status(500).json('Error updating check-in status:', error.message);
+    }
 };
 
 const addReview = async (req, res) => {

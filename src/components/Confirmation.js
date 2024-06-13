@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const Confirmation = () => {
   const [info, setInfo] = useState({});
   const [booked, setBooked] = useState(false);
-  const [message , setMessage] = useState("");
   const [seatBooked , setSeatBooked] = useState(false);
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
@@ -164,7 +163,6 @@ const Confirmation = () => {
               >
                 Confirm Booking
               </button>
-              {seatBooked ? ( <p className="errorMessage">Seat already booked.</p> ) : (<p></p>)}
             </div>
           </div>
         </div>

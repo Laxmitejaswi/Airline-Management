@@ -34,6 +34,7 @@ const FlightDetails = () => {
         <h2>Review Your Flight Details</h2>
         <p className='flightNumber'>Flight Number : {info.flightNumber}</p>
         <p className='Date'>Date : {formattedDate}</p>
+        <p className='Date'>Price : {info.price.economy}</p>
         <div className="flight_details">
           <div className="flight_details_left">
             <div className="from_details">

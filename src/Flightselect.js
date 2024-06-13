@@ -89,10 +89,10 @@ export default function Flightselect({isLoggedIn}) {
             {flight.showReviews && (
               <div className="reviews">
                 <div className="luggage">
-                  <p className="review-text">Cabin Baggage: 7Kgs</p>
-                  <p className="review-text">Checkin Baggage: 15kgs</p>
+                  <p className="review-text">Cabin Baggage : 7Kgs</p>
+                  <p className="review-text">Checkin Baggage : 15kgs</p>
                 </div>
-                <p className="review-summary">
+                {/* <p className="review-summary">
                   Average Rating : {flight.ratings.average} ({flight.ratings.count} reviews)
                 </p>
                 {flight.reviews.length > 0 ? (
@@ -104,7 +104,7 @@ export default function Flightselect({isLoggedIn}) {
                   ))
                 ) : (
                   <p></p>
-                )}
+                )} */}
                 <button className="book_now" onClick={() => {handleBookingFlight(flight)}}>
                   Book Now
                 </button>

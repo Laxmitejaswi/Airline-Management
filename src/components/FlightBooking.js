@@ -23,7 +23,7 @@ const FlightBooking = () => {
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!from || !to || !departDate || !ways) {
+        if (from === 'Select a City' || to === 'Select a City' || !departDate || !ways) {
             setErrorMessage("Please fill in all the required fields !!");
             return;
         }
@@ -31,7 +31,6 @@ const FlightBooking = () => {
             fetch(`http://localhost:3000/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     localStorage.setItem('flightSearchResults', JSON.stringify(data));
                     navigate('/Flightselect');
                 })
@@ -101,9 +100,9 @@ const FlightBooking = () => {
                             onChange={(e) => setReturnDate(e.target.value)}
                         /> */}
                     </div>
+                    {errorMessage && <div className="error-message">{errorMessage}</div>}
                     <button type="submit" className="search-button">Search Flight</button>
                 </form>
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
             </div>
         </div>
     );

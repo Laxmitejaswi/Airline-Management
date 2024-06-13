@@ -130,8 +130,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
                             </div>
                             <button type="submit" id="button1">Sign Up</button>
                         </form>
-                        <div className="message" id="signupMessage">{message}</div>
-                        <p className="message">Already a user? <a onClick={() => { setIsSignup(false); setLogIn(true); }}>Log in</a></p>
+                        <div className="message_2" id="signupMessage">{message}</div>
+                        <p className="message_2">Already a user? <a onClick={() => { setIsSignup(false); setLogIn(true); }}>Log in</a></p>
                     </div>
                 ) : (role === 'admin' ? (
                     <div id="adminLoginContainer" className="active">
@@ -161,7 +161,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                             </div>
                             <button type="submit">Login</button>
                         </form>
-                        <div className="message" id="adminLoginMessage">{message}</div>
+                        <div className="message_2" id="adminLoginMessage">{message}</div>
                     </div>
                 ) : (
                     <div id="loginContainer" className="active">
@@ -191,8 +191,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
                             </div>
                             <button type="submit" className='button1'>Login</button>
                         </form>
-                        <div className="message" id="loginMessage">{message}</div>
-                        <p className="message">Not a user yet? <a onClick={() => { setIsSignup(true); setLogIn(false); }}>Sign up</a></p>
+                        <div className="message_2" id="loginMessage">{message}</div>
+                        <p className="message_2">Not a user yet? <a onClick={() => { setIsSignup(true); setLogIn(false); }}>Sign up</a></p>
                     </div>
                 ))}
             </div>

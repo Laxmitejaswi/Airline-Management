@@ -7,10 +7,56 @@
     background-color: #CDE8E5;
 }
 
+.BookingDetails{
+    margin-bottom: 0.5rem;
+}
+
 .container_1 {
-    width: 50vw;
+    width: 100%;
     height: 100%;
     background-color:#fff;
+}
+
+#gap_2{
+    display: flex;
+    align-items: center;
+    gap : 1.5rem;
+    margin-top : 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.flightdetailsWithid_2{
+    display: flex;
+    flex-direction: column;
+    padding : 1rem;
+    background-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(229, 231, 235) ;
+    border: solid 1px lightgray;
+    border-radius : 1rem;
+}
+
+.flightdetailsWithid_1{
+    display: flex;
+    flex-direction: column;
+    padding : 1rem;
+    background-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(229, 231, 235) ;
+    border: solid 1px lightgray;
+    border-radius : 1rem;
+    padding-bottom: 2rem;
+}
+
+.flight-details_3{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 5.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border : 2px solid lightgrey;
+    border-radius : 1rem;
+    margin-top : 1rem;
 }
 
 #heading_2{
@@ -78,6 +124,7 @@
 
 .btn-secondary:hover{
     background-color: rgb(239, 239, 239);
+    cursor: pointer;
     border: none;
 }
 
@@ -140,7 +187,10 @@
 
 .tab-content.active {
     display: block;
-    padding: 3rem;
+    padding: 2rem;
+    padding-top : 1rem;
+    padding-bottom : 1rem;
+    background-color: #CDE8E5;
 }
 
 .tab-content h3 {
@@ -201,18 +251,14 @@
     margin-left: 10px;
 }
 
-.booking-id{
-    margin-top : 1.5rem;
-}
-
 .trip-details{
     display: flex;
     flex-direction: row;
     align-items: center; 
-    border: solid 1px lightgray;
     border-radius: 10px;
     padding: 1rem;
     gap: 1rem; 
+    margin-bottom : 1.5rem;
 }
 
 .date{
@@ -225,7 +271,7 @@
     margin-right: 1rem; 
     border: none;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
 }
 
@@ -264,7 +310,12 @@
 
 #view{
     border-radius: 1rem;
-    padding : 1rem;
+    padding : 0.5rem;
+    margin-top : 1rem;
+    padding-left : 0.2rem;
+    padding-right: 0.3rem;
+    margin-right : 0.5rem;
+    cursor: pointer;
 }
 
 .flight_details_2{
@@ -272,7 +323,8 @@
     flex-direction: row;
     justify-content: space-between;
     width: 60%;
-    margin-bottom: 2rem;
+    margin-top : 1rem;
+    margin-bottom: 1rem;
 }
 
 .from_details_2{

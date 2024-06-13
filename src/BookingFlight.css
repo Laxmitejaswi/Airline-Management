@@ -130,6 +130,7 @@ header h1{
     font-size: 1.2rem;
     padding-bottom: 1rem;
     padding-top: 1rem;
+    margin-left: 6rem;
 }
 .baggage{
     display: flex;
@@ -334,6 +335,7 @@ header h1{
     background-color: #7AB2B2;
     border-radius: 3px;
     font-size: 1.3rem;
+    cursor: pointer;
 }
 
 .confirm{
@@ -346,7 +348,8 @@ header h1{
 }
 
 .message{
-    padding-bottom: 1rem;
+    padding-top: 2rem;
+    font-size: 1.2rem;
 }
 
 .outerMessage{
@@ -368,8 +371,9 @@ header h1{
     margin-top: 1rem;
 }
 #details{
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 .confirmButtonWrapper{
     display: flex;

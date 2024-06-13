@@ -1,4 +1,4 @@
-body {
+.outer {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #CDE8E5;
     margin: 0;
@@ -9,7 +9,7 @@ body {
     height: 100vh;
 }
 
-.container {
+.container_3 {
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -11,7 +11,7 @@ import Confirmation from './components/Confirmation';
 import Profile from './components/Profile';
 import ProfileDetails from './components/ProfileDetails';
 import Trips from './components/Trips';
-import Itinerary from './components/itinerary';
+import CheckIn from './components/CheckIn';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,7 +25,9 @@ const App = () => {
 
 const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
     const location = useLocation();
-    const hideNavbar = ['/Profile', '/ProfileDetails', '/Trips' , '/itinerary'].includes(location.pathname);
+    const hideNavbarPaths = ['/Profile', '/ProfileDetails', '/Trips' , '/CheckIn'].map(path => path.toLowerCase());
+    const currentPath = location.pathname.replace(/\/+$/, '').toLowerCase();
+    const hideNavbar = hideNavbarPaths.includes(currentPath);
 
     return (
         <div>
@@ -40,7 +42,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
                 <Route exact path="/Profile" element={<Profile />} />
                 <Route exact path="/ProfileDetails" element={<ProfileDetails />} />
                 <Route exact path="/Trips" element={<Trips />} />
-                <Route exact path="/Itinerary" element={<Itinerary />} />
+                <Route exact path='/CheckIn' element={<CheckIn/>} />
             </Routes>
         </div>
     );
