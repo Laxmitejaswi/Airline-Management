@@ -6,6 +6,7 @@ const AdminSchema = new mongoose.Schema({
 });
 
 const AirlineSchema = new mongoose.Schema({
+    code:{type: String, required:true},
     reviews: [{
         username: { type: String, required: true },
         flightNumber:{type:String,required:true},
@@ -44,17 +45,6 @@ const FlightsSchema = new mongoose.Schema(
         },
         status: { type: String, required: true },
         duration: { type: Number, required: true },
-        reviews: [{
-            username: { type: String, required: true },
-            flightNumber:{type:String,required:true},
-            comment: { type: String, required: true },
-            rating: { type: Number, required: true, min: 0, max: 5 },
-            createdAt: { type: Date, default: Date.now }
-        }],
-        ratings: {
-            average: { type: Number, default: 0 },
-            count: { type: Number, default: 0 }
-        },
         bookings: [
             {
                 bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', required: false },
