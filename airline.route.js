@@ -1,10 +1,11 @@
 const express = require("express");
-const {Admin,Flight,Airport,Booking,Passenger} = require('./airline.model.js');
+const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('./airline.model.js');
 const router = express.Router();
 const {allAirports,AirportbyId,newAirport,UpdateAirport,deleteAirport,allFlights,FlightbyId,
     newFlight,updateFlight,deleteFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
     availableFlights,availableSeats,allBookings,BookingbyId,newBooking,deleteBooking,updateBooking,allPassengers,
-    pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId
+    pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId,allReviews,confirmedBookings,completedBookings,
+    cancelledBookings
 } = require('./airline.controller.js');
 
 // GET all airports
@@ -67,11 +68,19 @@ router.put('/passengers/:id', updatePassenger);
 //Delete (DELETE) - Remove a Passenger
 router.delete('/passengers/:id', deletePassenger);
 
+// GET confirmed bookings of a passenger
+router.get('/bookings/confirmed/:id',confirmedBookings);
+// GET completed bookings of a passenger
+router.get('/bookings/completed/:id',completedBookings);
+// GET cancelled bookings of a passenger
+router.get('/bookings/cancelled/:id',cancelledBookings);
+
+
 //update checkin status
 router.put('/checkin/:id', updateCheckinStatus);
-// Submit a review
+// GET all reviews
+router.get('/reviews',allReviews);
 // POST endpoint to submit a review
 router.put('/addreviews', addReview); 
 
 module.exports = router;
-
