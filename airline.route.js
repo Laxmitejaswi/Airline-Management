@@ -4,7 +4,7 @@ const router = express.Router();
 const {allAirports,AirportbyId,newAirport,UpdateAirport,deleteAirport,allFlights,FlightbyId,
     newFlight,updateFlight,deleteFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
     availableFlights,availableSeats,allBookings,BookingbyId,newBooking,deleteBooking,updateBooking,allPassengers,
-    pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview
+    pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId
 } = require('./airline.controller.js');
 
 // GET all airports
@@ -21,6 +21,8 @@ router.delete('/airports/:id', deleteAirport);
 // GET all flights
 router.get('/flights', allFlights);
 // GET a single flight by ID
+router.get('/flight/id/:id', newFlightbyId);
+// GET a single flight by number
 router.get('/flights/:id', FlightbyId);
 // POST create a new flight
 router.post('/flights', newFlight);
@@ -69,6 +71,7 @@ router.delete('/passengers/:id', deletePassenger);
 router.put('/checkin/:id', updateCheckinStatus);
 // Submit a review
 // POST endpoint to submit a review
-router.put('/addreviews', addReview);
+router.put('/addreviews', addReview); 
 
 module.exports = router;
+
