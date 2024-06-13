@@ -53,7 +53,7 @@ const sendNotification = async (flight,interval) => {
       },
       // 'status': 'Scheduled' // Assuming you want to find flights that are scheduled
     });
-    console.log(flights);
+    // console.log(flights);
     flights.forEach(flight => {
       const timeDiff = flight.departure.scheduledTime - now;
       const hoursDiff = timeDiff / (1000 * 60 * 60);
@@ -563,63 +563,92 @@ const deletePassenger = async (req, res) => {
     }
   };
 
-  // Function to update check-in status
-const updateCheckinStatus = async(req,res) =>{
+
+const updateCheckinStatus = async (req, res) => {
     try {
         // Find the booking by ID
         const booking = await Booking.findById(req.params.id);
 
         if (!booking) {
-            console.log('Booking not found');
-            return; // Handle the case where the booking doesn't exist
+            return res.status(400).json('Booking not found');
         }
 
-        // Update the check-in status
-        booking.checkinStatus = 'checked-in';
+        // Get the scheduled arrival time
+        const scheduledTime = new Date(booking.departure.scheduledTime);
 
-        // Save the updated booking
-        await booking.save();
-        console.log('Check-in status updated successfully');
+        // Get the current date
+        const currentDate = new Date();
+
+        // Get tomorrow's date
+        const tomorrowDate = new Date();
+        tomorrowDate.setDate(currentDate.getDate() + 1);
+
+        // Check if scheduledTime is greater than today and less than tomorrow
+        if (scheduledTime > currentDate && scheduledTime < tomorrowDate) {
+            booking.checkinStatus = 'checked-in';
+            await booking.save();
+            return res.status(201).json('Check-in status updated successfully');
+        } else {
+            return res.status(400).json('Scheduled time is not within the valid range.');
+        }
     } catch (error) {
-        console.error('Error updating check-in status:', error.message);
+        res.status(500).json('Error updating check-in status:', error.message);
     }
 };
 
-const addReview = async (req, res) => {
-    const { username, flightId, rating, comment } = req.body;
-        try {
-       const flight = await Flight.findOne({flightNumber:flightId});
-      if (!flight) {
-        return res.status(404).json('Flight not found');
-      }
-  
-       const now = new Date();
-      const newReview = {
-        username : username,
-        flightNumber : flight.flightNumber,
-        rating : rating,
-        comment:comment,
-        createdAt: now,
-      };
-  
-      flight.reviews.push(newReview);
-  
-      const totalRating = flight.reviews.reduce((acc, review) => acc + review.rating, 0);
-      flight.ratings.count = flight.reviews.length;
-      flight.ratings.average = totalRating / flight.ratings.count;
-      await flight.save();
 
-  
-      res.status(201).json(newReview);
+const addReview = async (req, res) => {
+    const { username, flightNumber, rating, comment } = req.body;
+
+    try {
+        // Find the airline by flightId
+        const airline = await Airline.findOne({code:req.params.id});
+
+        if (!airline) {
+            // If no existing airline, create a new one
+            const newAirline = new Airline({
+                code:'newairline',
+                reviews: [{
+                    username,
+                    flightNumber,
+                    rating,
+                    comment,
+                    createdAt: new Date(),
+                }],
+                ratings: {
+                    average: rating,
+                    count: 1,
+                },
+            });
+
+            await newAirline.save();
+            return res.status(201).json(newAirline);
+        } else {
+            // Update existing airline
+            airline.reviews.push({
+                username,
+                flightNumber,
+                rating,
+                comment,
+                createdAt: new Date(),
+            });
+
+            const totalRating = airline.reviews.reduce((acc, review) => acc + review.rating, 0);
+            airline.ratings.count = airline.reviews.length;
+            airline.ratings.average = totalRating / airline.ratings.count;
+
+            await airline.save();
+            return res.status(201).json(airline);
+        }
     } catch (error) {
-      console.error(error); // Log the actual error for debugging
-      res.status(500).json('Error submitting review and updating flight');
+        console.error(error);
+        res.status(500).json('Error submitting review and updating flight',error);
     }
-  };
+};
 
 const allReviews = async(req,res)=>{
     try {
-        const reviews = await Review.find({});
+        const reviews = await Airline.find({});
         res.send(reviews);
       } catch (error) {
         res.status(500).send(error);
