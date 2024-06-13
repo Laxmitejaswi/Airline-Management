@@ -154,6 +154,18 @@ const FlightbyId = async (req, res) => {
     }
 };
 
+const newFlightbyId = async (req, res) => {
+    try {
+        const flight = await Flight.findById(req.params.id);
+        if (!flight) {
+            return res.status(404).send('Flight not found');
+        }
+        res.json(flight);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
 const newFlight = async (req, res) => {
     try {
         const flight = new Flight(req.body);
@@ -619,6 +631,7 @@ module.exports = {
     updatePassenger,
     deletePassenger,
     updateCheckinStatus,
-    addReview
+    addReview,
+    newFlightbyId
 
 };
