@@ -183,10 +183,10 @@ input:focus {
 }
 
 .search-button {
-  color: white;
-  background-color: #4D869C;
+  color: black;
+  background-color: #7AB2B2;
   border: 1px solid #ddd;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   padding: 0.5rem 0.5rem;
   cursor: pointer;
 }
