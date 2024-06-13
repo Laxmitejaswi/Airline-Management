@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
-const {Admin,Flight,Airport,Booking,Passenger} = require('./airline.model.js');
+const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('./airline.model.js');
 
 // Set up your NodeMailer transporter
 const transporter = nodemailer.createTransport({
@@ -380,7 +380,10 @@ const newBooking = async (req, res) => {
 
         // Create the booking
         const booking = new Booking({ flightId:flight._id, username, seat, seatClass,bookingStatus: 'confirmed', 
-        bookingDate: new Date(),price});
+        bookingDate: new Date(),price,flightNumber:flight.flightNumber,
+        departure:flight.departure ,
+        arrival:flight.arrival,
+        duration:flight.duration});
         await booking.save();
 
         // Update the passenger's bookings
@@ -393,7 +396,7 @@ const newBooking = async (req, res) => {
             });
             await flight.save();
             // Create a booking object without the passengerId
-            passenger1.bookings.push({ bookingId: booking._id });
+            passenger1.bookings.push({ bookingId: booking._id,bookingStatus:'confirmed' });
             await passenger1.save();
         }
 
@@ -411,10 +414,11 @@ const newBooking = async (req, res) => {
 Your booking for flight ${flight.flightNumber} has been confirmed.
 
 Details:
-- Booking Id: ${booking._id}
+
 - Seat: ${seat}
 - Class: ${seatClass}
 - Price: ${price}
+- Booking Id: ${booking._id}
 
 Thank you for choosing our airline!
 Regards,
@@ -475,11 +479,19 @@ const updateBooking = async (req, res) => {
 const deleteBooking = async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id);
+        const passenger = await Passenger.findOne({username:booking.username});
         if (!booking) {
             return res.status(404).send('Booking not found');
         }
         booking.bookingStatus = 'cancelled';
         await booking.save();
+        passenger.bookings = passenger.bookings.filter(b => b.bookingId.toString() !== booking._id.toString());
+        passenger.bookings.push({
+            bookingId:booking._id,
+            bookingStatus:'cancelled'
+        })
+    
+        await passenger.save();
 
         const flight = await Flight.findOne(booking.flightId);
         
@@ -584,18 +596,19 @@ const addReview = async (req, res) => {
        const now = new Date();
       const newReview = {
         username : username,
+        flightNumber : flight.flightNumber,
         rating : rating,
         comment:comment,
         createdAt: now,
       };
   
-       flight.reviews.push(newReview);
+      flight.reviews.push(newReview);
   
       const totalRating = flight.reviews.reduce((acc, review) => acc + review.rating, 0);
       flight.ratings.count = flight.reviews.length;
       flight.ratings.average = totalRating / flight.ratings.count;
-  
       await flight.save();
+
   
       res.status(201).json(newReview);
     } catch (error) {
@@ -603,6 +616,79 @@ const addReview = async (req, res) => {
       res.status(500).json('Error submitting review and updating flight');
     }
   };
+
+const allReviews = async(req,res)=>{
+    try {
+        const reviews = await Review.find({});
+        res.send(reviews);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+};
+
+const confirmedBookings = async(req,res)=>{
+    try {
+        const passenger = await Passenger.findOne({username:req.params.id});
+        if (!passenger) {
+          return res.status(404).send();
+        }
+        // Get the confirmed bookings with arrival times before today
+       const confirmedBookingIds = await Booking.find({
+        _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
+        bookingStatus: 'confirmed',
+        'arrival.scheduledTime': { $gte: new Date(new Date().getTime() + (5 * 60 + 30) * 60000) }, // Arrival time before today
+        });
+
+        // Retrieve the full booking details for the confirmed bookings
+        const confirmedBookings = await Booking.find({ _id: { $in: confirmedBookingIds } });
+
+        res.status(200).json(confirmedBookings);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+};
+
+const completedBookings = async(req,res)=>{
+    try {
+        const passenger = await Passenger.findOne({username:req.params.id});
+        if (!passenger) {
+          return res.status(404).send();
+        }
+       // Get the confirmed bookings with arrival times before today
+       const confirmedBookingIds = await Booking.find({
+        _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
+        bookingStatus: 'confirmed',
+        'arrival.scheduledTime': { $lt: new Date(new Date().getTime() + (5 * 60 + 30) * 60000) }, // Arrival time before today
+        });
+
+        // Retrieve the full booking details for the confirmed bookings
+        const confirmedBookings = await Booking.find({ _id: { $in: confirmedBookingIds } });
+
+        res.status(200).json(confirmedBookings);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+};
+
+const cancelledBookings = async(req,res)=>{
+    try {
+        const passenger = await Passenger.findOne({username:req.params.id});
+        if (!passenger) {
+          return res.status(404).send();
+        }
+        // Get the booking IDs for cancelled bookings
+        const cancelledBookingIds = passenger.bookings
+            .filter(booking => booking.bookingStatus === 'cancelled')
+            .map(booking => booking.bookingId);
+
+        // Retrieve the full booking details for the cancelled bookings
+        const cancelledBookings = await Booking.find({ _id: { $in: cancelledBookingIds } });
+
+        res.status(200).json(cancelledBookings);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+};
 
 module.exports = {
     allAirports,
@@ -632,6 +718,10 @@ module.exports = {
     deletePassenger,
     updateCheckinStatus,
     addReview,
-    newFlightbyId
+    newFlightbyId,
+    allReviews,
+    confirmedBookings,
+    completedBookings,
+    cancelledBookings
 
 };
