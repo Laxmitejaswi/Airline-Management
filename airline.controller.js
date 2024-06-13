@@ -1,6 +1,85 @@
 const bcrypt = require('bcryptjs');
+const cron = require('node-cron');
+const nodemailer = require('nodemailer');
 const {Admin,Flight,Airport,Booking,Passenger} = require('./airline.model.js');
 
+// Set up your NodeMailer transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'airlinemanagment1234@gmail.com',
+      pass: 'pbrstrnjaszuaewh'
+    }
+  });
+
+// Function to send email notification
+const sendNotification = async (flight,interval) => {
+    // Ensure that bookings is an array and has elements
+    if (!Array.isArray(flight.bookings) || flight.bookings.length === 0) {
+      console.log('No bookings to send notifications to.');
+      return;
+    }
+  
+    // Iterate over each booking and send an email
+    for (const booking of flight.bookings) {
+      const mailOptions = {
+        from: 'airlinemanagment1234@gmail.com',
+        to: booking.email, // Use the email from the booking object
+        subject: `Flight Reminder - ${interval} Notice`,
+        text: `Reminder: Your flight ${flight.flightNumber} is scheduled to depart from ${flight.departure.airportCity} in ${interval}.
+         Please check-in if you haven't already done so.Your Booking Id is ${booking.bookingId}.
+         Click the following link to checkin using your Booking Id.`
+      };
+  
+      try {
+        await transporter.sendMail(mailOptions);
+        console.log('Notification sent to:', booking.email,'for',interval);
+      } catch (error) {
+        console.error('Error sending notification to', booking.email,'for',interval , error);
+      }
+    }
+  };
+  
+  
+  // Scheduled job to check for upcoming flights and send notifications
+  cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
+    const now = new Date(new Date().getTime() + (5 * 60 + 30) * 60000);
+    const nextDay = new Date(new Date().getTime() + (29 * 60 + 30) * 60000);
+    console.log(now);
+    const flights = await Flight.find({
+       'departure.scheduledTime': {
+        $gte: now, // Greater than or equal to the current time
+         $lt: nextDay // Less than 24 hours from now
+      },
+      // 'status': 'Scheduled' // Assuming you want to find flights that are scheduled
+    });
+    console.log(flights);
+    flights.forEach(flight => {
+      const timeDiff = flight.departure.scheduledTime - now;
+      const hoursDiff = timeDiff / (1000 * 60 * 60);
+  
+      // Check for 24-hour interval
+      if (hoursDiff <= 24 && !flight.notificationsSent['24h']) {
+        sendNotification(flight, '24h');
+        flight.notificationsSent['24h'] = true;
+        flight.save();
+      }
+  
+      // Check for 12-hour interval
+      if (hoursDiff <= 12 && !flight.notificationsSent['12h']) {
+        sendNotification(flight, '12h');
+        flight.notificationsSent['12h'] = true;
+        flight.save();
+      }
+  
+      // Check for 2-hour interval
+      if (hoursDiff <= 2 && !flight.notificationsSent['2h']) {
+        sendNotification(flight, '2h');
+        flight.notificationsSent['2h'] = true;
+        flight.save();
+      }
+    });
+   });
 
 const allAirports = async (req, res) => {
     try {
@@ -310,6 +389,33 @@ const newBooking = async (req, res) => {
         flight.seatAvailability[seatClass.toLowerCase()] = flight.seatAvailability[seatClass.toLowerCase()].filter(s => s !== seat);
         await flight.save();
 
+        // Send booking confirmation notification to passenger's email
+        const mailOptions = {
+            from: 'airlinemanagment1234@gmail.com',
+            to: passenger1.email, 
+            subject: `Booking Confirmation`,
+            text: `Dear ${passenger1.name},
+
+Your booking for flight ${flight.flightNumber} has been confirmed.
+
+Details:
+- Booking Id: ${booking._id}
+- Seat: ${seat}
+- Class: ${seatClass}
+- Price: ${price}
+
+Thank you for choosing our airline!
+Regards,
+The Airline Team
+            `};
+      
+          try {
+            await transporter.sendMail(mailOptions);
+            console.log('Notification sent to:',passenger1.email,'for booking confirmation');
+          } catch (error) {
+            console.error('Error sending notification to', passenger1.email,'for booking confirmation', error);
+          }
+
         res.status(201).json(booking);
     } catch (error) {
         res.status(500).send(error.message);
@@ -360,21 +466,18 @@ const deleteBooking = async (req, res) => {
         if (!booking) {
             return res.status(404).send('Booking not found');
         }
+        booking.bookingStatus = 'cancelled';
+        await booking.save();
 
         const flight = await Flight.findOne(booking.flightId);
         
         // Release the seat
         flight.seatAvailability[booking.seatClass.toLowerCase()].push(booking.seat);
         await flight.save();
-        // // Remove the booking from the passenger's bookings
-        // const passenger = await Passenger.findOne({ bookings: { $elemMatch: { bookingId: booking._id } } });
-        // if (passenger) {
-        //     passenger.bookings = passenger.bookings.filter(b => b.bookingId.toString() !== booking._id.toString());
-        //     await passenger.save();
-        // }
-        // await Booking.findByIdAndDelete(req.params.id);
-        booking.bookingStatus = 'cancelled';
-        await booking.save();
+        // Remove the booking from the flight's bookings
+        flight.bookings = flight.bookings.filter(b => b.bookingId.toString() !== booking._id.toString());
+        await flight.save();
+    
         res.status(204).send('Booking cancelled successfully');
     } catch (error) {
         res.status(500).send(error.message);
@@ -414,7 +517,7 @@ const pasengerbyId = async (req, res) => {
 
 const updatePassenger = async (req, res) => {
     try {
-        const passenger = await Passenger.findOneAndUpdate({username:req.params.id}, req.body, { new: true, runValidators: true });
+      const passenger = await Passenger.findOneAndUpdate({username:req.params.id}, req.body, { new: true, runValidators: true });
       if (!passenger) {
         return res.status(404).send();
       }
