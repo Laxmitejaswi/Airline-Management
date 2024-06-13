@@ -43,8 +43,8 @@ const sendNotification = async (flight,interval) => {
   
   // Scheduled job to check for upcoming flights and send notifications
   cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
-    const now = new Date(new Date().getTime() + (5 * 60 + 30) * 60000);
-    const nextDay = new Date(new Date().getTime() + (29 * 60 + 30) * 60000);
+    const now = new Date();
+    const nextDay = new Date(new Date().getTime() + (24 * 60) * 60000);
     console.log(now);
     const flights = await Flight.find({
        'departure.scheduledTime': {
@@ -636,7 +636,7 @@ const confirmedBookings = async(req,res)=>{
        const confirmedBookingIds = await Booking.find({
         _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
         bookingStatus: 'confirmed',
-        'arrival.scheduledTime': { $gte: new Date(new Date().getTime() + (5 * 60 + 30) * 60000) }, // Arrival time before today
+        'arrival.scheduledTime': { $gte: new Date() }, // Arrival time before today
         });
 
         // Retrieve the full booking details for the confirmed bookings
@@ -658,7 +658,7 @@ const completedBookings = async(req,res)=>{
        const confirmedBookingIds = await Booking.find({
         _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
         bookingStatus: 'confirmed',
-        'arrival.scheduledTime': { $lt: new Date(new Date().getTime() + (5 * 60 + 30) * 60000) }, // Arrival time before today
+        'arrival.scheduledTime': { $lt: new Date() }, // Arrival time before today
         });
 
         // Retrieve the full booking details for the confirmed bookings
