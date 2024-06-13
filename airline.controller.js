@@ -414,7 +414,7 @@ const pasengerbyId = async (req, res) => {
 
 const updatePassenger = async (req, res) => {
     try {
-      const passenger = await Passenger.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const passenger = await Passenger.findOneAndUpdate({username:req.params.id}, req.body, { new: true, runValidators: true });
       if (!passenger) {
         return res.status(404).send();
       }

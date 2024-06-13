@@ -30,7 +30,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                     <a href="#">Check-in</a>
                     {isLoggedIn ? (
                         <>
-                            <Link to="#">My Profile</Link>
+                            <Link to="/Profile">My Profile</Link>
                             <a onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</a>
                         </>
                     ) : (
