@@ -5,6 +5,21 @@ const AdminSchema = new mongoose.Schema({
     hashedPassword: { type: String, required: true }
 });
 
+const AirlineSchema = new mongoose.Schema({
+    reviews: [{
+        username: { type: String, required: true },
+        flightNumber:{type:String,required:true},
+        comment: { type: String, required: true },
+        rating: { type: Number, required: true, min: 0, max: 5 },
+        createdAt: { type: Date, default: Date.now }
+    }],
+    ratings: {
+        average: { type: Number, default: 0 },
+        count: { type: Number, default: 0 }
+    }
+});
+
+
 const FlightsSchema = new mongoose.Schema(
     {
         flightNumber: { type: String, required: [true,"Please enter flight number"] ,unique: true},
@@ -31,6 +46,7 @@ const FlightsSchema = new mongoose.Schema(
         duration: { type: Number, required: true },
         reviews: [{
             username: { type: String, required: true },
+            flightNumber:{type:String,required:true},
             comment: { type: String, required: true },
             rating: { type: Number, required: true, min: 0, max: 5 },
             createdAt: { type: Date, default: Date.now }
@@ -68,13 +84,25 @@ const BookingSchema = new mongoose.Schema(
         username: { type: String, required: true },
          bookingStatus: {
             type: String,
-            enum: ['confirmed', 'pending','cancelled'],
-            default: 'pending'
+            enum: ['confirmed','cancelled','completed'],
+            default: 'confirmed'
         },
         bookingDate: {
             type: Date,
             default: Date.now
         },
+        flightNumber: { type: String, required: [true,"Please enter flight number"] ,unique: true},
+        departure: {
+            airportCity: { type:String, required: true },
+            scheduledTime: { type: Date, required: true },
+            actualTime: { type: Date }
+        },
+        arrival: {
+            airportCity: { type: String, required: true },
+            scheduledTime: { type: Date, required: true },
+            actualTime: { type: Date }
+        },
+        duration: { type: Number, required: true },
         seat: { type: String, required: true },
         seatClass: { type: String, required: true },
         price: { type: Number, required: true },
@@ -96,6 +124,11 @@ const PassengerSchema = new mongoose.Schema(
         bookings: [
             {
                 bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', required: true },
+                bookingStatus:{
+                    type: String,
+                    enum: ['confirmed','cancelled','completed'],
+                    default: 'confirmed'
+                }
             }
         ]
     }
@@ -106,6 +139,7 @@ const Airport = mongoose.model("Airport", AirportSchema);
 const Booking = mongoose.model("Booking", BookingSchema);
 const Passenger = mongoose.model("Passenger", PassengerSchema);
 const Admin = mongoose.model("Admin",AdminSchema);
+const Airline = mongoose.model("Airline",AirlineSchema);
 
 module.exports = 
 {
@@ -113,5 +147,6 @@ module.exports =
     Flight,
     Airport,
     Booking,
-    Passenger
+    Passenger,
+    Airline
 };
