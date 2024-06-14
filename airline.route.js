@@ -2,7 +2,7 @@ const express = require("express");
 const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('./airline.model.js');
 const router = express.Router();
 const {allAirports,AirportbyId,newAirport,UpdateAirport,deleteAirport,allFlights,FlightbyId,
-    newFlight,updateFlight,deleteFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
+    newFlight,cancelFlight,updateFlight,deleteFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
     availableFlights,availableSeats,allBookings,BookingbyId,newBooking,deleteBooking,updateBooking,allPassengers,
     pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId,allReviews,confirmedBookings,completedBookings,
     cancelledBookings
@@ -28,6 +28,7 @@ router.get('/flights/:id', FlightbyId);
 // POST create a new flight
 router.post('/flights', newFlight);
 // PUT update an existing flight
+router.put('/flights/cancel/:id', cancelFlight);
 router.put('/flights/:id', updateFlight);
 // DELETE a flight
 router.delete('/flights/:id',deleteFlight );
