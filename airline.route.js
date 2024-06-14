@@ -2,14 +2,16 @@ const express = require("express");
 const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('./airline.model.js');
 const router = express.Router();
 const {allAirports,AirportbyId,newAirport,UpdateAirport,deleteAirport,allFlights,FlightbyId,
-    newFlight,cancelFlight,updateFlight,deleteFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
+    newFlight,updateFlight,cancelFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
     availableFlights,availableSeats,allBookings,BookingbyId,newBooking,deleteBooking,updateBooking,allPassengers,
     pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId,allReviews,confirmedBookings,completedBookings,
-    cancelledBookings
+    cancelledBookings,AirportsbyCountry
 } = require('./airline.controller.js');
 
 // GET all airports
 router.get('/airports',allAirports );
+// GET airports of particular country
+router.get('/airports/country/:id',AirportsbyCountry );
 // GET airports by id
 router.get('/airports/:id',AirportbyId );
 // POST create a new airport
@@ -28,10 +30,9 @@ router.get('/flights/:id', FlightbyId);
 // POST create a new flight
 router.post('/flights', newFlight);
 // PUT update an existing flight
-router.put('/flights/cancel/:id', cancelFlight);
 router.put('/flights/:id', updateFlight);
 // DELETE a flight
-router.delete('/flights/:id',deleteFlight );
+router.delete('/flights/cancel/:id',cancelFlight );
 
 // add a new admin
 router.post('/admin/register', createAdmin);
@@ -81,7 +82,7 @@ router.get('/bookings/cancelled/:id',cancelledBookings);
 router.put('/checkin/:id', updateCheckinStatus);
 // GET all reviews
 router.get('/reviews',allReviews);
-// PUT endpoint to submit a review
+// POST endpoint to submit a review
 router.put('/addreviews/:id', addReview); 
 
 module.exports = router;
