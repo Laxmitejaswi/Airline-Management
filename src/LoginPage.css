@@ -10,6 +10,10 @@
     margin-top: 18vh;
 }
 
+.label{
+    font-size : 1.2rem;
+}
+
 .signUp {
     margin-bottom: 1.5rem;
 }
@@ -19,7 +23,7 @@
     flex-direction: column;
 }
 
-input[type="text"],
+#outerContainer input[type="text"],
 input[type="email"],
 input[type="password"]{
     margin-bottom: 1rem;

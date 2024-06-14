@@ -7,27 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let editingAirportNumber = null;
 
     document.getElementById('view-airports-btn').addEventListener('click', () => {
-        viewAirportsSection.classList.remove('hidden');
-        manageAirportsSection.classList.add('hidden');
+        viewAirportsSection.classList.remove('hidden_4');
+        manageAirportsSection.classList.add('hidden_4');
     });
 
     document.getElementById('manage-airports-btn').addEventListener('click', () => {
-        manageAirportsSection.classList.remove('hidden');
-        viewAirportsSection.classList.add('hidden');
+        manageAirportsSection.classList.remove('hidden_4');
+        viewAirportsSection.classList.add('hidden_4');
     });
 
     document.getElementById('view-airports-submit-btn').addEventListener('click', handleViewAirports);
 
     document.getElementById('add-airport-btn').addEventListener('click', () => {
-        airportForm.classList.remove('hidden');
-        deleteAirportForm.classList.add('hidden');
+        airportForm.classList.remove('hidden_4');
+        deleteAirportForm.classList.add('hidden_4');
         document.getElementById('submit-airport-btn').innerText = 'Add Airport';
         editingAirportNumber = null;
     });
 
     document.getElementById('delete-airport-btn').addEventListener('click', () => {
-        deleteAirportForm.classList.remove('hidden');
-        airportForm.classList.add('hidden');
+        deleteAirportForm.classList.remove('hidden_4');
+        airportForm.classList.add('hidden_4');
     });
 
     airportForm.addEventListener('submit', handleAddUpdateAirport);
@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.handleEditAirport = function(airportCode) {
-        manageAirportsSection.classList.remove('hidden');
-        viewAirportsSection.classList.add('hidden');
+        manageAirportsSection.classList.remove('hidden_4');
+        viewAirportsSection.classList.add('hidden_4');
         const airports = JSON.parse(localStorage.getItem('airports')) || [];
         const airport = airports.find(airport => airport.airport_code === airportCode);
 
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('country').value = airport.country;
             editingAirportNumber = airport.airport_code;
             document.getElementById('submit-airport-btn').innerText = 'Update Airport';
-            airportForm.classList.remove('hidden');
+            airportForm.classList.remove('hidden_4');
         }
     };
 

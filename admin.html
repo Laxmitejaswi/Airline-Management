@@ -4,24 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Booking Admin</title>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="./src/admin.css">
 </head>
 <body>
-    <header>
+    <div class="header_4">
         <h1>Flight Booking System Admin</h1>
-    </header>
-    <main>
-        <nav>
+    </div>
+    <main class="main_4">
+        <nav class="nav_4">
             <button id="view-flights-btn">View Flights</button>
             <button id="manage-flights-btn">Manage Flights</button>
         </nav>
-        
-        <section id="view-flights-section" class="hidden">
+        <section id="view-flights-section" class="hidden_4">
             <h2>Flights on a Particular Day</h2>
             <label for="view-date">Select Date:</label>
             <input type="date" id="view-date" name="view-date" required>
             <button id="view-flights-submit-btn">View Flights</button>
-            
             <table id="flights-table">
                 <thead>
                     <tr>
@@ -42,12 +40,12 @@
             </table>
         </section>
         
-        <section id="manage-flights-section" class="hidden">
+        <section id="manage-flights-section" class="hidden_4">
             <h2>Manage Flights</h2>
             <button id="add-flight-btn">Add Flight</button>
             <button id="delete-flight-btn">Delete Flight</button>
             
-            <form id="flight-form" class="hidden">
+            <form id="flight-form" class="hidden_4">
                 <label for="flight-number">Flight Number:</label>
                 <input type="text" id="flight-number" name="flight-number" required>
                 
@@ -81,7 +79,7 @@
                 <button type="submit" id="submit-flight-btn">Submit</button>
             </form>
             
-            <form id="delete-form" class="hidden">
+            <form id="delete-form" class="hidden_4">
                 <label for="delete-flight-number">Flight Number:</label>
                 <input type="text" id="delete-flight-number" name="delete-flight-number" required>
                 <button type="submit" id="submit-delete-btn">Delete Flight</button>
@@ -89,12 +87,12 @@
 
         </section>
     </main>
-    <main>
-        <nav>
+    <main class="main_4">
+        <nav class="nav_4">
             <button id="view-airports-btn">View Airports</button>
             <button id="manage-airports-btn">Manage Airports</button>
         </nav>
-        <section id="view-airports-section" class="hidden">
+        <section id="view-airports-section" class="hidden_4">
             <h2>Available Airports</h2>
             <label for="view-country">Select Country:</label>
             <input type="text" id="view-country" name="view-country" required>
@@ -115,12 +113,12 @@
             </table>
         </section>
 
-        <section id="manage-airports-section" class="hidden">
+        <section id="manage-airports-section" class="hidden_4">
             <h2>Manage Airports</h2>
             <button id="add-airport-btn">Add Airport</button>
             <button id="delete-airport-btn">Delete Airport</button>
             
-            <form id="airport-form" class="hidden">
+            <form id="airport-form" class="hidden_4">
                 <label for="airport_name">Airport Name:</label>
                 <input type="text" id="airport_name" name="airport_name" required>
                 
@@ -136,7 +134,7 @@
                 <button type="submit" id="submit-airport-btn">Submit</button>
             </form>
             
-            <form id="delete-airport-form" class="hidden">
+            <form id="delete-airport-form" class="hidden_4">
                 <label for="delete-airport">Airport Code:</label>
                 <input type="text" id="delete-airport" name="delete-airport" required>
                 <button type="submit" id="submit-delete-airport-btn">Delete Airport</button>

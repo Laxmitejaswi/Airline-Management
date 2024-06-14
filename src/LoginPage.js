@@ -80,7 +80,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 throw new Error(data.error || 'Admin login failed');
             }
             setIsLoggedIn(true);
-            navigate(-1);
+            navigate('/Admin');
         } catch (error) {
             setMessage(error.message || 'Admin Login failed. Please try again.');
         }
@@ -159,7 +159,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                                     /> Passenger
                                 </label>
                             </div>
-                            <button type="submit">Login</button>
+                            <button type="submit" >Login</button>
                         </form>
                         <div className="message_2" id="adminLoginMessage">{message}</div>
                     </div>

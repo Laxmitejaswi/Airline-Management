@@ -7,27 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let editingFlightNumber = null;
 
     document.getElementById('view-flights-btn').addEventListener('click', () => {
-        viewFlightsSection.classList.remove('hidden');
-        manageFlightsSection.classList.add('hidden');
+        viewFlightsSection.classList.remove('hidden_4');
+        manageFlightsSection.classList.add('hidden_4');
     });
 
     document.getElementById('manage-flights-btn').addEventListener('click', () => {
-        manageFlightsSection.classList.remove('hidden');
-        viewFlightsSection.classList.add('hidden');
+        manageFlightsSection.classList.remove('hidden_4');
+        viewFlightsSection.classList.add('hidden_4');
     });
 
     document.getElementById('view-flights-submit-btn').addEventListener('click', handleViewFlights);
 
     document.getElementById('add-flight-btn').addEventListener('click', () => {
-        flightForm.classList.remove('hidden');
-        deleteForm.classList.add('hidden');
+        flightForm.classList.remove('hidden_4');
+        deleteForm.classList.add('hidden_4');
         document.getElementById('submit-flight-btn').innerText = 'Add Flight';
         editingFlightNumber = null;
     });
 
     document.getElementById('delete-flight-btn').addEventListener('click', () => {
-        deleteForm.classList.remove('hidden');
-        flightForm.classList.add('hidden');
+        deleteForm.classList.remove('hidden_4');
+        flightForm.classList.add('hidden_4');
     });
 
     flightForm.addEventListener('submit', handleAddUpdateFlight);
@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.handleEditFlight = function(flightNumber) {
-        manageFlightsSection.classList.remove('hidden');
-        viewFlightsSection.classList.add('hidden');
+        manageFlightsSection.classList.remove('hidden_4');
+        viewFlightsSection.classList.add('hidden_4');
         const flights = JSON.parse(localStorage.getItem('flights')) || [];
         const flight = flights.find(flight => flight.flightNumber === flightNumber);
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cost').value = flight.cost;
             editingFlightNumber = flight.flightNumber;
             document.getElementById('submit-flight-btn').innerText = 'Update Flight';
-            flightForm.classList.remove('hidden');
+            flightForm.classList.remove('hidden_4');
         }
     };
 

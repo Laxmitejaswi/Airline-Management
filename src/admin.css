@@ -5,7 +5,7 @@ body {
     background-color: #CDE8E5;
 }
 
-header {
+.header_4 {
     background-color: #7AB2B2;
     color: black;
     padding: 10px 0;
@@ -13,15 +13,15 @@ header {
     font-size: 16px;
 }
 
-main {
+.main_4 {
     padding: 20px;
 }
 
-nav {
+.nav_4 {
     margin-bottom: 20px;
 }
 
-nav button {
+.nav_4 button {
     padding: 1rem;
     margin: 5px;
     border: none;
@@ -32,22 +32,22 @@ nav button {
     font-weight: 600;
 }
 
-nav button:hover {
+.nav_4 button:hover {
     background-color: rgba(138, 199, 199, 0.814);
 }
 
-.hidden {
+.hidden_4 {
     display: none;
 }
 
-section {
+#view-flights-section , #manage-flights-section , #view-airports-section , #manage-airports-section{
     background-color: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-form {
+#manage-flights-section form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -55,17 +55,54 @@ form {
     margin-bottom: 1rem;
 }
 
-form label {
+.setting{
+    display : flex;
+    align-items: center;
+    gap : 0.5rem;
+    margin-top : 1rem;
+}
+
+#manage-airports-section form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+#manage-flights-section form label {
     grid-column: span 2;
 }
 
-form input, form button {
+#manage-airports-section form label{
+    grid-column: span 2;
+}
+
+#manage-airports-section form button {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-form button {
+#manage-airports-section form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#manage-flights-section form input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#manage-flights-section form button{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#manage-flights-section form button {
     grid-column: span 2;
     width: 45%;
     background-color: #7AB2B2;
@@ -75,7 +112,21 @@ form button {
     cursor: pointer;
 }
 
-form button:hover {
+#manage-airports-section form button {
+    grid-column: span 2;
+    width: 45%;
+    background-color: #7AB2B2;
+    font-weight: 600;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+#manage-airports-section form button:hover {
+    background-color: rgba(138, 199, 199, 0.814);
+}
+
+#manage-flights-section form button:hover {
     background-color: rgba(138, 199, 199, 0.814);
 }
 
@@ -91,6 +142,7 @@ form button:hover {
     padding: 1rem;
     margin-right: 0.5rem;
     border-radius: 5px;
+    margin-top : 1rem;
 }
 
 #add-flight-btn:hover,
@@ -142,7 +194,7 @@ button.edit-btn:hover {
 
 #view-flights-section label,
 #view-airports-section label{
-    font-size: 16px;
+    font-size: 1.2rem;
 }
 
 #view-date,
