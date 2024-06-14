@@ -56,7 +56,7 @@ const CheckIn = () => {
           required
         /><br />
         {message && <p className="message_1">{message}</p>}
-        <div>
+        <div className='gap_4'>
           <button onClick={handleCheckIn}>Check-In</button>
           <button onClick={handleBookFlights}>Go Back</button>
         </div>

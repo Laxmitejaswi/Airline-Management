@@ -85,7 +85,7 @@ const ReviewForm = () => {
               type="text"
               id="flight_id"
               name="flight_id"
-              placeholder='Eg :- AA001'
+              placeholder='Eg :-  AA001'
               value={flightNumber}
               onChange={(e) => setFlightNumber(e.target.value)}
               required

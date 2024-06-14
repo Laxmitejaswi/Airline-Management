@@ -2,53 +2,100 @@ import React, { useState, useEffect } from 'react';
 import '../admin.css';
 
 const Admin2 = () => {
-    const [viewAirportsSection, setViewAirportsSection] = useState(true);
+    const [viewAirportsSection, setViewAirportsSection] = useState(false);
     const [manageAirportsSection, setManageAirportsSection] = useState(false);
     const [airports, setAirports] = useState([]);
-    const [editingAirportCode, setEditingAirportCode] = useState(null);
-
     const [viewCountry, setViewCountry] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [deleteAirportCity, setDeleteAirportCity] = useState('');
+    const [newAirportName, setNewAirportName] = useState('');
+    const [newAirportCode, setNewAirportCode] = useState('');
+    const [newAirportCity, setNewAirportCity] = useState('');
+    const [newAirportCountry, setNewAirportCountry] = useState('');
+    const [deleteMessage, setDeleteMessage] = useState("");
+    const [addMessage, setAddMessage] = useState("");
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showDeleteForm, setShowDeleteForm] = useState(false);
 
-    useEffect(() => {
-        const storedAirports = JSON.parse(localStorage.getItem('airports')) || [];
-        setAirports(storedAirports);
-    }, []);
+    const fetchAirportsByCountry = async (countryName) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`http://localhost:3000/api/airports/country/${countryName}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch airports');
+            }
+            const data = await response.json();
+            setAirports(data);
+            console.log(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleViewAirports = () => {
-        const airportsInSelectedCountry = airports.filter(
-            airport => airport.country === viewCountry
-        );
-        return airportsInSelectedCountry.map(airport => (
-            <tr key={airport.airport_code}>
-                <td>{airport.airport_name}</td>
-                <td>{airport.airport_code}</td>
-                <td>{airport.city}</td>
-                <td>{airport.country}</td>
-                <td>
-                    <button className="edit-btn" onClick={() => handleEditAirport(airport.airport_code)}>
-                        Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteAirport(airport.airport_code)}>
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        ));
+        fetchAirportsByCountry(viewCountry);
     };
 
-    const handleEditAirport = airportCode => {
-        const airport = airports.find(airport => airport.airport_code === airportCode);
-        if (airport) {
-            setEditingAirportCode(airport.airport_code);
+    const handleDeleteAirport = async (airportCity) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/airports/${airportCity}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Failed to delete airport: ${errorData.message || response.statusText}`);
+            }
+    
+            const updatedAirports = airports.filter(airport => airport.city !== airportCity);
+            setAirports(updatedAirports);
+            setDeleteMessage("Airport deleted successfully");
+            setTimeout(() => setDeleteMessage(""), 3000); 
+        } catch (error) {
+            console.error('Error deleting airport:', error);
         }
-        setViewAirportsSection(false);
-        setManageAirportsSection(true);
     };
 
-    const handleDeleteAirport = airportCode => {
-        const updatedAirports = airports.filter(airport => airport.airport_code !== airportCode);
-        setAirports(updatedAirports);
-        localStorage.setItem('airports', JSON.stringify(updatedAirports));
+    const handleAddAirport = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/airports', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: newAirportName,
+                    code: newAirportCode,
+                    city: newAirportCity,
+                    country: newAirportCountry
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Failed to add airport: ${errorData.message || response.statusText}`);
+            }
+            setAddMessage("Airport added successfully");
+            setTimeout(() => setAddMessage(""), 3000); 
+            const newAirport = await response.json();
+            setAirports([...airports, newAirport]);
+        } catch (error) {
+            console.error('Error adding airport:', error);
+        }
+    };
+
+    const handleDeleteSubmit = (e) => {
+        e.preventDefault();
+        handleDeleteAirport(deleteAirportCity);
+    };
+
+    const handleAddSubmit = (e) => {
+        e.preventDefault();
+        handleAddAirport();
     };
 
     const toggleViewAirportsSection = () => {
@@ -61,8 +108,38 @@ const Admin2 = () => {
         setViewAirportsSection(false);
     };
 
-    const handleViewCountryChange = e => {
+    const toggleAddForm = () => {
+        setShowAddForm(true);
+        setShowDeleteForm(false);
+    };
+
+    const toggleDeleteForm = () => {
+        setShowDeleteForm(true);
+        setShowAddForm(false);
+    };
+
+    const handleViewCountryChange = (e) => {
         setViewCountry(e.target.value);
+    };
+
+    const handleDeleteAirportCodeChange = (e) => {
+        setDeleteAirportCity(e.target.value);
+    };
+
+    const handleNewAirportNameChange = (e) => {
+        setNewAirportName(e.target.value);
+    };
+
+    const handleNewAirportCodeChange = (e) => {
+        setNewAirportCode(e.target.value);
+    };
+
+    const handleNewAirportCityChange = (e) => {
+        setNewAirportCity(e.target.value);
+    };
+
+    const handleNewAirportCountryChange = (e) => {
+        setNewAirportCountry(e.target.value);
     };
 
     return (
@@ -74,19 +151,21 @@ const Admin2 = () => {
             <div id="view-airports-section" className={viewAirportsSection ? '' : 'hidden_4'}>
                 <h2>Available Airports</h2>
                 <div className="setting">
-                <label htmlFor="view-country" className='label'>Select Country :</label>
-                <input
-                    type="text"
-                    id="view-country"
-                    name="view-country"
-                    value={viewCountry}
-                    onChange={handleViewCountryChange}
-                    required
-                />
-                <button id="view-airports-submit-btn" onClick={handleViewAirports}>
-                    View Airports
-                </button>
+                    <label htmlFor="view-country" className='label'>Select Country :</label>
+                    <input
+                        type="text"
+                        id="view-country"
+                        name="view-country"
+                        value={viewCountry}
+                        onChange={handleViewCountryChange}
+                        required
+                    />
+                    <button id="view-airports-submit-btn" onClick={handleViewAirports}>
+                        View Airports
+                    </button>
                 </div>
+                {loading && <p>Loading...</p>}
+                {error && <p>Error: {error}</p>}
                 <table id="airports-table">
                     <thead>
                         <tr>
@@ -97,40 +176,94 @@ const Admin2 = () => {
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>{handleViewAirports()}</tbody>
+                    <tbody>
+                        {airports.map(airport => (
+                            <tr key={airport.code}>
+                                <td>{airport.name}</td>
+                                <td>{airport.code}</td>
+                                <td>{airport.city}</td>
+                                <td>{airport.country}</td>
+                                <td>
+                                    <button className="delete-btn" onClick={() => handleDeleteAirport(airport.city)}>
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
 
             <div id="manage-airports-section" className={manageAirportsSection ? '' : 'hidden_4'}>
                 <h2>Manage Airports</h2>
-                <button id="add-airport-btn" onClick={() => setEditingAirportCode(null)}>Add Airport</button>
-                <button id="delete-airport-btn" onClick={() => setEditingAirportCode(null)}>Delete Airport</button>
+                <button id="add-airport-btn" onClick={toggleAddForm}>Add Airport</button>
+                <button id="delete-airport-btn" onClick={toggleDeleteForm}>Delete Airport</button>
 
-                <form id="airport-form" className={manageAirportsSection ? '' : 'hidden_4'}>
-                    <label htmlFor="airport-name">Airport Name:</label>
-                    <input type="text" id="airport-name" name="airport-name" required />
+                {showAddForm && (
+                    <form id="airport-form" className={manageAirportsSection ? '' : 'hidden_4'} onSubmit={handleAddSubmit}>
+                        <label htmlFor="airport-name">Airport Name:</label>
+                        <input
+                            type="text"
+                            id="airport-name"
+                            name="airport-name"
+                            value={newAirportName}
+                            onChange={handleNewAirportNameChange}
+                            required
+                        />
 
-                    <label htmlFor="airport-code">Airport Code:</label>
-                    <input type="text" id="airport-code" name="airport-code" required />
+                        <label htmlFor="airport-code">Airport Code:</label>
+                        <input
+                            type="text"
+                            id="airport-code"
+                            name="airport-code"
+                            value={newAirportCode}
+                            onChange={handleNewAirportCodeChange}
+                            required
+                        />
 
-                    <label htmlFor="city">City:</label>
-                    <input type="text" id="city" name="city" required />
+                        <label htmlFor="city">City:</label>
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            value={newAirportCity}
+                            onChange={handleNewAirportCityChange}
+                            required
+                        />
 
-                    <label htmlFor="country">Country:</label>
-                    <input type="text" id="country" name="country" required />
+                        <label htmlFor="country">Country:</label>
+                        <input
+                            type="text"
+                            id="country"
+                            name="country"
+                            value={newAirportCountry}
+                            onChange={handleNewAirportCountryChange}
+                            required
+                        />
+                        <button type="submit" id="submit-airport-btn">
+                            Add Airport
+                        </button>
+                        {addMessage && <p className='message_1'>{addMessage}</p>}
+                    </form>
+                )}
 
-                    <button type="submit" id="submit-airport-btn">
-                        {editingAirportCode ? 'Update Airport' : 'Add Airport'}
-                    </button>
-                </form>
-
-                <form id="delete-airport-form" className={manageAirportsSection ? '' : 'hidden_4'}>
-                    <label htmlFor="delete-airport-code">Airport Code:</label>
-                    <input type="text" id="delete-airport-code" name="delete-airport-code" required />
-                    <button type="submit" id="submit-delete-airport-btn">
-                        Delete Airport
-                    </button>
-                </form>
+                {showDeleteForm && (
+                    <form id="delete-airport-form" className={manageAirportsSection ? '' : 'hidden_4'} onSubmit={handleDeleteSubmit}>
+                        <label htmlFor="delete-airport-code">Airport City:</label>
+                        <input
+                            type="text"
+                            id="delete-airport-city"
+                            name="delete-airport-city"
+                            value={deleteAirportCity}
+                            onChange={handleDeleteAirportCodeChange}
+                            required
+                        />
+                        <button type="submit" id="submit-delete-airport-btn">
+                            Delete Airport
+                        </button>
+                        {deleteMessage && <p className='message_1'>{deleteMessage}</p>}
+                    </form>
+                )}
             </div>
         </div>
     );
