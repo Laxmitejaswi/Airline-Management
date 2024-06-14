@@ -4,7 +4,7 @@ const {allAirports,AirportbyId,newAirport,UpdateAirport,deleteAirport,allFlights
     newFlight,updateFlight,cancelFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
     availableFlights,availableSeats,allBookings,BookingbyId,newBooking,deleteBooking,updateBooking,allPassengers,
     pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId,allReviews,confirmedBookings,completedBookings,
-    cancelledBookings,AirportsbyCountry,dailyFlight,weekyFlight
+    cancelledBookings,AirportsbyCountry,dailyFlight,weeklyFlight,FlightbyDate
 } = require('./airline.controller.js');
 
 // GET all airports
@@ -26,6 +26,8 @@ router.get('/flights', allFlights);
 router.get('/flight/id/:id', newFlightbyId);
 // GET a single flight by number
 router.get('/flights/:id', FlightbyId);
+// GET a single flight by date
+router.get('/flightsbyDate', FlightbyDate);
 // POST create a new flight
 router.post('/flights', newFlight);
 // POST create daily flights
