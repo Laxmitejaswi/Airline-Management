@@ -1,11 +1,10 @@
 const express = require("express");
-const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('./airline.model.js');
 const router = express.Router();
 const {allAirports,AirportbyId,newAirport,UpdateAirport,deleteAirport,allFlights,FlightbyId,
     newFlight,updateFlight,cancelFlight,createAdmin,adminAuthentication,createPassenger,passengerAuthentication,
     availableFlights,availableSeats,allBookings,BookingbyId,newBooking,deleteBooking,updateBooking,allPassengers,
     pasengerbyId,updatePassenger,deletePassenger,updateCheckinStatus,addReview,newFlightbyId,allReviews,confirmedBookings,completedBookings,
-    cancelledBookings,AirportsbyCountry
+    cancelledBookings,AirportsbyCountry,dailyFlight,weekyFlight
 } = require('./airline.controller.js');
 
 // GET all airports
@@ -29,6 +28,10 @@ router.get('/flight/id/:id', newFlightbyId);
 router.get('/flights/:id', FlightbyId);
 // POST create a new flight
 router.post('/flights', newFlight);
+// POST create daily flights
+router.post('/flights/daily',dailyFlight);
+// POST create weekly flights
+router.post('/flights/weekly', weeklyFlight);
 // PUT update an existing flight
 router.put('/flights/:id', updateFlight);
 // DELETE a flight
