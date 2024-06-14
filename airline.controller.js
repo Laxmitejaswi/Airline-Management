@@ -41,7 +41,27 @@ const sendNotification = async (flight,interval) => {
     }
   };
   
-  
+  cron.schedule('1 1 * * *', async () => {
+    try {
+        const lastMonth = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+        const completedFlights = await Flight.find({
+            'departure.scheduledTime': {
+                $lte: lastMonth, // Flights less than one month old
+            },
+        });
+
+        // Delete completed flights
+        completedFlights.forEach(async (flight) => {
+            await Flight.findByIdAndDelete(flight._id);
+        });
+
+        console.log('Daily cron job executed successfully.'); // Proper return message
+    } catch (error) {
+        console.error('Error executing daily cron job:', error.message); // Handle any errors
+    }
+});
+
+
   // Scheduled job to check for upcoming flights and send notifications
   cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
     const now = new Date();
@@ -135,11 +155,11 @@ const deleteAirport = async (req, res) => {
     try {
         const airport = await Airport.findOneAndDelete({city:req.params.id});
         if (!airport) {
-            return res.status(404).send('Airport not found');
+            return res.status(404).json('Airport not found');
         }
-        res.status(204).send('Deleted Successfully!');
+        res.status(204).json('Deleted Successfully!');
     } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     }
 };
 
@@ -185,6 +205,51 @@ const newFlight = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+
+const dailyFlight = async (req, res) => {
+    try {
+        const {count} = req.query;
+        let depTime = new Date(req.body.departure.scheduledTime);
+        let arrTime = new Date(req.body.arrival.scheduledTime);
+        for(let i =0;i<count;i++){
+            const flight = new Flight(req.body);
+            flight.flightNumber = flight.flightNumber + i;
+            flight.departure.scheduledTime = depTime;
+            flight.arrival.scheduledTime = arrTime;
+            await flight.save();
+            depTime = new Date(depTime.getTime() + (24*60*60)*1000);
+            arrTime = new Date(arrTime.getTime() + (24*60*60)*1000);
+        }
+        
+        res.status(200).json('Flights added successfully');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+const weeklyFlight = async (req, res) => {
+    
+        try {
+            const {count} = req.query;
+            let depTime = new Date(req.body.departure.scheduledTime);
+            let arrTime = new Date(req.body.arrival.scheduledTime);
+            for(let i =0;i<count;i++){
+                const flight = new Flight(req.body);
+                flight.flightNumber = flight.flightNumber + i;
+                flight.departure.scheduledTime = depTime;
+                flight.arrival.scheduledTime = arrTime;
+                await flight.save();
+                depTime = new Date(depTime.getTime() + (7*24*60*60)*1000);
+                arrTime = new Date(arrTime.getTime() + (7*24*60*60)*1000);
+                console.log('depTime :',depTime);
+                console.log('arrTime :',arrTime);
+            }
+            
+            res.status(200).json('Flights added successfully');
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    };
 
 const updateFlight = async (req, res) => {
     try {
@@ -844,6 +909,7 @@ module.exports = {
     allReviews,
     confirmedBookings,
     completedBookings,
-    cancelledBookings
+    cancelledBookings,
+    dailyFlight,weeklyFlight
 
 };
