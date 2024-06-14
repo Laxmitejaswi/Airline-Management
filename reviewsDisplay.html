@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reviews</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+
+            body{
+                background-color: #CDE8E5;
+            }
+
+            header{
+                background-color: #7AB2B2;
+                color: black;
+                padding: 2rem 0;
+                text-align: center;
+                font-size: 20px;
+            }
+
+            .flightReviews{
+                background-color: #fff;
+                width: 80%;
+                margin-left: 10%;
+                font-size: 19px;
+                padding: 2rem;
+                margin-top: 1rem;
+            }
+
+            .byOnePerson{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding-bottom: 1rem;
+                border-bottom: solid;
+                border-bottom-color: lightgray ;
+                border-bottom-width: 1px;
+                margin-top: 1rem;
+            }
+
+            .overall{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding-bottom: 1rem;
+                border-bottom: solid;
+                border-bottom-color: lightgray ;
+                border-bottom-width: 1px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Reviews</h1>
+        </header>
+        <div class="flightReviews">
+            <div class="overall">
+                <div>Overall Rating: </div>
+                <div>Overall number of Reviews: </div>
+            </div>
+            <div class="byOnePerson">
+                <div>Flight ID: </div>
+                <div>Rating: </div>
+                <div>Reviews: </div>
+            </div>
+        </div>
+    </body>
+</html>
