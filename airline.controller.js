@@ -40,6 +40,37 @@ const sendNotification = async (flight,interval) => {
       }
     }
   };
+
+  const reviewNotification = async (flight) => {
+    // Ensure that bookings is an array and has elements
+    if (!Array.isArray(flight.bookings) || flight.bookings.length === 0) {
+      console.log('No bookings to send review notifications to.');
+      return;
+    }
+  
+    // Iterate over each booking and send an email
+    for (const booking of flight.bookings) {
+      const mailOptions = {
+        from: 'airlinemanagment1234@gmail.com',
+        to: booking.email, // Use the email from the booking object
+        subject: `Your Flight ${flight.flightNumber} Review`,
+        text: `Dear Passenger,
+We'd love your feedback on your recent flight ${flight.flightNumber} from ${flight.departure.airportCity}. Please click the link below to share your experience:
+
+Review Link:  http://localhost:3001/RR
+
+Thank you!
+Your Airline Team`
+      };
+  
+      try {
+        await transporter.sendMail(mailOptions);
+        console.log('Review Notification sent to:', booking.email);
+      } catch (error) {
+        console.error('Error sending notification to', booking.email , error);
+      }
+    }
+  };
   
   cron.schedule('1 1 * * *', async () => {
     try {
@@ -66,6 +97,7 @@ const sendNotification = async (flight,interval) => {
   cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
     const now = new Date();
     const nextDay = new Date(new Date().getTime() + (24 * 60) * 60000);
+    const yesterday = new Date(new Date().getTime() - (24 * 60) * 60000);
     console.log(now);
     const flights = await Flight.find({
        'departure.scheduledTime': {
@@ -74,6 +106,18 @@ const sendNotification = async (flight,interval) => {
       },
       // 'status': 'Scheduled' // Assuming you want to find flights that are scheduled
     });
+    const completedflights = await Flight.find({
+        'arrival.scheduledTime': {
+        //  $gte: yesterday, // Greater than or equal to the current time
+          $lt: now // Less than 24 hours from now
+       },
+        'reviewNotification': 'false' // Assuming you want to find flights that are scheduled
+     });
+     completedflights.forEach(completedflight => {
+        reviewNotification(completedflight);
+        completedflight.reviewNotification = 'true';
+        completedflight.save();
+     });
     // console.log(flights);
     flights.forEach(flight => {
       const timeDiff = flight.departure.scheduledTime - now;
@@ -282,10 +326,6 @@ const updateFlight = async (req, res) => {
         if (req.body.departure.scheduledTime !== flight.departure.scheduledTime ){
             // Send email notifications to all passengers booked on this flight
             for (const booking of flight.bookings) {
-                const passengerbookings = await Booking.findById(booking.bookingId);
-                passengerbookings.departure.scheduledTime = flight.departure.scheduledTime;
-                passengerbookings.arrival.scheduledTime = flight.arrival.scheduledTime;
-                await passengerbookings.save();
                 const mailOptions = {
                     from: `airlinemanagment1234@gmail.com`,
                     to: booking.email,
@@ -295,8 +335,8 @@ const updateFlight = async (req, res) => {
 We regret to inform you that there has been a change to your flight schedule.
 
 Flight Number: ${flight.flightNumber}
-Original Departure Time: ${flight.departure.scheduledTime}
-New Departure Time: ${req.body.departure.scheduledTime}
+New Departure Time: ${flight.departure.scheduledTime}
+New Arrival Time: ${flight.arrival.scheduledTime}
 
 Please contact our customer service for further assistance.
 
@@ -310,6 +350,10 @@ The Airline Team`
                 } catch (error) {
                     console.error('Error sending notification to', booking.email, error);
                 }
+                const passengerbookings = await Booking.findById(booking.bookingId);
+                passengerbookings.departure.scheduledTime = flight.departure.scheduledTime;
+                passengerbookings.arrival.scheduledTime = flight.arrival.scheduledTime;
+                await passengerbookings.save();
             }
         }
 
