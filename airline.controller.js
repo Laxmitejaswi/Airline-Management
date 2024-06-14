@@ -563,14 +563,20 @@ const deletePassenger = async (req, res) => {
     }
   };
 
-  // Function to update check-in status
-  const updateCheckinStatus = async (req, res) => {
+
+const updateCheckinStatus = async (req, res) => {
     try {
         // Find the booking by ID
         const booking = await Booking.findById(req.params.id);
 
         if (!booking) {
             return res.status(400).json('Booking not found');
+        }
+        else if(booking.bookingStatus === 'cancelled'){
+            return res.status(400).json('Booking is cancelled');
+        }
+        else if(booking.checkinStatus === 'checked-in'){
+            return res.status(400).json('Already checked in');
         }
 
         // Get the scheduled arrival time
@@ -593,7 +599,7 @@ const deletePassenger = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json('Error updating check-in status:', error.message);
-    }
+    }
 };
 
 
