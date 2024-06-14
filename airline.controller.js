@@ -172,6 +172,26 @@ const allFlights = async (req, res) => {
     }
 };
 
+const FlightbyDate = async(req,res) => {
+    try {
+        const {startDate } = req.query;
+        // Parse the start and end dates
+        const start = new Date(startDate);
+
+        // Query for one-way flights
+        let flights = await Flight.find({
+            'departure.scheduledTime': {
+                $gte: start,
+                $lt: new Date(new Date(start).setDate(start.getDate() + 1)) // Ensure only flights on the same date are returned
+            }
+        });
+
+        res.status(200).json(flights);
+    } catch (error) {
+        res.status(500).json({ error: 'Error finding flights' });
+    }
+};
+
 const FlightbyId = async (req, res) => {
     try {
         const flight = await Flight.findOne({flightNumber:req.params.id});
@@ -910,6 +930,8 @@ module.exports = {
     confirmedBookings,
     completedBookings,
     cancelledBookings,
-    dailyFlight,weeklyFlight
+    dailyFlight,
+    weeklyFlight,
+    FlightbyDate
 
 };
