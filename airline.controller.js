@@ -28,7 +28,8 @@ const sendNotification = async (flight,interval) => {
         subject: `Flight Reminder - ${interval} Notice`,
         text: `Reminder: Your flight ${flight.flightNumber} is scheduled to depart from ${flight.departure.airportCity} in ${interval}.
          Please check-in if you haven't already done so.Your Booking Id is ${booking.bookingId}.
-         Click the following link to checkin using your Booking Id.`
+         Click the following link to checkin using your Booking Id.
+         http://localhost:3001/CheckIn `
       };
   
       try {
@@ -100,6 +101,15 @@ const AirportbyId = async (req, res) => {
     }
 };
 
+const AirportsbyCountry = async(req,res) => {
+    try {
+        const airports = await Airport.find({country:req.params.id});
+        res.status(200).json(airports);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
 const newAirport = async (req, res) => {
     try {
         const airport = await Airport.create(req.body);
@@ -146,11 +156,11 @@ const FlightbyId = async (req, res) => {
     try {
         const flight = await Flight.findOne({flightNumber:req.params.id});
         if (!flight) {
-            return res.status(404).send('Flight not found');
+            return res.status(404).json('Flight not found');
         }
         res.json(flight);
     } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     }
 };
 
@@ -158,11 +168,11 @@ const newFlightbyId = async (req, res) => {
     try {
         const flight = await Flight.findById(req.params.id);
         if (!flight) {
-            return res.status(404).send('Flight not found');
+            return res.status(404).json('Flight not found');
         }
         res.json(flight);
     } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     }
 };
 
@@ -176,61 +186,6 @@ const newFlight = async (req, res) => {
     }
 };
 
-const cancelFlight = async (req, res) => {
-    try {
-        // Find the flight and update its status to 'cancelled'
-        const flight = await Flight.findOneAndUpdate(
-            { flightNumber: req.params.id },
-            { status: 'cancelled' },
-            { new: true }
-        );
-
-        if (!flight) {
-            return res.status(404).send('Flight not found');
-        }
-
-        // Send cancellation email notifications to all passengers booked on this flight
-        for (const booking of flight.bookings) {
-            const passengerBooking = await Booking.findById(booking.bookingId);
-            passengerBooking.bookingStatus = 'cancelled';
-            await passengerBooking.save();
-
-            const mailOptions = {
-                from: 'airlinemanagment1234@gmail.com',
-                to: booking.email,
-                subject: `Flight Cancellation - ${flight.flightNumber}`,
-                text: `Dear Passenger,
-
-We regret to inform you that your flight has been cancelled.
-
-Flight Number: ${flight.flightNumber}
-
-
-Please contact our customer service for rebooking options or further assistance.
-
-Thank you for your understanding,
-The Airline Team`
-            };
-
-            try {
-                await transporter.sendMail(mailOptions);
-                console.log('Cancellation notification sent to:', booking.email);
-            } catch (error) {
-                console.error('Error sending cancellation notification to', booking.email, error);
-            }
-        }
-
-        // Optionally, delete the flight for that day
-         await Flight.deleteOne({ flightNumber: req.params.id });
-
-        return res.status(200).send('Flight cancelled and notifications sent');
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-};
-
-
-// Function to handle updating flight details (excluding cancellation)
 const updateFlight = async (req, res) => {
     try {
         const flight = await Flight.findOneAndUpdate({flightNumber:req.params.id}, req.body, { new: true, runValidators: true });
@@ -278,14 +233,54 @@ The Airline Team`
         res.status(500).send(error.message);
     }
 };
-
-const deleteFlight = async (req, res) => {
+const cancelFlight = async (req, res) => {
     try {
-        const flight = await Flight.findOneAndDelete({flightNumber:req.params.id});
+        // Find the flight and update its status to 'cancelled'
+        const flight = await Flight.findOneAndUpdate(
+            { flightNumber: req.params.id },
+            { status: 'cancelled' },
+            { new: true }
+        );
+
         if (!flight) {
             return res.status(404).send('Flight not found');
         }
-        res.status(204).send('Deleted Successfully!');
+
+        // Send cancellation email notifications to all passengers booked on this flight
+        for (const booking of flight.bookings) {
+            const passengerBooking = await Booking.findById(booking.bookingId);
+            passengerBooking.bookingStatus = 'cancelled';
+            await passengerBooking.save();
+
+            const mailOptions = {
+                from: `airlinemanagment1234@gmail.com`,
+                to: booking.email,
+                subject: `Flight Cancellation - ${flight.flightNumber}`,
+                text: `Dear Passenger,
+
+We regret to inform you that your flight has been cancelled.
+
+Flight Number: ${flight.flightNumber}
+
+
+Please contact our customer service for rebooking options or further assistance.
+
+Thank you for your understanding,
+The Airline Team`
+            };
+
+            try {
+                await transporter.sendMail(mailOptions);
+                console.log('Cancellation notification sent to:', booking.email);
+            } catch (error) {
+                console.error('Error sending cancellation notification to', booking.email, error);
+            }
+        }
+
+        // Optionally, delete the flight for that day
+         await Flight.deleteOne({ flightNumber: req.params.id });
+
+        return res.status(200).send('Flight cancelled and notifications sent');
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -819,15 +814,15 @@ const cancelledBookings = async(req,res)=>{
 module.exports = {
     allAirports,
     AirportbyId,
+    AirportsbyCountry,
     newAirport,
     UpdateAirport,
     deleteAirport,
     allFlights,
     FlightbyId,
     newFlight,
-    cancelFlight,
     updateFlight,
-    deleteFlight,
+    cancelFlight,
     createAdmin,
     adminAuthentication,
     createPassenger,
