@@ -12,6 +12,8 @@ import Profile from './components/Profile';
 import ProfileDetails from './components/ProfileDetails';
 import Trips from './components/Trips';
 import CheckIn from './components/CheckIn';
+import ReviewForm from './components/ReviewForm'
+import Reviews from './components/Review';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,7 +27,7 @@ const App = () => {
 
 const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
     const location = useLocation();
-    const hideNavbarPaths = ['/Profile', '/ProfileDetails', '/Trips' , '/CheckIn'].map(path => path.toLowerCase());
+    const hideNavbarPaths = ['/Profile', '/ProfileDetails', '/Trips' , '/CheckIn' , '/RR' , '/Reviews_Ratings'].map(path => path.toLowerCase());
     const currentPath = location.pathname.replace(/\/+$/, '').toLowerCase();
     const hideNavbar = hideNavbarPaths.includes(currentPath);
 
@@ -43,6 +45,8 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
                 <Route exact path="/ProfileDetails" element={<ProfileDetails />} />
                 <Route exact path="/Trips" element={<Trips />} />
                 <Route exact path='/CheckIn' element={<CheckIn/>} />
+                <Route exact path='/RR' element={<ReviewForm/>} />
+                <Route exact path='/Reviews_Ratings' element={<Reviews/>} />
             </Routes>
         </div>
     );

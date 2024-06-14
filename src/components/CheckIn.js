@@ -17,7 +17,6 @@ const CheckIn = () => {
       setMessage('Please enter your Booking ID');
       return;
     }
-    console.log(`http://localhost:3000/api/checkin/${bookingId}`);
     fetch(`http://localhost:3000/api/checkin/${bookingId}`, {
       method: 'PUT',
       headers: {
@@ -27,7 +26,9 @@ const CheckIn = () => {
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        return response.text().then(errorMessage => {
+          throw new Error(errorMessage);
+        });
       }
       return response.json();
     })
@@ -36,7 +37,7 @@ const CheckIn = () => {
     })
     .catch(error => {
       console.error('Error updating check-in status:', error);
-      setMessage('Failed to check in. Please try again.');
+      setMessage(error.message);
     });
   };
 

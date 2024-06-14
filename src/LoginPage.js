@@ -101,7 +101,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
             <div className="container" id="loginPage">
                 {isSignup && !logIn ? (
                     <div id="signupContainer" className="active">
-                        <h2>Signup</h2>
+                        <h2 className='signUp'>Signup</h2>
                         <form id="signupForm" onSubmit={handleSignupSubmit}>
                             <input type="text" name="signupUsername" placeholder="Username" required />
                             <input type="password" name="signupPassword" placeholder="Password" required />
@@ -135,7 +135,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                     </div>
                 ) : (role === 'admin' ? (
                     <div id="adminLoginContainer" className="active">
-                        <h2>Admin Login</h2>
+                        <h2 className='signUp'>Admin Login</h2>
                         <form id="adminLoginForm" onSubmit={handleAdminLoginSubmit}>
                             <input type="text" name="adminUsername" placeholder="Username" required />
                             <input type="password" name="adminLoginPassword" placeholder="Password" required />
@@ -165,7 +165,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                     </div>
                 ) : (
                     <div id="loginContainer" className="active">
-                        <h2>Login</h2>
+                        <h2 className='signUp'>Login</h2>
                         <form id="loginForm" onSubmit={handleLoginSubmit}>
                             <input type="text" name="loginUsername" placeholder="Username" required />
                             <input type="password" name="loginPassword" placeholder="Password" required />

@@ -107,6 +107,9 @@
     font-weight: 500;
     font-size: 20px;
 }
+#left{
+    margin-left : 1rem;
+}
 .book_now{
     padding: 1rem;
     border: none;
@@ -114,7 +117,7 @@
     background-color: #7AB2B2;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
 }
 .reviews {

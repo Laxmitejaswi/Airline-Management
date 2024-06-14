@@ -85,6 +85,7 @@ const Confirmation = () => {
           <h3>Flight Details</h3>
           <p className="flightNumber">Flight Number : {info.flightNumber}</p>
           <p className="Date">Date : {formattedDate}</p>
+          <p className='Date'>Price : {info.price ? info.price.economy : ""}</p>
           <p className="passengerDetails">Seat Selected : {seatSelected}</p>
           <div className="flight_details">
             <div className="flight_details_left">

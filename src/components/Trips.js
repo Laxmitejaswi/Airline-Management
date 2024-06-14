@@ -49,6 +49,10 @@ const Trips = () => {
     navigate(`/CheckIn`);
   };
 
+  const handleFeedback = () => {
+    navigate(`/RR`);
+  };
+
   const handleDetails = (bookingId) => {
     fetch(`http://localhost:3000/api/bookings/${bookingId}`, {
       method: 'DELETE'
@@ -239,6 +243,9 @@ const Trips = () => {
                             </div>
                           </div>
                         </div>
+                        <div id="gap_2">
+                          <button className='button2' id="view" onClick={handleFeedback}>Submit Feedback</button>
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -260,7 +267,7 @@ const Trips = () => {
                 return (
                   <div className="trip-details" key={booking.bookingId || booking._id}>
                     <section id="flightdetails">
-                      <div className="flightdetailsWithid_1">
+                      <div className="flightdetailsWithid_4">
                         <h1 className='BookingDetails'>Booking Details</h1>
                         <p className='flightNumber'>Flight Number : {booking.flightNumber}</p>
                         <p className='Date'>Date : {formattedDate}</p>

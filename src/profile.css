@@ -43,7 +43,6 @@
     border-bottom-color: rgb(229, 231, 235) ;
     border: solid 1px lightgray;
     border-radius : 1rem;
-    padding-bottom: 2rem;
 }
 
 .flight-details_3{
@@ -57,6 +56,17 @@
     border : 2px solid lightgrey;
     border-radius : 1rem;
     margin-top : 1rem;
+}
+
+.flightdetailsWithid_4{
+    display: flex;
+    flex-direction: column;
+    padding : 1rem;
+    background-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(229, 231, 235) ;
+    border: solid 1px lightgray;
+    border-radius : 1rem;
+    padding-bottom: 2rem;
 }
 
 #heading_2{

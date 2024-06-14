@@ -10,7 +10,7 @@
     margin-top: 18vh;
 }
 
-h2 {
+.signUp {
     margin-bottom: 1.5rem;
 }
 
@@ -48,6 +48,7 @@ input[type="password"]{
 
 .message_2 {
     color: black;
+    margin-top : 1rem;
 }
 
 .role-selection {

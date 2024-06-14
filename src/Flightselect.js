@@ -32,6 +32,14 @@ export default function Flightselect({isLoggedIn}) {
     });
   };  
 
+  const handleRatings = () => {
+    if(isLoggedIn){
+      navigate('/Reviews_Ratings');
+    }else{
+      setShowLoginMessage(true);
+    }
+  }
+
   const handleBookingFlight = (flight) => {
     if(isLoggedIn){
       localStorage.setItem('ClickedFlightDetails' , JSON.stringify(flight));
@@ -105,9 +113,14 @@ export default function Flightselect({isLoggedIn}) {
                 ) : (
                   <p></p>
                 )} */}
+                <div> 
                 <button className="book_now" onClick={() => {handleBookingFlight(flight)}}>
                   Book Now
                 </button>
+                <button className="book_now" id="left" onClick={() => {handleRatings()}}>
+                  Ratings & Reviews
+                </button>
+                </div>
                 {showLoginMessage && (
                   <p className="login-message">Please Login to book a flight !</p>
                 )}

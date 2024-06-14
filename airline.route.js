@@ -81,7 +81,7 @@ router.get('/bookings/cancelled/:id',cancelledBookings);
 router.put('/checkin/:id', updateCheckinStatus);
 // GET all reviews
 router.get('/reviews',allReviews);
-// POST endpoint to submit a review
+// PUT endpoint to submit a review
 router.put('/addreviews/:id', addReview); 
 
 module.exports = router;
