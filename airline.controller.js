@@ -176,13 +176,104 @@ const newFlight = async (req, res) => {
     }
 };
 
+const cancelFlight = async (req, res) => {
+    try {
+        // Find the flight and update its status to 'cancelled'
+        const flight = await Flight.findOneAndUpdate(
+            { flightNumber: req.params.id },
+            { status: 'cancelled' },
+            { new: true }
+        );
+
+        if (!flight) {
+            return res.status(404).send('Flight not found');
+        }
+
+        // Send cancellation email notifications to all passengers booked on this flight
+        for (const booking of flight.bookings) {
+            const passengerBooking = await Booking.findById(booking.bookingId);
+            passengerBooking.bookingStatus = 'cancelled';
+            await passengerBooking.save();
+
+            const mailOptions = {
+                from: 'airlinemanagment1234@gmail.com',
+                to: booking.email,
+                subject: `Flight Cancellation - ${flight.flightNumber}`,
+                text: `Dear Passenger,
+
+We regret to inform you that your flight has been cancelled.
+
+Flight Number: ${flight.flightNumber}
+
+
+Please contact our customer service for rebooking options or further assistance.
+
+Thank you for your understanding,
+The Airline Team`
+            };
+
+            try {
+                await transporter.sendMail(mailOptions);
+                console.log('Cancellation notification sent to:', booking.email);
+            } catch (error) {
+                console.error('Error sending cancellation notification to', booking.email, error);
+            }
+        }
+
+        // Optionally, delete the flight for that day
+         await Flight.deleteOne({ flightNumber: req.params.id });
+
+        return res.status(200).send('Flight cancelled and notifications sent');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+
+// Function to handle updating flight details (excluding cancellation)
 const updateFlight = async (req, res) => {
     try {
         const flight = await Flight.findOneAndUpdate({flightNumber:req.params.id}, req.body, { new: true, runValidators: true });
         if (!flight) {
             return res.status(404).send('Flight not found');
         }
-        res.json(flight);
+
+        // Check if the flight timings have changed 
+        if (req.body.departure.scheduledTime !== flight.departure.scheduledTime ){
+            // Send email notifications to all passengers booked on this flight
+            for (const booking of flight.bookings) {
+                const passengerbookings = await Booking.findById(booking.bookingId);
+                passengerbookings.departure.scheduledTime = flight.departure.scheduledTime;
+                passengerbookings.arrival.scheduledTime = flight.arrival.scheduledTime;
+                await passengerbookings.save();
+                const mailOptions = {
+                    from: `airlinemanagment1234@gmail.com`,
+                    to: booking.email,
+                    subject: `Flight Update - ${flight.flightNumber}`,
+                    text: `Dear Passenger,
+
+We regret to inform you that there has been a change to your flight schedule.
+
+Flight Number: ${flight.flightNumber}
+Original Departure Time: ${flight.departure.scheduledTime}
+New Departure Time: ${req.body.departure.scheduledTime}
+
+Please contact our customer service for further assistance.
+
+Thank you for your understanding,
+The Airline Team`
+                };
+
+                try {
+                    await transporter.sendMail(mailOptions);
+                    console.log('Notification sent to:', booking.email);
+                } catch (error) {
+                    console.error('Error sending notification to', booking.email, error);
+                }
+            }
+        }
+
+        return res.status(200).json(flight);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -734,6 +825,7 @@ module.exports = {
     allFlights,
     FlightbyId,
     newFlight,
+    cancelFlight,
     updateFlight,
     deleteFlight,
     createAdmin,
