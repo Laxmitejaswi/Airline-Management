@@ -79,7 +79,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
             if (!response.ok) {
                 throw new Error(data.error || 'Admin login failed');
             }
-            setIsLoggedIn(true);
             navigate('/Admin');
         } catch (error) {
             setMessage(error.message || 'Admin Login failed. Please try again.');

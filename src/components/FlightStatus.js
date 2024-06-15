@@ -14,7 +14,7 @@ const FlightStatus = () => {
 
   const handleGetFlightStatus = () => {
     if (!bookingId) {
-      setMessage('Please enter your Booking ID');
+      setMessage('Please enter Flight Number');
       return;
     }
     fetch(`http://localhost:3000/api/flights/${bookingId}`)
@@ -27,7 +27,6 @@ const FlightStatus = () => {
         return response.json();
       })
       .then(data => {
-        console.log(data);
         setFlightStatus(data.status);
         setMessage('');
       })
