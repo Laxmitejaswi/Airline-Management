@@ -80,14 +80,8 @@ Thank you!
   cron.schedule('* * * * *', async () => { // This cron pattern runs every minute
     const now = new Date();
     const nextDay = new Date(new Date().getTime() + (24 * 60) * 60000);
+    const yesterday = new Date(new Date().getTime() - (24 * 60) * 60000); 
     console.log(now);
-
-    const flights = await Flight.find({
-       'departure.scheduledTime': {
-        $gte: now, // Greater than or equal to the current time
-         $lt: nextDay // Less than 24 hours from now
-      }
-    });
     const startedflights = await Flight.find({
         'departure.scheduledTime': {
           $lte: now 
@@ -112,6 +106,20 @@ Thank you!
         completedflight.status = `reached ${completedflight.arrival.airportCity} at ${completedflight.arrival.scheduledTime}`;
         completedflight.save();
      });
+
+    const tobedeletedflights = await Flight.findAndDelete({
+        'arrival.scheduledTime': {
+          $lt: yesterday // Less than 24 hours from now
+       },
+        'reviewNotification': 'true' 
+     });
+
+      const flights = await Flight.find({
+       'departure.scheduledTime': {
+        $gte: now, // Greater than or equal to the current time
+         $lt: nextDay // Less than 24 hours from now
+      }
+    });
     // console.log(flights);
     flights.forEach(flight => {
       const timeDiff = flight.departure.scheduledTime - now;
