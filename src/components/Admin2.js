@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../admin.css';
 
 const Admin2 = () => {
@@ -243,7 +243,7 @@ const Admin2 = () => {
                         <button type="submit" id="submit-airport-btn">
                             Add Airport
                         </button>
-                        {addMessage && <p className='message_1'>{addMessage}</p>}
+                        {addMessage && <p className='message_2'>{addMessage}</p>}
                     </form>
                 )}
 

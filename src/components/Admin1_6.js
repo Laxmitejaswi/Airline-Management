@@ -130,10 +130,10 @@ export default function Admin1_6() {
                 <td>{flight.flightNumber}</td>
                 <td>{flight.departure.airportCity}</td>
                 <td>{flight.arrival.airportCity}</td>
-                <td>{new Date(flight.departure.scheduledTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{new Date(flight.departure.actualTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{new Date(flight.arrival.scheduledTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{new Date(flight.arrival.actualTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                <td>{new Date(flight.departure.scheduledTime).toLocaleString()}</td>
+                <td>{new Date(flight.departure.actualTime).toLocaleString()}</td>
+                <td>{new Date(flight.arrival.scheduledTime).toLocaleString()}</td>
+                <td>{new Date(flight.arrival.actualTime).toLocaleString()}</td>
                 <td>{flight.price.economy}</td>
                 <td>{flight.status}</td>
                 <td>{flight.duration} mins</td>
@@ -147,7 +147,7 @@ export default function Admin1_6() {
                 </td>
             </tr>
         ));
-    };
+    };    
 
     return (
         <div>

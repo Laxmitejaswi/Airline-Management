@@ -12,7 +12,8 @@ export default function Admin1_1() {
         arrivalScheduledTime: '',
         arrivalAirportCity: '',
         departureActualTime: '',
-        arrivalActualTime: ''
+        arrivalActualTime: '',
+        FlightStatus: ''
     });
 
     const formatDateTimeLocal = (dateTime) => {
@@ -36,7 +37,7 @@ export default function Admin1_1() {
             setFlights(flightsData);
         } catch (error) {
             console.error('Error fetching flights:', error);
-            setFlights([]); 
+            setFlights([]);
         }
     };
 
@@ -48,7 +49,8 @@ export default function Admin1_1() {
             arrivalScheduledTime: flight.arrival.scheduledTime,
             arrivalAirportCity: flight.arrival.airportCity,
             departureActualTime: flight.departure.actualTime,
-            arrivalActualTime: flight.arrival.actualTime
+            arrivalActualTime: flight.arrival.actualTime,
+            FlightStatus: flight.status
         });
         setEditModalVisible(true);
     };
@@ -62,7 +64,7 @@ export default function Admin1_1() {
     };
 
     const handleUpdateFlight = async () => {
-        const { flightNumber, departureScheduledTime, arrivalScheduledTime } = editFlightDetails;
+        const { flightNumber, departureScheduledTime, arrivalScheduledTime, FlightStatus } = editFlightDetails;
         const updatedFlight = {
             departure: {
                 airportCity: editFlightDetails.departureAirportCity,
@@ -73,7 +75,8 @@ export default function Admin1_1() {
                 airportCity: editFlightDetails.arrivalAirportCity,
                 scheduledTime: new Date(arrivalScheduledTime).toISOString(),
                 actualTime: editFlightDetails.arrivalActualTime
-            }
+            },
+            status: FlightStatus
         };
 
         try {
@@ -97,14 +100,15 @@ export default function Admin1_1() {
                             ...flight.departure,
                             airportCity: editFlightDetails.departureAirportCity,
                             scheduledTime: new Date(departureScheduledTime).toISOString(),
-                            actualTime: editFlightDetails.departureActualTime
+                            actualTime: editFlightDetails.departureActualTime,
                         },
                         arrival: {
                             ...flight.arrival,
                             airportCity: editFlightDetails.arrivalAirportCity,
                             scheduledTime: new Date(arrivalScheduledTime).toISOString(),
                             actualTime: editFlightDetails.arrivalActualTime
-                        }
+                        },
+                        status: FlightStatus
                     }
                     : flight
             ));
@@ -135,10 +139,10 @@ export default function Admin1_1() {
                 <td>{flight.flightNumber}</td>
                 <td>{flight.departure.airportCity}</td>
                 <td>{flight.arrival.airportCity}</td>
-                <td>{new Date(flight.departure.scheduledTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{new Date(flight.departure.actualTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{new Date(flight.arrival.scheduledTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{new Date(flight.arrival.actualTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                <td>{new Date(flight.departure.scheduledTime).toLocaleString()}</td>
+                <td>{new Date(flight.departure.actualTime).toLocaleString()}</td>
+                <td>{new Date(flight.arrival.scheduledTime).toLocaleString()}</td>
+                <td>{new Date(flight.arrival.actualTime).toLocaleString()}</td>
                 <td>{flight.price.economy}</td>
                 <td>{flight.status}</td>
                 <td>{flight.duration} mins</td>
@@ -212,6 +216,16 @@ export default function Admin1_1() {
                                 type="datetime-local"
                                 name="arrivalScheduledTime"
                                 value={formatDateTimeLocal(editFlightDetails.arrivalScheduledTime)}
+                                onChange={handleEditChange}
+                                className='left_4'
+                            />
+                        </label>
+                        <label>
+                            Flight Status :
+                            <input
+                                type="text"
+                                name="FlightStatus"
+                                value={editFlightDetails.FlightStatus}
                                 onChange={handleEditChange}
                                 className='left_4'
                             />

@@ -32,7 +32,6 @@ const Trips = () => {
           completed: completedBookings,
           cancelled: cancelledBookings
         });
-        // console.log("Completed bookings : ", completedBookings);
         setLoading(false);
       })
       .catch(error => {
@@ -53,6 +52,10 @@ const Trips = () => {
     navigate(`/RR`);
   };
 
+  const handleStatus = () => {
+    navigate(`/FlightStatus`);
+  }
+
   const handleDetails = (bookingId) => {
     fetch(`http://localhost:3000/api/bookings/${bookingId}`, {
       method: 'DELETE'
@@ -62,11 +65,9 @@ const Trips = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       console.log('Booking Cancelled successfully.');
-      // Optionally, perform state updates or other actions
     })
     .catch(error => {
       console.error('Error cancelling booking:', error);
-      // Handle error, display message, etc.
     });
   }
   
@@ -114,16 +115,24 @@ const Trips = () => {
                 const month = dateObject.getUTCMonth() + 1; 
                 const year = dateObject.getUTCFullYear();
                 const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
-                // console.log('Rendering booking:', booking);
+
+                const dateStringArrival = booking.arrival ? booking.arrival.scheduledTime : "";
+                const dateObjectArrival = new Date(dateStringArrival);
+                const dayArrival = dateObjectArrival.getUTCDate();
+                const monthArrival = dateObjectArrival.getUTCMonth() + 1;
+                const yearArrival = dateObjectArrival.getUTCFullYear();
+                const formattedDateArrival = `${dayArrival < 10 ? "0" + dayArrival : dayArrival}-${
+                  monthArrival < 10 ? "0" + monthArrival : monthArrival
+                }-${yearArrival}`;
+
                 return (
                   <div className="trip-details" key={booking.bookingId || booking._id}>
                     <section id="flightdetails">
                       <div className="flightdetailsWithid_2">
                         <h1 className='BookingDetails'>Booking Details</h1>
                         <p className='flightNumber'>Flight Number : {booking.flightNumber}</p>
-                        <p className='Date'>Date : {formattedDate}</p>
-                        <p className='Date'>Seat Number : {booking.seat}</p>
-                        <p className='Date'>Price : {booking.price}</p>
+                        <p className='Date'>Departure Date : {formattedDate}</p>
+                        <p className='Date'>Arrival Date : {formattedDateArrival}</p>
                         <div className="flight_details">
                           <div className="flight_details_left">
                             <div className="from_details">
@@ -166,7 +175,10 @@ const Trips = () => {
                             </div>
                           </div>
                         </div>
+                        <p className='Date Date_3'>Seat Number : {booking.seat}</p>
+                        <p className='Date'>Price : {booking.price}</p>
                         <div id="gap_2">
+                          <button className='button2' id="view" onClick={handleStatus}>Flight Status</button>
                           <button className='button2' id="view" onClick={handleCheckIn}>Check-in</button>
                           <button className='button2' id="view" onClick={() => {handleDetails(booking._id)}}>Cancel Booking</button>
                         </div>
@@ -189,6 +201,15 @@ const Trips = () => {
                 const month = dateObject.getUTCMonth() + 1; 
                 const year = dateObject.getUTCFullYear();
                 const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+
+                const dateStringArrival = booking.arrival ? booking.arrival.scheduledTime : "";
+                const dateObjectArrival = new Date(dateStringArrival);
+                const dayArrival = dateObjectArrival.getUTCDate();
+                const monthArrival = dateObjectArrival.getUTCMonth() + 1;
+                const yearArrival = dateObjectArrival.getUTCFullYear();
+                const formattedDateArrival = `${dayArrival < 10 ? "0" + dayArrival : dayArrival}-${
+                  monthArrival < 10 ? "0" + monthArrival : monthArrival
+                }-${yearArrival}`;
                 
                 return (
                   <div className="trip-details" key={booking.bookingId || booking._id}>
@@ -196,7 +217,8 @@ const Trips = () => {
                       <div className="flightdetailsWithid_1">
                         <h1 className='BookingDetails'>Booking Details</h1>
                         <p className='flightNumber'>Flight Number : {booking.flightNumber}</p>
-                        <p className='Date'>Date : {formattedDate}</p>
+                        <p className='Date'>Departure Date : {formattedDate}</p>
+                        <p className='Date'>Arrival Date : {formattedDateArrival}</p>
                         <p className='Date'>Seat Number : {booking.seat}</p>
                         <p className='Date'>Price : {booking.price}</p>
                         <div className="flight_details">
@@ -264,13 +286,24 @@ const Trips = () => {
                 const month = dateObject.getUTCMonth() + 1; 
                 const year = dateObject.getUTCFullYear();
                 const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+
+                const dateStringArrival = booking.arrival ? booking.arrival.scheduledTime : "";
+                const dateObjectArrival = new Date(dateStringArrival);
+                const dayArrival = dateObjectArrival.getUTCDate();
+                const monthArrival = dateObjectArrival.getUTCMonth() + 1;
+                const yearArrival = dateObjectArrival.getUTCFullYear();
+                const formattedDateArrival = `${dayArrival < 10 ? "0" + dayArrival : dayArrival}-${
+                  monthArrival < 10 ? "0" + monthArrival : monthArrival
+                }-${yearArrival}`;
+
                 return (
                   <div className="trip-details" key={booking.bookingId || booking._id}>
                     <section id="flightdetails">
                       <div className="flightdetailsWithid_4">
                         <h1 className='BookingDetails'>Booking Details</h1>
                         <p className='flightNumber'>Flight Number : {booking.flightNumber}</p>
-                        <p className='Date'>Date : {formattedDate}</p>
+                        <p className='Date'>Departure Date : {formattedDate}</p>
+                        <p className='Date'>Arrival Date : {formattedDateArrival}</p>
                         <p className='Date'>Seat Number : {booking.seat}</p>
                         <p className='Date'>Price : {booking.price}</p>
                         <div className="flight_details">

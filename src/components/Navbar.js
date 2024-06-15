@@ -27,6 +27,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                 </div>
                 <div className="nav-right">
                     <Link to="/">Book Flights</Link>
+                    <Link to="/FlightStatus">Flight Status</Link>
                     <Link to="/CheckIn">Check-in</Link>
                     <Link to="/Reviews_Ratings">Ratings & Reviews</Link>
                     {isLoggedIn ? (

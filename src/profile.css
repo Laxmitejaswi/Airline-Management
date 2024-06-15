@@ -17,11 +17,14 @@
     background-color:#fff;
 }
 
+.Date_3{
+    margin-top : 1rem;
+}
+
 #gap_2{
     display: flex;
     align-items: center;
     gap : 1.5rem;
-    margin-top : 0.5rem;
     margin-bottom: 0.5rem;
 }
 

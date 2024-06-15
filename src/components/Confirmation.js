@@ -57,9 +57,19 @@ const Confirmation = () => {
   const day = dateObject.getUTCDate();
   const month = dateObject.getUTCMonth() + 1;
   const year = dateObject.getUTCFullYear();
-  const formattedDate = `${day < 10 ? "0" + day : day}-${
+  const formattedDateDeparture = `${day < 10 ? "0" + day : day}-${
     month < 10 ? "0" + month : month
   }-${year}`;
+
+  const dateStringArrival = info.arrival ? info.arrival.scheduledTime : "";
+  const dateObjectArrival = new Date(dateStringArrival);
+  const dayArrival = dateObjectArrival.getUTCDate();
+  const monthArrival = dateObjectArrival.getUTCMonth() + 1;
+  const yearArrival = dateObjectArrival.getUTCFullYear();
+  const formattedDateArrival = `${dayArrival < 10 ? "0" + dayArrival : dayArrival}-${
+    monthArrival < 10 ? "0" + monthArrival : monthArrival
+  }-${yearArrival}`;
+
   return (
     <section id="confirmation">
       <div  className="confirm">
@@ -84,9 +94,8 @@ const Confirmation = () => {
           <h2>Booking Confirmation</h2>
           <h3>Flight Details</h3>
           <p className="flightNumber">Flight Number : {info.flightNumber}</p>
-          <p className="Date">Date : {formattedDate}</p>
-          <p className='Date'>Price : {info.price ? info.price.economy : ""}</p>
-          <p className="passengerDetails">Seat Selected : {seatSelected}</p>
+          <p className="Date">Departure Date : {formattedDateDeparture}</p>
+          <p className="Date">Arrival Date : {formattedDateArrival}</p>
           <div className="flight_details">
             <div className="flight_details_left">
               <div className="from_details">
@@ -152,6 +161,8 @@ const Confirmation = () => {
               </div>
             </div>
           </div>
+          <p className='Date Date_3'>Price : {info.price ? info.price.economy : ""}</p>
+          <p className="passengerDetails">Seat Selected : {seatSelected}</p>
           <div id="confirmationDetails">
             <div className="confirmButtonWrapper">
               <p className="passengerDetails" id="details">

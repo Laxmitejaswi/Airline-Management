@@ -26,13 +26,23 @@ const FlightDetails = () => {
   const year = dateObject.getUTCFullYear();
   const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
 
+  const dateStringArrival = info.arrival ? info.arrival.scheduledTime : "";
+  const dateObjectArrival = new Date(dateStringArrival);
+  const dayArrival = dateObjectArrival.getUTCDate();
+  const monthArrival = dateObjectArrival.getUTCMonth() + 1;
+  const yearArrival = dateObjectArrival.getUTCFullYear();
+  const formattedDateArrival = `${dayArrival < 10 ? "0" + dayArrival : dayArrival}-${
+    monthArrival < 10 ? "0" + monthArrival : monthArrival
+  }-${yearArrival}`;
+
   return (
     <section id="flightdetails">
       <Header heading='Complete Your Booking'/>
       <div className="flightdetailsWithid">
-        <h2>Review Your Flight Details</h2>
+        <h2 className="down_3">Review Your Flight Details</h2>
         <p className='flightNumber'>Flight Number : {info.flightNumber}</p>
-        <p className='Date'>Date : {formattedDate}</p>
+        <p className='Date'>Departure Date : {formattedDate}</p>
+        <p className="Date">Arrival Date : {formattedDateArrival}</p>
         <p className='Date'>Price : {info.price ? info.price.economy : ""}</p>
         <div className="flight_details">
           <div className="flight_details_left">

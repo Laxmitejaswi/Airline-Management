@@ -100,8 +100,6 @@ export default function Admin1_2() {
                 const errorData = await response.json();
                 throw new Error(`Failed to add flight: ${errorData.message || response.statusText}`);
             }
-            const newFlight = await response.json();
-            console.log(newFlight);
             resetFormFields(); 
         } catch (error) {
             console.error('Error adding flight:', error);

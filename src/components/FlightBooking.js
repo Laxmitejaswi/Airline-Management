@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import CustomSelect from './CustomSelect';
@@ -15,12 +15,28 @@ const FlightBooking = () => {
     const [departDate, setDepartDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [cities, setCities] = useState([]);
+    const navigate = useNavigate();
 
-    const cities = ["Delhi", "Mumbai", "Hyderabad", "Vishakapatnam"];
+    useEffect(() => {
+        const fetchCities = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/airports');
+                const data = await response.json();
+                const cityNames = data.map(airport => airport.city);
+                setCities(cityNames);
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+                setErrorMessage('There was an error fetching the city data. Please try again later.');
+            }
+        };
+
+        fetchCities();
+    }, []);
 
     const filteredFromCities = cities.filter(city => city.toLowerCase().includes(fromSearch.toLowerCase()));
     const filteredToCities = cities.filter(city => city.toLowerCase().includes(toSearch.toLowerCase()));
-    const navigate = useNavigate();
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (from === 'Select a City' || to === 'Select a City' || !departDate || !ways) {
@@ -84,7 +100,7 @@ const FlightBooking = () => {
                         />
                     </div>
                     <div className="date-box">
-                        <span className="date-label">Travel Dates :</span>
+                        <span className="date-label">Travel Date :</span>
                         <input
                             type="date"
                             className="date-field"
