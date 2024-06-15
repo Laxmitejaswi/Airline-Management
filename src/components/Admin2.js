@@ -54,6 +54,7 @@ const Admin2 = () => {
             const updatedAirports = airports.filter(airport => airport.city !== airportCity);
             setAirports(updatedAirports);
             setDeleteMessage("Airport deleted successfully");
+            setDeleteAirportCity('');
             setTimeout(() => setDeleteMessage(""), 3000); 
         } catch (error) {
             console.error('Error deleting airport:', error);
@@ -81,6 +82,10 @@ const Admin2 = () => {
             }
             setAddMessage("Airport added successfully");
             setTimeout(() => setAddMessage(""), 3000); 
+            setNewAirportName('');
+            setNewAirportCode('');
+            setNewAirportCity('');
+            setNewAirportCountry('');
             const newAirport = await response.json();
             setAirports([...airports, newAirport]);
         } catch (error) {
