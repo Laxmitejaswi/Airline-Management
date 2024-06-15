@@ -50,6 +50,9 @@ const sendNotification = async (flight,interval) => {
   
     // Iterate over each booking and send an email
     for (const booking of flight.bookings) {
+        const b = Booking.findById(booking.bookingId);
+        b.bookingStatus = 'completed';
+        await b.save();
       const mailOptions = {
         from: 'airlinemanagment1234@gmail.com',
         to: booking.email, // Use the email from the booking object
@@ -60,7 +63,7 @@ We'd love your feedback on your recent flight ${flight.flightNumber} from ${flig
 Review Link:  http://localhost:3001/RR
 
 Thank you!
-Your Airline Team`
+[Your Airline Team]`
       };
   
       try {
@@ -72,33 +75,12 @@ Your Airline Team`
     }
   };
   
-  cron.schedule('1 1 * * *', async () => {
-    try {
-        const lastMonth = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
-        const completedFlights = await Flight.find({
-            'departure.scheduledTime': {
-                $lte: lastMonth, // Flights less than one month old
-            },
-        });
-
-        // Delete completed flights
-        completedFlights.forEach(async (flight) => {
-            await Flight.findByIdAndDelete(flight._id);
-        });
-
-        console.log('Daily cron job executed successfully.'); // Proper return message
-    } catch (error) {
-        console.error('Error executing daily cron job:', error.message); // Handle any errors
-    }
-});
-
-
   // Scheduled job to check for upcoming flights and send notifications
   cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
     const now = new Date();
     const nextDay = new Date(new Date().getTime() + (24 * 60) * 60000);
-    const yesterday = new Date(new Date().getTime() - (24 * 60) * 60000);
     console.log(now);
+
     const flights = await Flight.find({
        'departure.scheduledTime': {
         $gte: now, // Greater than or equal to the current time
@@ -106,6 +88,16 @@ Your Airline Team`
       },
       // 'status': 'Scheduled' // Assuming you want to find flights that are scheduled
     });
+    const startedflights = await Flight.find({
+        'departure.scheduledTime': {
+          $lte: now 
+       },
+        'status': 'on Time'
+     });
+     startedflights.forEach(startedflight => {
+        startedflight.status = `left ${startedflight.departure.airportCity} at ${startedflight.departure.departureTime}`;
+        startedflight.save();
+     });
     const completedflights = await Flight.find({
         'arrival.scheduledTime': {
         //  $gte: yesterday, // Greater than or equal to the current time
@@ -116,6 +108,7 @@ Your Airline Team`
      completedflights.forEach(completedflight => {
         reviewNotification(completedflight);
         completedflight.reviewNotification = 'true';
+        completedflight.status = `reached ${completedflight.arrival.airportCity} at ${completedflight.arrival.departureTime}`;
         completedflight.save();
      });
     // console.log(flights);
@@ -242,7 +235,7 @@ const FlightbyId = async (req, res) => {
         if (!flight) {
             return res.status(404).json('Flight not found');
         }
-        res.json(flight);
+        return res.json(flight);
     } catch (error) {
         res.status(500).json(error.message);
     }
@@ -519,6 +512,7 @@ const availableFlights = async (req, res) => {
             'departure.airportCity': departureAirport.city,
             'arrival.airportCity': arrivalAirport.city,
             'departure.scheduledTime': {
+                $gt : new Date(),
                 $gte: start,
                 $lt: new Date(new Date(start).setDate(start.getDate() + 1)) // Ensure only flights on the same date are returned
             }
@@ -587,6 +581,10 @@ const newBooking = async (req, res) => {
         if (!flight) {
             return res.status(404).send('Flight not found');
         }
+        const now = new Date();
+        if(flight.departure.departureTime <= now ) {
+            return res.status(400).json('Sorry, this flight has already departed and cannot be booked');
+        }
 
         // Check if the seat is available
         if (!flight.seatAvailability[seatClass.toLowerCase()].includes(seat)) {
@@ -634,6 +632,9 @@ Details:
 - Class: ${seatClass}
 - Price: ${price}
 - Booking Id: ${booking._id}
+
+You can find your booking details in the following link
+http://localhost:3001/Trips
 
 Thank you for choosing our airline!
 Regards,
@@ -790,6 +791,9 @@ const updateCheckinStatus = async (req, res) => {
         else if(booking.bookingStatus === 'cancelled'){
             return res.status(400).json('Booking is cancelled');
         }
+        else if(booking.bookingStatus === 'completed' || booking.departure.depertureTime <= new Date()){
+            return res.status(400).json('Sorry, this flight has already departed');
+        }
         else if(booking.checkinStatus === 'checked-in'){
             return res.status(400).json('Already checked in');
         }
@@ -907,8 +911,8 @@ const completedBookings = async(req,res)=>{
        // Get the confirmed bookings with arrival times before today
        const confirmedBookingIds = await Booking.find({
         _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
-        bookingStatus: 'confirmed',
-        'arrival.scheduledTime': { $lt: new Date() }, // Arrival time before today
+        bookingStatus: 'completed',
+        // 'arrival.scheduledTime': { $lt: new Date() }, // Arrival time before today
         });
 
         // Retrieve the full booking details for the confirmed bookings
