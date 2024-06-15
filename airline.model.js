@@ -55,7 +55,8 @@ const FlightsSchema = new mongoose.Schema(
             '24h': { type: Boolean, default: false },
             '12h': { type: Boolean, default: false },
             '2h': { type: Boolean, default: false }
-          }
+          },
+        reviewNotification:{ type: Boolean, default: false }
     }
 );
 
@@ -81,7 +82,7 @@ const BookingSchema = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
-        flightNumber: { type: String, required: [true,"Please enter flight number"] ,unique: true},
+        flightNumber: { type: String, required: true },
         departure: {
             airportCity: { type:String, required: true },
             scheduledTime: { type: Date, required: true },
