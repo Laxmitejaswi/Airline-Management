@@ -274,6 +274,8 @@ const dailyFlight = async (req, res) => {
             flight.flightNumber = flight.flightNumber + i;
             flight.departure.scheduledTime = depTime;
             flight.arrival.scheduledTime = arrTime;
+            flight.departure.actualTime = depTime;
+            flight.arrival.actualTime = arrTime;
             await flight.save();
             depTime = new Date(depTime.getTime() + (24*60*60)*1000);
             arrTime = new Date(arrTime.getTime() + (24*60*60)*1000);
@@ -296,6 +298,8 @@ const weeklyFlight = async (req, res) => {
                 flight.flightNumber = flight.flightNumber + i;
                 flight.departure.scheduledTime = depTime;
                 flight.arrival.scheduledTime = arrTime;
+                flight.departure.actualTime = depTime;
+                flight.arrival.actualTime = arrTime;
                 await flight.save();
                 depTime = new Date(depTime.getTime() + (7*24*60*60)*1000);
                 arrTime = new Date(arrTime.getTime() + (7*24*60*60)*1000);
