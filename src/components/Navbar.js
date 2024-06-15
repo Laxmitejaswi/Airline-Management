@@ -21,7 +21,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             <div className="navbar">
                 <div className="nav-left">
                     <div className="nav-name">
-                        <p>App Name</p>
+                        <p>Airlines</p>
                     </div>
                     <FontAwesomeIcon icon={faPlane} />
                 </div>
