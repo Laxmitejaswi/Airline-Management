@@ -50,9 +50,10 @@ const sendNotification = async (flight,interval) => {
   
     // Iterate over each booking and send an email
     for (const booking of flight.bookings) {
-        const b = Booking.findById(booking.bookingId);
-        b.bookingStatus = 'completed';
-        await b.save();
+        const completedbooking = await Booking.findById(booking._id);
+        completedbooking.bookingStatus = 'cancelled';
+        await completedbooking.save();
+
       const mailOptions = {
         from: 'airlinemanagment1234@gmail.com',
         to: booking.email, // Use the email from the booking object
@@ -92,10 +93,12 @@ Thank you!
         'departure.scheduledTime': {
           $lte: now 
        },
-        'status': 'on Time'
+       'arrival.scheduledtime': {
+            $gt: now
+       }
      });
      startedflights.forEach(startedflight => {
-        startedflight.status = `left ${startedflight.departure.airportCity} at ${startedflight.departure.departureTime}`;
+        startedflight.status = `left ${startedflight.departure.airportCity} at ${startedflight.departure.scheduledTime}`;
         startedflight.save();
      });
     const completedflights = await Flight.find({
@@ -108,7 +111,7 @@ Thank you!
      completedflights.forEach(completedflight => {
         reviewNotification(completedflight);
         completedflight.reviewNotification = 'true';
-        completedflight.status = `reached ${completedflight.arrival.airportCity} at ${completedflight.arrival.departureTime}`;
+        completedflight.status = `reached ${completedflight.arrival.airportCity} at ${completedflight.arrival.scheduledTime}`;
         completedflight.save();
      });
     // console.log(flights);
@@ -117,21 +120,21 @@ Thank you!
       const hoursDiff = timeDiff / (1000 * 60 * 60);
   
       // Check for 24-hour interval
-      if (hoursDiff <= 24 && !flight.notificationsSent['24h']) {
+      if (hoursDiff <= 24 && hoursDiff > 12&& !flight.notificationsSent['24h']) {
         sendNotification(flight, '24h');
         flight.notificationsSent['24h'] = true;
         flight.save();
       }
   
       // Check for 12-hour interval
-      if (hoursDiff <= 12 && !flight.notificationsSent['12h']) {
+      else if (hoursDiff <= 12 && hoursDiff > 2 && !flight.notificationsSent['12h']) {
         sendNotification(flight, '12h');
         flight.notificationsSent['12h'] = true;
         flight.save();
       }
   
       // Check for 2-hour interval
-      if (hoursDiff <= 2 && !flight.notificationsSent['2h']) {
+      else if (hoursDiff <= 2 && !flight.notificationsSent['2h']) {
         sendNotification(flight, '2h');
         flight.notificationsSent['2h'] = true;
         flight.save();
@@ -581,11 +584,9 @@ const newBooking = async (req, res) => {
         if (!flight) {
             return res.status(404).send('Flight not found');
         }
-        const now = new Date();
-        if(flight.departure.departureTime <= now ) {
+        if(flight.departure.scheduledTime <= new Date() ) {
             return res.status(400).json('Sorry, this flight has already departed and cannot be booked');
         }
-
         // Check if the seat is available
         if (!flight.seatAvailability[seatClass.toLowerCase()].includes(seat)) {
             return res.status(400).json('Seat not available');
@@ -791,7 +792,7 @@ const updateCheckinStatus = async (req, res) => {
         else if(booking.bookingStatus === 'cancelled'){
             return res.status(400).json('Booking is cancelled');
         }
-        else if(booking.bookingStatus === 'completed' || booking.departure.depertureTime <= new Date()){
+        else if(booking.bookingStatus === 'completed' || booking.departure.scheduledTime <= new Date()){
             return res.status(400).json('Sorry, this flight has already departed');
         }
         else if(booking.checkinStatus === 'checked-in'){
@@ -814,7 +815,7 @@ const updateCheckinStatus = async (req, res) => {
             await booking.save();
             return res.status(201).json('Check-in status updated successfully');
         } else {
-            return res.status(400).json('Scheduled time is not within the valid range.');
+            return res.status(400).json('Flight scheduled time is not within the valid range.');
         }
     } catch (error) {
         res.status(500).json('Error updating check-in status:', error.message);
@@ -908,6 +909,17 @@ const completedBookings = async(req,res)=>{
         if (!passenger) {
           return res.status(404).send();
         }
+        const completedBookingIds = await Booking.find({
+            _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
+            bookingStatus: 'confirmed',
+             'arrival.scheduledTime': { $lt: new Date() }, // Arrival time before today
+        });
+        completedBookingIds.forEach(completedBookingId => {
+            completedBookingId.bookingStatus = 'completed';
+            completedBookingId.save();
+         });
+
+
        // Get the confirmed bookings with arrival times before today
        const confirmedBookingIds = await Booking.find({
         _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
