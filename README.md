@@ -72,6 +72,12 @@ When prompted to change the port because the backend is running on port 3000, se
 Note: The backend must run on port 3000. Ensure the frontend runs on a different port.
 Both backend and frontend must run parallel in two different terminals.
 
+### To Modify Flights and Airport Data 
+Log in as an Admin using the following credentials:
+
+Username: Admin12
+password: 1335555
+
 ### Features
 
 1. Flight Search and Booking: Allowing users to search for flights based on their destination and travel date.
