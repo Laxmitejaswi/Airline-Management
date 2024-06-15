@@ -250,19 +250,13 @@ button.delete-btn, button.edit-btn {
 button.delete-btn {
     background-color: red;
     color: white;
-}
-
-button.delete-btn:hover {
-    background-color: darkred;
+    opacity: 0.8;
 }
 
 button.edit-btn {
     background-color: green;
     color: white;
-}
-
-button.edit-btn:hover {
-    background-color: darkgreen;
+    opacity : 0.8;
 }
 
 #view-flights-section label,

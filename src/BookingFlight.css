@@ -318,11 +318,13 @@ header h1{
 .seat.available {
     background-color: green;
     color: #fff;
+    /* opacity: 0.8; */
 }
 .seat.unavailable {
     background-color: red;
     color: #fff;
     cursor: not-allowed;
+    opacity: 0.8;
 }
 .seat.selected {
     background-color: #7AB2B2;
@@ -424,6 +426,7 @@ header h1{
 
 .legend-box.unavailable {
     background-color: red;
+    opacity: 0.8;
 }
 
 .errorMessage{
