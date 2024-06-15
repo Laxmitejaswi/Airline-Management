@@ -27,9 +27,11 @@ const sendNotification = async (flight,interval) => {
         to: booking.email, // Use the email from the booking object
         subject: `Flight Reminder - ${interval} Notice`,
         text: `Reminder: Your flight ${flight.flightNumber} is scheduled to depart from ${flight.departure.airportCity} in ${interval}.
-         Please check-in if you haven't already done so.Your Booking Id is ${booking.bookingId}.
-         Click the following link to checkin using your Booking Id.
-         http://localhost:3001/CheckIn `
+        Your Booking Id is ${booking.bookingId}. Use this Booking Id to check-in in our website if you haven't already done so.
+
+        Thank you,
+        The Airline Team.
+`
       };
   
       try {
@@ -50,21 +52,17 @@ const sendNotification = async (flight,interval) => {
   
     // Iterate over each booking and send an email
     for (const booking of flight.bookings) {
-        const completedbooking = await Booking.findById(booking._id);
-        completedbooking.bookingStatus = 'completed';
-        await completedbooking.save();
 
       const mailOptions = {
         from: 'airlinemanagment1234@gmail.com',
         to: booking.email, // Use the email from the booking object
         subject: `Your Flight ${flight.flightNumber} Review`,
         text: `Dear Passenger,
-We'd love your feedback on your recent flight ${flight.flightNumber} from ${flight.departure.airportCity}. Please click the link below to share your experience:
-
-Review Link:  http://localhost:3001/RR
+We'd love your feedback on your recent flight ${flight.flightNumber} from ${flight.departure.airportCity}.
+Please give your valuable feedback in feedback page of our website.
 
 Thank you!
-[Your Airline Team]`
+The Airline Team`
       };
   
       try {
@@ -73,6 +71,11 @@ Thank you!
       } catch (error) {
         console.error('Error sending notification to', booking.email , error);
       }
+
+      const completedbooking = await Booking.findById(booking.bookingId);
+        completedbooking.bookingStatus = 'completed';
+        await completedbooking.save();
+
     }
   };
   
@@ -107,7 +110,7 @@ Thank you!
         completedflight.save();
      });
 
-    const tobedeletedflights = await Flight.findAndDelete({
+    const tobedeletedflights = await Flight.deleteMany({
         'arrival.scheduledTime': {
           $lt: yesterday // Less than 24 hours from now
        },
@@ -311,8 +314,6 @@ const weeklyFlight = async (req, res) => {
                 await flight.save();
                 depTime = new Date(depTime.getTime() + (7*24*60*60)*1000);
                 arrTime = new Date(arrTime.getTime() + (7*24*60*60)*1000);
-                console.log('depTime :',depTime);
-                console.log('arrTime :',arrTime);
             }
             
             res.status(200).json('Flights added successfully');
@@ -756,16 +757,6 @@ const pasengerbyId = async (req, res) => {
     }
   };
 
-// const newPassenger = async (req, res) => {
-//     try {
-//       const passenger = new Passenger(req.body);
-//       await passenger.save();
-//       res.status(201).send(passenger);
-//     } catch (error) {
-//       res.status(400).send(error);
-//     }
-//   };
-
 const updatePassenger = async (req, res) => {
     try {
       const passenger = await Passenger.findOneAndUpdate({username:req.params.id}, req.body, { new: true, runValidators: true });
@@ -825,7 +816,7 @@ const updateCheckinStatus = async (req, res) => {
             await booking.save();
             return res.status(201).json('Check-in status updated successfully');
         } else {
-            return res.status(400).json('Flight scheduled time is not within the valid range.');
+            return res.status(400).json('You can check in only before 24 hours of the flight scheduled time');
         }
     } catch (error) {
         res.status(500).json('Error updating check-in status:', error.message);
