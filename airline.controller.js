@@ -77,7 +77,7 @@ Thank you!
   };
   
   // Scheduled job to check for upcoming flights and send notifications
-  cron.schedule('* * * * *', async () => { // This cron pattern runs every minute, adjust as needed
+  cron.schedule('* * * * *', async () => { // This cron pattern runs every minute
     const now = new Date();
     const nextDay = new Date(new Date().getTime() + (24 * 60) * 60000);
     console.log(now);
@@ -86,8 +86,7 @@ Thank you!
        'departure.scheduledTime': {
         $gte: now, // Greater than or equal to the current time
          $lt: nextDay // Less than 24 hours from now
-      },
-      // 'status': 'Scheduled' // Assuming you want to find flights that are scheduled
+      }
     });
     const startedflights = await Flight.find({
         'departure.scheduledTime': {
@@ -98,15 +97,14 @@ Thank you!
        }
      });
      startedflights.forEach(startedflight => {
-        startedflight.status = `left ${startedflight.departure.airportCity} at ${startedflight.departure.scheduledTime}`;
+        startedflight.status = `departed ${startedflight.departure.airportCity} at ${startedflight.departure.scheduledTime}`;
         startedflight.save();
      });
     const completedflights = await Flight.find({
         'arrival.scheduledTime': {
-        //  $gte: yesterday, // Greater than or equal to the current time
           $lt: now // Less than 24 hours from now
        },
-        'reviewNotification': 'false' // Assuming you want to find flights that are scheduled
+        'reviewNotification': 'false' 
      });
      completedflights.forEach(completedflight => {
         reviewNotification(completedflight);
@@ -231,7 +229,7 @@ const FlightbyDate = async(req,res) => {
         res.status(500).json({ error: 'Error finding flights' });
     }
 };
-
+// to get flight by flight number
 const FlightbyId = async (req, res) => {
     try {
         const flight = await Flight.findOne({flightNumber:req.params.id});
@@ -243,7 +241,7 @@ const FlightbyId = async (req, res) => {
         res.status(500).json(error.message);
     }
 };
-
+// to get flight by id
 const newFlightbyId = async (req, res) => {
     try {
         const flight = await Flight.findById(req.params.id);
@@ -331,7 +329,9 @@ const updateFlight = async (req, res) => {
 We regret to inform you that there has been a change to your flight schedule.
 
 Flight Number: ${flight.flightNumber}
+Actual Departure Time: ${flight.departure.actualTime}
 New Departure Time: ${flight.departure.scheduledTime}
+Actual Arrival Time: ${flight.arrival.actualTime}
 New Arrival Time: ${flight.arrival.scheduledTime}
 
 Please contact our customer service for further assistance.
@@ -387,7 +387,6 @@ We regret to inform you that your flight has been cancelled.
 
 Flight Number: ${flight.flightNumber}
 
-
 Please contact our customer service for rebooking options or further assistance.
 
 Thank you for your understanding,
@@ -402,7 +401,7 @@ The Airline Team`
             }
         }
 
-        // Optionally, delete the flight for that day
+        // delete the flight for that day
          await Flight.deleteOne({ flightNumber: req.params.id });
 
         return res.status(200).send('Flight cancelled and notifications sent');
@@ -634,8 +633,7 @@ Details:
 - Price: ${price}
 - Booking Id: ${booking._id}
 
-You can find your booking details in the following link
-http://localhost:3001/Trips
+You can find the complete details of your booking in the profile page of our website. 
 
 Thank you for choosing our airline!
 Regards,
@@ -891,7 +889,7 @@ const confirmedBookings = async(req,res)=>{
        const confirmedBookingIds = await Booking.find({
         _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
         bookingStatus: 'confirmed',
-        'arrival.scheduledTime': { $gte: new Date() }, // Arrival time before today
+        'arrival.scheduledTime': { $gt: new Date() }, // Arrival time not before today
         });
 
         // Retrieve the full booking details for the confirmed bookings
@@ -912,7 +910,7 @@ const completedBookings = async(req,res)=>{
         const completedBookingIds = await Booking.find({
             _id: { $in: passenger.bookings.map(booking => booking.bookingId) },
             bookingStatus: 'confirmed',
-             'arrival.scheduledTime': { $lt: new Date() }, // Arrival time before today
+             'arrival.scheduledTime': { $lte: new Date() }, // Arrival time before today
         });
         completedBookingIds.forEach(completedBookingId => {
             completedBookingId.bookingStatus = 'completed';
