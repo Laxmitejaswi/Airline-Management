@@ -86,7 +86,7 @@ Thank you!
         'departure.scheduledTime': {
           $lte: now 
        },
-       'arrival.scheduledtime': {
+       'arrival.scheduledTime': {
             $gt: now
        }
      });
