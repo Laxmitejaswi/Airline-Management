@@ -494,7 +494,7 @@ const passengerAuthentication = async (req, res) => {
         const isAuthenticated = await bcrypt.compare(password, passenger.hashedPassword);
         res.status(200).json({ isAuthenticated });
     } catch (error) {
-        res.status(500).json({ error: 'Error authenticating passenger' });
+        res.status(500).json({error: 'Error authenticating passenger'});
     }
 };
 
@@ -819,7 +819,7 @@ const updateCheckinStatus = async (req, res) => {
             return res.status(400).json('You can check in only before 24 hours of the flight scheduled time');
         }
     } catch (error) {
-        res.status(500).json('Error updating check-in status');
+        res.status(500).json('Booking Id is invalid');
     }
 };
 
@@ -869,7 +869,7 @@ const addReview = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json('Error submitting review and updating flight',error);
+        res.status(500).json('Error submitting review and updating flight');
     }
 };
 
