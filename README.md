@@ -14,12 +14,14 @@
 
 2. **Clone the Repository**
    - Replace `<repository-url>` with your repository's URL and run the following command:
+
      ```bash
      git clone <repository-url>
      ```
 
 3. **Navigate to the Project Directory**
    - Replace `<project-directory>` with the name of your cloned repository and run the following command:
+   
      ```bash
      cd <project-directory>
      ```
@@ -72,6 +74,7 @@ Both backend and frontend must run parallel in two different terminals.
 Log in as an Admin using the following credentials:
 
 Username: Admin12
+
 password: 1335555
 
 ### Features
