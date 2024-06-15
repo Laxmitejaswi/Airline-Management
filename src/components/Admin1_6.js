@@ -11,7 +11,8 @@ export default function Admin1_6() {
         arrivalScheduledTime: '',
         arrivalAirportCity: '',
         departureActualTime: '',
-        arrivalActualTime: ''
+        arrivalActualTime: '',
+        FlightStatus: '' 
     });
 
     const formatDateTimeLocal = (dateTime) => {
@@ -43,7 +44,8 @@ export default function Admin1_6() {
             arrivalScheduledTime: flight.arrival.scheduledTime,
             arrivalAirportCity: flight.arrival.airportCity,
             departureActualTime: flight.departure.actualTime,
-            arrivalActualTime: flight.arrival.actualTime
+            arrivalActualTime: flight.arrival.actualTime,
+            FlightStatus: flight.status 
         });
         setEditModalVisible(true);
     };
@@ -57,7 +59,7 @@ export default function Admin1_6() {
     };
 
     const handleUpdateFlight = async () => {
-        const { flightNumber, departureScheduledTime, arrivalScheduledTime } = editFlightDetails;
+        const { flightNumber, departureScheduledTime, arrivalScheduledTime, FlightStatus } = editFlightDetails;
         const updatedFlight = {
             departure: {
                 airportCity: editFlightDetails.departureAirportCity,
@@ -68,7 +70,8 @@ export default function Admin1_6() {
                 airportCity: editFlightDetails.arrivalAirportCity,
                 scheduledTime: new Date(arrivalScheduledTime).toISOString(),
                 actualTime: editFlightDetails.arrivalActualTime
-            }
+            },
+            status: FlightStatus 
         };
 
         try {
@@ -92,19 +95,20 @@ export default function Admin1_6() {
                             ...flight.departure,
                             airportCity: editFlightDetails.departureAirportCity,
                             scheduledTime: new Date(departureScheduledTime).toISOString(),
-                            actualTime: editFlightDetails.departureActualTime
+                            actualTime: editFlightDetails.departureActualTime,
                         },
                         arrival: {
                             ...flight.arrival,
                             airportCity: editFlightDetails.arrivalAirportCity,
                             scheduledTime: new Date(arrivalScheduledTime).toISOString(),
                             actualTime: editFlightDetails.arrivalActualTime
-                        }
+                        },
+                        status: FlightStatus 
                     }
                     : flight
             ));
-
-            setEditModalVisible(false);
+            
+            setEditModalVisible(false); 
         } catch (error) {
             console.error('Error updating flight:', error);
         }
@@ -181,7 +185,7 @@ export default function Admin1_6() {
                     <div className="modal-content">
                         <h2>Edit Flight</h2>
                         <label>
-                            Departure Scheduled Time:
+                            Departure Scheduled Time :
                             <input
                                 type="datetime-local"
                                 name="departureScheduledTime"
@@ -191,11 +195,21 @@ export default function Admin1_6() {
                             />
                         </label>
                         <label>
-                            Arrival Scheduled Time:
+                            Arrival Scheduled Time :
                             <input
                                 type="datetime-local"
                                 name="arrivalScheduledTime"
                                 value={formatDateTimeLocal(editFlightDetails.arrivalScheduledTime)}
+                                onChange={handleEditChange}
+                                className='left_4'
+                            />
+                        </label>
+                        <label>
+                            Flight Status :
+                            <input
+                                type="text"
+                                name="FlightStatus"
+                                value={editFlightDetails.FlightStatus}
                                 onChange={handleEditChange}
                                 className='left_4'
                             />
