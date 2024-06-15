@@ -819,7 +819,7 @@ const updateCheckinStatus = async (req, res) => {
             return res.status(400).json('You can check in only before 24 hours of the flight scheduled time');
         }
     } catch (error) {
-        res.status(500).json('Error updating check-in status:', error.message);
+        res.status(500).json('Error updating check-in status');
     }
 };
 
