@@ -1,3 +1,18 @@
+@keyframes flyPlane {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(50%) translateY(-20px) scale(1.2);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  
+
+
 .flightselect{
     padding-top:4rem;
 }
@@ -67,6 +82,7 @@
     right: 0;
     margin-bottom: 1px;
     color: rgb(192, 192, 192);
+    animation: flyPlane 5s ease-in-out infinite;
 }
 .flight_duration_1{
     position: absolute;
