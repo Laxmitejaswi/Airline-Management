@@ -1,9 +1,5 @@
 # Airline-Management
 
-## Live Demo
-
-Check out the deployed version of the project: [Airline Management Live Demo]()
-
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, React.js
