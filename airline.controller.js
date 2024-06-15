@@ -51,7 +51,7 @@ const sendNotification = async (flight,interval) => {
     // Iterate over each booking and send an email
     for (const booking of flight.bookings) {
         const completedbooking = await Booking.findById(booking._id);
-        completedbooking.bookingStatus = 'cancelled';
+        completedbooking.bookingStatus = 'completed';
         await completedbooking.save();
 
       const mailOptions = {
