@@ -13,6 +13,7 @@ export default function Admin1_4() {
     const [economySeatAvailability, setEconomySeatAvailability] = useState([]);
     const [economyPrice, setEconomyPrice] = useState('');
     const [flightStatus, setFlightStatus] = useState('');
+    const [count, setCount] = useState(1);
     const [flightDuration, setFlightDuration] = useState('');
 
     const handleFlightNumberChange = (e) => {
@@ -63,10 +64,14 @@ export default function Admin1_4() {
         setFlightDuration(e.target.value);
     }    
 
+    const handleCountChange = (e) => {
+        setCount(e.target.value);
+    }
+
     const handleAddFlight = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/api/flights/weekly?count=2', {
+            const response = await fetch(`http://localhost:3000/api/flights/weekly?count=${count}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -121,6 +126,7 @@ export default function Admin1_4() {
         setEconomyPrice('');
         setFlightStatus('');
         setFlightDuration('');
+        setCount(1);
     };
     return (
         <div id="manage-flights-section" className="">
@@ -244,6 +250,15 @@ export default function Admin1_4() {
                         name="flight-duration-daily"
                         value={flightDuration}
                         onChange={handleFlightDurationChange}
+                        required
+                    />
+                    <label htmlFor="count-daily">Count(Number of Weeks on this Day):</label>
+                    <input
+                        type="number"
+                        id="count-daily"
+                        name="count-daily"
+                        value={count}
+                        onChange={handleCountChange}
                         required
                     />
                     <button type="submit" id="submit-daily-flight-btn">

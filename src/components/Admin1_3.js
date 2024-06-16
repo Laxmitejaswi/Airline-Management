@@ -14,6 +14,7 @@ export default function Admin1_3() {
     const [economyPrice, setEconomyPrice] = useState('');
     const [flightStatus, setFlightStatus] = useState('');
     const [flightDuration, setFlightDuration] = useState('');
+    const [count, setCount] = useState(1);
 
     const handleFlightNumberChange = (e) => {
         setFlightNumber(e.target.value);
@@ -63,10 +64,14 @@ export default function Admin1_3() {
         setFlightDuration(e.target.value);
     }    
 
+    const handleCountChange = (e) => {
+        setCount(e.target.value);
+    }
+
     const handleAddFlight = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/api/flights/daily?count=7', {
+            const response = await fetch(`http://localhost:3000/api/flights/daily?count=${count}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,7 +110,6 @@ export default function Admin1_3() {
             resetFormFields(); 
         } catch (error) {
             console.error('Error adding flight:', error);
-            alert(`Error adding flight: ${error.message}`);
         }
     };
     const resetFormFields = () => {
@@ -121,6 +125,7 @@ export default function Admin1_3() {
         setEconomyPrice('');
         setFlightStatus('');
         setFlightDuration('');
+        setCount(1);
     };
     return (
         <div id="manage-flights-section" className="">
@@ -244,6 +249,15 @@ export default function Admin1_3() {
                         name="flight-duration-daily"
                         value={flightDuration}
                         onChange={handleFlightDurationChange}
+                        required
+                    />
+                    <label htmlFor="count-daily">Count(Number of Days):</label>
+                    <input
+                        type="number"
+                        id="count-daily"
+                        name="count-daily"
+                        value={count}
+                        onChange={handleCountChange}
                         required
                     />
                     <button type="submit" id="submit-daily-flight-btn">
