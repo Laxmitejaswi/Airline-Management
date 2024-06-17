@@ -1,5 +1,10 @@
 # Airline-Management
 
+## Live Demo
+
+Check out the deployed version of the project: [Airline Management Live Demo](https://airline-management-w762.onrender.com)
+
+
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, React.js
@@ -53,24 +58,11 @@
 
 ### To Start the App
 
-### Run Backend
-In one terminal, run: 
+Run the following commands in a terminal:
 ```bash
-cd backend
-npm run dev
-```
-This will run the backend server on port 3000.
-
-### Run Frontend
-In another terminal, run:
-```bash
+cd frontend
 npm start
 ```
-When prompted to change the port because the backend is running on port 3000, select 'Yes'.
-
-Note: The backend must run on port 3000. Ensure the frontend runs on a different port.
-Both backend and frontend must run parallel in two different terminals.
-
 ### To Modify Flights and Airport Data 
 Log in as an Admin using the following credentials:
 
