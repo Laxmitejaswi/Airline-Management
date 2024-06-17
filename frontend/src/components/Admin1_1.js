@@ -29,7 +29,7 @@ export default function Admin1_1() {
 
     const handleViewFlights = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/flightsbyDate?startDate=${viewDate}`);
+            const response = await fetch(`https://airline-management-2.onrender.com/api/flightsbyDate?startDate=${viewDate}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch flights');
             }
