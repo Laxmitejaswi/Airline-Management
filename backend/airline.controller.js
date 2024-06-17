@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
-const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('./airline.model.js');
+const {Admin,Flight,Airport,Booking,Passenger,Airline} = require('../backend/airline.model.js');
 
 // Set up your NodeMailer transporter
 const transporter = nodemailer.createTransport({
