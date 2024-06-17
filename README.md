@@ -56,6 +56,7 @@
 ### Run Backend
 In one terminal, run: 
 ```bash
+cd backend
 npm run dev
 ```
 This will run the backend server on port 3000.
