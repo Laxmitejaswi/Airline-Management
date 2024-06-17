@@ -20,9 +20,9 @@ const Trips = () => {
 
   const fetchBookingsData = () => {
     const endpoints = [
-      `http://localhost:3000/api/bookings/confirmed/${UserName}`,
-      `http://localhost:3000/api/bookings/completed/${UserName}`,
-      `http://localhost:3000/api/bookings/cancelled/${UserName}`
+      `https://airline-management-2.onrender.com/api/bookings/confirmed/${UserName}`,
+      `https://airline-management-2.onrender.com/api/bookings/completed/${UserName}`,
+      `https://airline-management-2.onrender.com/api/bookings/cancelled/${UserName}`
     ];
 
     Promise.all(endpoints.map(endpoint => fetch(endpoint).then(response => response.json())))
@@ -57,7 +57,7 @@ const Trips = () => {
   }
 
   const handleDetails = (bookingId) => {
-    fetch(`http://localhost:3000/api/bookings/${bookingId}`, {
+    fetch(`https://airline-management-2.onrender.com/api/bookings/${bookingId}`, {
       method: 'DELETE'
     })
     .then(response => {

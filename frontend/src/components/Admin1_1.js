@@ -80,7 +80,7 @@ export default function Admin1_1() {
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/api/flights/${flightNumber}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/flights/${flightNumber}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ export default function Admin1_1() {
 
     const handleDeleteFlight = async (flightNumber) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/flights/cancel/${flightNumber}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/flights/cancel/${flightNumber}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {

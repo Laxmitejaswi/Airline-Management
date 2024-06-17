@@ -17,7 +17,7 @@ const CheckIn = () => {
       setMessage('Please enter your Booking ID');
       return;
     }
-    fetch(`http://localhost:3000/api/checkin/${bookingId}`, {
+    fetch(`https://airline-management-2.onrender.com/api/checkin/${bookingId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

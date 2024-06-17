@@ -66,7 +66,7 @@ export default function Admin1_2() {
     const handleAddFlight = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/api/flights', {
+            const response = await fetch('https://airline-management-2.onrender.com/api/flights', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

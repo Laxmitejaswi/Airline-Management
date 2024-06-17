@@ -17,7 +17,7 @@ const FlightStatus = () => {
       setMessage('Please enter Flight Number');
       return;
     }
-    fetch(`http://localhost:3000/api/flights/${bookingId}`)
+    fetch(`https://airline-management-2.onrender.com/api/flights/${bookingId}`)
       .then(response => {
         if (!response.ok) {
           return response.text().then(errorMessage => {

@@ -22,7 +22,7 @@ const Admin2 = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`http://localhost:3000/api/airports/country/${countryName}`);
+            const response = await fetch(`https://airline-management-2.onrender.com/api/airports/country/${countryName}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch airports');
             }
@@ -42,7 +42,7 @@ const Admin2 = () => {
 
     const handleDeleteAirport = async (airportCity) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/airports/${airportCity}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/airports/${airportCity}`, {
                 method: 'DELETE'
             });
             
@@ -63,7 +63,7 @@ const Admin2 = () => {
 
     const handleAddAirport = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/airports', {
+            const response = await fetch('https://airline-management-2.onrender.com/api/airports', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -21,7 +21,7 @@ const FlightBooking = () => {
     useEffect(() => {
         const fetchCities = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/airports');
+                const response = await fetch('https://airline-management-2.onrender.com/api/airports');
                 const data = await response.json();
                 const cityNames = data.map(airport => airport.city);
                 setCities(cityNames);
@@ -44,7 +44,7 @@ const FlightBooking = () => {
             return;
         }
         try {
-            fetch(`http://localhost:3000/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`)
+            fetch(`https://airline-management-2.onrender.com/api/flightsavailable?from=${from}&to=${to}&startDate=${departDate}&endDate=${returnDate}&tripType=${ways}`)
                 .then((response) => response.json())
                 .then((data) => {
                     localStorage.setItem('flightSearchResults', JSON.stringify(data));

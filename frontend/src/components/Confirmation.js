@@ -26,7 +26,7 @@ const Confirmation = () => {
     event.preventDefault();
     if(info.flightNumber){
       try {
-        const response = await fetch(`http://localhost:3000/api/bookings?flightId=${info.flightNumber}&username=${username}&seat=${seatSelected}&seatClass=economy&price=${info.price.economy}`, {
+        const response = await fetch(`https://airline-management-2.onrender.com/api/bookings?flightId=${info.flightNumber}&username=${username}&seat=${seatSelected}&seatClass=economy&price=${info.price.economy}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

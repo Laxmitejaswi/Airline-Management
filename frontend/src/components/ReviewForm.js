@@ -34,8 +34,8 @@ const ReviewForm = () => {
       rating: rating.toString(),
       comment: reviewText
     };
-    console.log('http://localhost:3000/api/addreviews/newairline');
-    fetch('http://localhost:3000/api/addreviews/newairline', {
+    console.log('https://airline-management-2.onrender.com/api/addreviews/newairline');
+    fetch('https://airline-management-2.onrender.com/api/addreviews/newairline', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

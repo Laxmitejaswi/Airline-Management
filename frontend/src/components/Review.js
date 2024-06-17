@@ -7,7 +7,7 @@ const Reviews = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/reviews')
+    fetch('https://airline-management-2.onrender.com/api/reviews')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch reviews');

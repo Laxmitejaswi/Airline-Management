@@ -11,7 +11,7 @@ export default function Admin1_5() {
     const handleDeleteFlight = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3000/api/flights/cancel/${flightNumberToDelete}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/flights/cancel/${flightNumberToDelete}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
