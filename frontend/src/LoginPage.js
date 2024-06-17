@@ -18,7 +18,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         const contact = event.target.signupContact.value;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/passenger/register?username=${username}&password=${password}&email=${email}&name=${name}&contact=${contact}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/passenger/register?username=${username}&password=${password}&email=${email}&name=${name}&contact=${contact}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         const password = event.target.loginPassword.value;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/passenger/authenticate?username=${username}&password=${password}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/passenger/authenticate?username=${username}&password=${password}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         const password = event.target.adminLoginPassword.value;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/admin/authenticate?username=${username}&password=${password}`, {
+            const response = await fetch(`https://airline-management-2.onrender.com/api/admin/authenticate?username=${username}&password=${password}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
