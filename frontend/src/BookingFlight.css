@@ -89,6 +89,7 @@ header h1{
     justify-content: space-between;
     align-items: center;
     margin: 0;
+    width : 200px;
 }
 .flight_duration_symbol {
     display: flex;
@@ -136,6 +137,7 @@ header h1{
     align-items: center;
     justify-content: space-between;
     margin:0;
+    width : 200px;
 }
 .time{
     font-size: 20px;
