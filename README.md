@@ -2,7 +2,7 @@
 
 ## Live Demo
 
-Check out the deployed version of the project: [Airline Management Live Demo](https://airline-management-w762.onrender.com)
+Check out the deployed version of the project: [Airline Management Live Demo](https://airlinemanagement.onrender.com)
 
 
 ## Technologies Used
